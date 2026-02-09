@@ -37,6 +37,28 @@ dependencies:
   
   # Local storage
   shared_preferences: ^2.2.2
+  
+  # State management
+  provider: ^6.1.1
+
+  # QR scanning
+  mobile_scanner: ^7.1.4
+
+  # Image picker for gallery/screenshot scanning
+  image_picker: ^1.2.1
+
+  # Open external links (Terms, Privacy, etc.)
+  url_launcher: ^6.3.0
+
+  # HTTP requests
+  http: ^1.2.2
+  
+  # BIP39 mnemonic generation
+  # Use latest 1.x version compatible with Dart/Flutter
+  bip39: ^1.0.6
+
+  # QR code generation for receive detail screen
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +86,11 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/token_icons/
+    - assets/chain_icons/
+    - assets/flag_icons/
+    - assets/animations/
+    - assets/platform_icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/auth/enter_passcode_screen.dart';
+import 'package:provider/provider.dart';
+import 'screens/auth/app_start_screen.dart';
+import 'constants/app_colors.dart';
+import 'providers/theme_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,17 +19,68 @@ class TrustApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Trust App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, _) {
+          return MaterialApp(
+            title: 'Trust App',
+            debugShowCheckedModeBanner: false,
+            theme: _buildLightTheme(),
+            darkTheme: _buildDarkTheme(),
+            themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: const AppStartScreen(),
+          );
+        },
       ),
-      home: const EnterPasscodeScreen(),
+    );
+  }
+
+  ThemeData _buildLightTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      colorScheme: ColorScheme.light(
+        primary: AppColors.primaryBlue,
+        surface: AppColors.white,
+        onSurface: AppColors.mainBlack,
+        onPrimary: AppColors.white,
+      ),
+      scaffoldBackgroundColor: AppColors.white,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: AppColors.mainBlack),
+        titleTextStyle: TextStyle(
+          color: AppColors.mainBlack,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+
+  ThemeData _buildDarkTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: ColorScheme.dark(
+        primary: AppColors.primaryGreen,
+        surface: AppColors.darkBackground,
+        onSurface: AppColors.darkText,
+        onPrimary: AppColors.darkBackground,
+      ),
+      scaffoldBackgroundColor: AppColors.darkBackground,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.darkBackground,
+        elevation: 0,
+        iconTheme: IconThemeData(color: AppColors.darkText),
+        titleTextStyle: TextStyle(
+          color: AppColors.darkText,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
     );
   }
 }

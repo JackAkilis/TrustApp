@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PageFailedScreen extends StatelessWidget {
-  const PageFailedScreen({super.key});
+  final String errorMessage;
+  
+  const PageFailedScreen({
+    super.key,
+    required this.errorMessage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,7 @@ class PageFailedScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          '加载失败',
+          'Load failed',
           style: TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -53,7 +58,7 @@ class PageFailedScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               const Text(
-                'Page failed to load',
+                'Wallet Creation Failed',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
@@ -62,7 +67,7 @@ class PageFailedScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                'This may be caused by an unstable or slow network connection. Please ensure your network connection is fast and stable, then pull down to reload. You can also return to the home screen and reopen Trust Premium.',
+                errorMessage,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,

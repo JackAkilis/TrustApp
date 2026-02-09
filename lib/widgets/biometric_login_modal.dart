@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'identity_verification_modal.dart';
-import '../screens/home/home_screen.dart';
+import '../screens/auth/wallet_ready_screen.dart';
 
 class BiometricLoginModal extends StatelessWidget {
   const BiometricLoginModal({super.key});
@@ -67,12 +67,12 @@ class BiometricLoginModal extends StatelessWidget {
                 child: OutlinedButton(
                   onPressed: () {
                     Navigator.pop(context, 'rejected');
-                    // Navigate to home screen after rejecting biometric
+                    // Navigate to wallet-ready screen after rejecting biometric
                     Future.delayed(const Duration(milliseconds: 300), () {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => const WalletReadyScreen(),
                         ),
                       );
                     });
@@ -99,12 +99,12 @@ class BiometricLoginModal extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context, 'confirmed');
-                    // Navigate to home screen after biometric confirmation
+                    // Navigate to wallet-ready screen after biometric confirmation
                     Future.delayed(const Duration(milliseconds: 300), () {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => const WalletReadyScreen(),
                         ),
                       );
                     });

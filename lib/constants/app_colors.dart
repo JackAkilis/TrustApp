@@ -18,9 +18,13 @@ class AppColors {
   // Yellow
   static const Color mainYellow = Color(0xFFDFAD24);
   static const Color secondaryYellow = Color(0xFFFFF9E7);
+  static const Color warningYellow = Color(0xFFFFC107);
 
   // Green (for success states)
   static const Color successGreen = Color(0xFF22C55E);
+
+  // Dark Mode Green
+  static const Color primaryGreen = Color(0xFF48FF91);
 
   // Error Red
   static const Color errorRed = Color(0xFFEF4444);
@@ -28,4 +32,8 @@ class AppColors {
   // Basic Colors
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
+
+  // Dark Mode Colors
+  static const Color darkBackground = Color(0xFF000000);
+  static const Color darkText = Color(0xFFFFFFFF);
 }

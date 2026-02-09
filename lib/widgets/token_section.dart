@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../constants/app_colors.dart';
+import '../utils/theme_helper.dart';
 import 'token_list_item.dart';
 
 class TokenSection extends StatefulWidget {
@@ -47,6 +48,18 @@ class _TokenSectionState extends State<TokenSection> {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = ThemeHelper.getTextColor(context);
+    final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
+    final grayColor = ThemeHelper.getGrayColor(context);
+    final borderColor = ThemeHelper.getBorderColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardBackgroundColor = isDarkMode 
+        ? AppColors.secondaryGray.withOpacity(0.3) 
+        : const Color(0xFFF4F4F6);
+    final separatorColor = isDarkMode 
+        ? AppColors.secondaryGray.withOpacity(0.5) 
+        : const Color(0xFFE1E1E1);
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -55,11 +68,11 @@ class _TokenSectionState extends State<TokenSection> {
           // Title - outside the gray container
           Text(
             widget.title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               height: 20 / 16, // line height 20 / font size 16
               fontWeight: FontWeight.w600,
-              color: AppColors.mainBlack,
+              color: textColor,
             ),
           ),
           const SizedBox(height: 12),
@@ -67,7 +80,7 @@ class _TokenSectionState extends State<TokenSection> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFFF4F4F6),
+              color: cardBackgroundColor,
               borderRadius: BorderRadius.circular(14),
             ),
             child: Stack(
@@ -104,9 +117,9 @@ class _TokenSectionState extends State<TokenSection> {
                     // Subtitle
                     Text(
                       widget.subtitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.secondaryGray,
+                        color: secondaryTextColor,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -123,28 +136,31 @@ class _TokenSectionState extends State<TokenSection> {
                           name: item.name,
                           price: item.price,
                           marketCap: item.marketCap,
-                          change: item.change,
-                          isPositive: item.isPositive,
-                          icon: item.icon,
-                        ),
+                        change: item.change,
+                        isPositive: item.isPositive,
+                        isNativeToken: item.isNativeToken,
+                        chain: item.chain,
+                        tokenName: item.tokenName,
+                      tokenIcon: item.tokenIcon,
+                      ),
                       );
                     }),
                     const SizedBox(height: 16),
                     // Separator above "View all"
                     Container(
                       height: 1,
-                      color: const Color(0xFFE1E1E1),
+                      color: separatorColor,
                     ),
                     const SizedBox(height: 12),
-                    // View all link - centered and blue
+                    // View all link - centered
                     Center(
                       child: GestureDetector(
                         onTap: widget.onViewAll,
                         child: Text(
                           widget.viewAllText,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.primaryBlue,
+                            color: textColor,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -159,7 +175,7 @@ class _TokenSectionState extends State<TokenSection> {
                   top: 40, // Height of tab bar
                   child: Container(
                     height: 1,
-                    color: const Color(0xFFE1E1E1),
+                    color: separatorColor,
                   ),
                 ),
               ],
@@ -171,6 +187,9 @@ class _TokenSectionState extends State<TokenSection> {
   }
 
   Widget _buildSectionTab(String label, int index, bool isSelected) {
+    final textColor = ThemeHelper.getTextColor(context);
+    final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
+    
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -190,7 +209,7 @@ class _TokenSectionState extends State<TokenSection> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  color: isSelected ? AppColors.mainBlack : AppColors.secondaryGray,
+                  color: isSelected ? textColor : secondaryTextColor,
                 ),
               ),
               const SizedBox(height: 4),
@@ -221,7 +240,7 @@ class _TokenSectionState extends State<TokenSection> {
                     width: textPainter.width,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.primaryBlue : Colors.transparent,
+                      color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   );
@@ -243,7 +262,10 @@ class TokenItemData {
   final String marketCap;
   final String change;
   final bool isPositive;
-  final String? icon;
+  final bool isNativeToken;
+  final String? chain; // Chain name for non-native tokens (e.g., 'solana', 'ethereum')
+  final String? tokenName; // Token name for native tokens (e.g., 'bitcoin', 'bnb', 'solana')
+  final String? tokenIcon; // Explicit token icon asset name
 
   TokenItemData({
     required this.rank,
@@ -252,6 +274,9 @@ class TokenItemData {
     required this.marketCap,
     required this.change,
     required this.isPositive,
-    this.icon,
+    required this.isNativeToken,
+    this.chain,
+    this.tokenName,
+    this.tokenIcon,
   });
 }

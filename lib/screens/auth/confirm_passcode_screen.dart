@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../widgets/passcode_keypad.dart';
 import '../../widgets/passcode_dots.dart';
-import '../../widgets/biometric_login_modal.dart';
 import '../../constants/app_colors.dart';
 import '../../services/passcode_storage.dart';
-import '../home/home_screen.dart';
+import 'wallet_loading_screen.dart';
+import '../wallet/add_existing_wallet_screen.dart';
 
 class ConfirmPasscodeScreen extends StatefulWidget {
   final String initialPasscode;
+  final bool isImportingWallet;
 
   const ConfirmPasscodeScreen({
     super.key,
     required this.initialPasscode,
+    this.isImportingWallet = false,
   });
 
   @override
@@ -31,14 +33,31 @@ class _ConfirmPasscodeScreenState extends State<ConfirmPasscodeScreen> {
 
       if (_passcode.length == 6) {
         if (_passcode == widget.initialPasscode) {
-          // Passcodes match - save to storage, show primary blue and then biometric modal
+          // Passcodes match - save to storage and go to loading screen
           setState(() {
             _isMatched = true;
           });
           // Save passcode to local storage
           PasscodeStorage.savePasscode(_passcode);
           Future.delayed(const Duration(milliseconds: 300), () {
-            _showBiometricModal();
+            if (!mounted) return;
+            if (widget.isImportingWallet) {
+              // Navigate to AddExistingWalletScreen for import flow
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddExistingWalletScreen(),
+                ),
+              );
+            } else {
+              // Navigate to WalletLoadingScreen for new wallet creation
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const WalletLoadingScreen(),
+              ),
+            );
+            }
           });
         } else {
           // Passcodes don't match - show red error state
@@ -70,27 +89,6 @@ class _ConfirmPasscodeScreenState extends State<ConfirmPasscodeScreen> {
           _isMatched = false;
           _isError = false;
         });
-      }
-    });
-  }
-
-  void _showBiometricModal() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => const BiometricLoginModal(),
-    ).then((value) {
-      // If modal is dismissed without button press (swiped down), navigate to home
-      // (passcode is already confirmed and saved)
-      // Buttons already handle navigation, so we only navigate if value is null
-      if (mounted && value == null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
       }
     });
   }

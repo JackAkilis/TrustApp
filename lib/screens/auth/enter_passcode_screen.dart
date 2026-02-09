@@ -8,7 +8,12 @@ import '../home/home_screen.dart';
 import 'confirm_passcode_screen.dart';
 
 class EnterPasscodeScreen extends StatefulWidget {
-  const EnterPasscodeScreen({super.key});
+  final bool isImportingWallet;
+
+  const EnterPasscodeScreen({
+    super.key,
+    this.isImportingWallet = false,
+  });
 
   @override
   State<EnterPasscodeScreen> createState() => _EnterPasscodeScreenState();
@@ -53,6 +58,7 @@ class _EnterPasscodeScreenState extends State<EnterPasscodeScreen> {
               MaterialPageRoute(
                 builder: (context) => ConfirmPasscodeScreen(
                   initialPasscode: passcodeToPass,
+                  isImportingWallet: widget.isImportingWallet,
                 ),
               ),
             );

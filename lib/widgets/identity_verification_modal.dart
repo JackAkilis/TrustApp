@@ -47,7 +47,7 @@ class IdentityVerificationModal extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           const Text(
-            'PIN码',
+            'PIN code',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
