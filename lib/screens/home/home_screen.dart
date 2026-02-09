@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../widgets/token_section.dart';
 import '../../widgets/token_list_item.dart';
@@ -19,10 +20,13 @@ import '../send/send_screen.dart';
 import '../settings/settings_screen.dart';
 import '../scan/scan_qr_screen.dart';
 import '../fund/fund_wallet_screen.dart';
+import '../receive/select_crypto_screen.dart';
 import '../wallet/wallet_selection_screen.dart';
 import '../trade/trade_screen.dart';
 import '../earn/earn_screen.dart';
+import '../earn/stablecoin_earn_screen.dart';
 import '../discover/discover_screen.dart';
+import '../trust_premium/daily_exchange_swap_screen.dart';
 import 'trending_tokens_screen.dart';
 import '../../services/earn_storage.dart';
 
@@ -116,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   Future<void> _loadWalletName() async {
     final walletName = await WalletStorage.getWalletName();
     setState(() {
-      _currentWalletName = walletName ?? 'Main Wallet';
+      _currentWalletName = walletName ?? AppLocalizations.of(context)!.mainWallet;
     });
   }
 
@@ -751,13 +755,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   }
 
   Widget _buildActionButtons() {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildActionButton(
-            'Send',
+            l10n.send,
             'assets/icons/send_icon.png',
             false,
             onTap: () {
@@ -770,7 +775,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
             },
           ),
           _buildActionButton(
-            'Fund',
+            l10n.fund,
             null,
             true,
             onTap: () {
@@ -782,9 +787,45 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
               );
             },
           ),
-          _buildActionButton('Swap', 'assets/icons/swap_icon.png', false),
-          _buildActionButton('Sell', 'assets/icons/sell_icon.png', false),
-          _buildActionButton('Earn', 'assets/icons/earn_icon.png', false),
+          _buildActionButton(
+            l10n.swap,
+            'assets/icons/swap_icon.png',
+            false,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DailyExchangeSwapScreen(),
+                ),
+              );
+            },
+          ),
+          _buildActionButton(
+            l10n.sell,
+            'assets/icons/sell_icon.png',
+            false,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SelectCryptoScreen(),
+                ),
+              );
+            },
+          ),
+          _buildActionButton(
+            l10n.earn,
+            'assets/icons/earn_icon.png',
+            false,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const StablecoinEarnScreen(),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -923,7 +964,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Back up to secure your assets',
+                        AppLocalizations.of(context)!.backUpToSecureAssets,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -934,7 +975,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                       GestureDetector(
                         onTap: () {},
                         child: Text(
-                          'Back up wallet →',
+                          AppLocalizations.of(context)!.backUpWallet,
                           style: TextStyle(
                             fontSize: 14,
                             color: primaryColor,
@@ -991,7 +1032,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   }
 
   Widget _buildTabs() {
-    final tabs = ['Crypto', 'Prediction', 'Watchlist', 'NFTs', 'Approvals'];
+    final l10n = AppLocalizations.of(context)!;
+    final tabs = [l10n.crypto, l10n.prediction, l10n.watchlist, l10n.nfts, l10n.approvals];
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final borderColor = ThemeHelper.getBorderColor(context);
     final textColor = ThemeHelper.getTextColor(context);
@@ -1178,7 +1220,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           child: GestureDetector(
             onTap: () {},
             child: Text(
-              'Manage crypto',
+              AppLocalizations.of(context)!.manageCrypto,
               style: TextStyle(
                 fontSize: 14,
                 color: primaryColor,
@@ -1369,7 +1411,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Browse Predictions',
+                AppLocalizations.of(context)!.browsePredictions,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -1411,7 +1453,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           const SizedBox(height: 16),
           // Description
           Text(
-            'Welcome to Watchlist! Save your favorite\ncrypto to keep up with price movements.',
+            AppLocalizations.of(context)!.watchlistWelcome,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -1437,7 +1479,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                 elevation: 0,
               ),
               child: Text(
-                'Create list',
+                AppLocalizations.of(context)!.createList,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -1481,7 +1523,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           const SizedBox(height: 16),
           // Description
           Text(
-            'No NFTs yet. Purchased or received NFTs will\nshow up here.',
+            AppLocalizations.of(context)!.noNftsYet,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -1497,7 +1539,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                 // TODO: Navigate to receive NFTs flow
               },
               child: Text(
-                'Receive NFTs',
+                AppLocalizations.of(context)!.receiveNfts,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -1535,7 +1577,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'You have no active approvals',
+                AppLocalizations.of(context)!.noActiveApprovals,
                 style: TextStyle(
                   fontSize: 14,
                   color: textColor,
@@ -1565,7 +1607,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           const SizedBox(height: 24),
           Text(
-            'Add funds to get started',
+            AppLocalizations.of(context)!.addFundsToGetStarted,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -1585,7 +1627,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                 ),
               ),
               child: Text(
-                'Fund your wallet',
+                AppLocalizations.of(context)!.fundYourWallet,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -1598,7 +1640,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           GestureDetector(
             onTap: () {},
             child: Text(
-              'Manage crypto',
+              AppLocalizations.of(context)!.manageCrypto,
               style: TextStyle(
                 fontSize: 14,
                 color: primaryColor,
@@ -1734,13 +1776,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         break;
     }
 
+    final l10n = AppLocalizations.of(context)!;
     return TokenSection(
-      title: 'Top movers',
-      tabs: const ['Memes', 'RWAs', 'AI'],
+      title: l10n.topMovers,
+      tabs: [l10n.memes, l10n.rwas, l10n.ai],
       selectedTabIndex: _topMoversTabIndex,
       subtitle: subtitle,
       items: items,
-      viewAllText: 'View all >',
+      viewAllText: AppLocalizations.of(context)!.viewAll,
       onTabChanged: (index) {
         setState(() {
           _topMoversTabIndex = index;
@@ -2109,13 +2152,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           return const SizedBox.shrink();
         }
 
+        final l10n = AppLocalizations.of(context)!;
         return TokenSection(
-          title: 'Popular tokens',
-          tabs: const ['Top', 'BNB', 'ETH'],
+          title: l10n.popularTokens,
+          tabs: [l10n.top, l10n.bnb, l10n.eth],
           selectedTabIndex: _popularTokensTabIndex,
-          subtitle: 'Top tokens by total market cap',
+          subtitle: l10n.topTokensByMarketCap,
           items: items,
-      viewAllText: 'View all >',
+      viewAllText: AppLocalizations.of(context)!.viewAll,
       onTabChanged: (index) {
             setState(() {
               _popularTokensTabIndex = index;
@@ -2152,7 +2196,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           const SizedBox(width: 4),
           Text(
-            'New',
+            AppLocalizations.of(context)!.newLabel,
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w600,
@@ -2184,7 +2228,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           Row(
             children: [
               Text(
-                'Perps',
+                AppLocalizations.of(context)!.perps,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -2198,7 +2242,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           const SizedBox(height: 8),
           // Subtitle
           Text(
-            'Trade market moves with over 100 pairs',
+            AppLocalizations.of(context)!.tradeMarketMoves100Pairs,
             style: TextStyle(
               fontSize: 14,
               color: secondaryTextColor,
@@ -2310,7 +2354,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'How perps work?',
+                            AppLocalizations.of(context)!.howPerpsWork,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -2319,7 +2363,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Learn how to go long or short in minutes.',
+                            AppLocalizations.of(context)!.learnPerpsLongShort,
                             style: TextStyle(
                               fontSize: 14,
                               color: secondaryTextColor,
@@ -2351,7 +2395,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           Row(
             children: [
               Text(
-                'Prediction',
+                AppLocalizations.of(context)!.prediction,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -2376,7 +2420,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           const SizedBox(height: 8),
           // Subtitle
           Text(
-            'Trade on your knowledge',
+            AppLocalizations.of(context)!.tradeOnYourKnowledge,
             style: TextStyle(
               fontSize: 14,
               color: secondaryTextColor,
@@ -2435,7 +2479,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Alpha tokens',
+            AppLocalizations.of(context)!.alphaTokens,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -2509,7 +2553,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Trust Premium',
+            AppLocalizations.of(context)!.trustPremium,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -2532,7 +2576,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Earn',
+            AppLocalizations.of(context)!.earnSection,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -2587,11 +2631,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                 height: 1.5,
               ),
               children: [
-                const TextSpan(
-                  text: 'Past performance is not a reliable indicator of future results. Data source is from CoinMarketCap. ',
+                TextSpan(
+                  text: AppLocalizations.of(context)!.pastPerformanceDisclaimer,
                 ),
                 TextSpan(
-                  text: 'Subject to our Terms',
+                  text: AppLocalizations.of(context)!.subjectToTerms,
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       // Handle terms tap

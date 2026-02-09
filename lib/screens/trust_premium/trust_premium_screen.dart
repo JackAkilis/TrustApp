@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import 'daily_exchange_swap_screen.dart';
 
@@ -57,7 +58,7 @@ class TrustPremiumScreen extends StatelessWidget {
           ],
         ),
         title: Text(
-          'Trust Premium',
+          AppLocalizations.of(context)!.trustPremium,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -204,7 +205,7 @@ class TrustPremiumScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Level up now',
+                        AppLocalizations.of(context)!.levelUp,
                         style: TextStyle(
                           fontSize: 14,
                           color: secondaryTextColor,
@@ -899,7 +900,7 @@ class TrustPremiumScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Begin',
+                        AppLocalizations.of(context)!.begin,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -1072,7 +1073,7 @@ class TrustPremiumScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Begin',
+                          AppLocalizations.of(context)!.begin,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -1298,7 +1299,7 @@ class TrustPremiumScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Begin',
+                          AppLocalizations.of(context)!.begin,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,

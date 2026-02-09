@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/passcode_keypad.dart';
 import '../../widgets/passcode_dots.dart';
 import '../../constants/app_colors.dart';
@@ -132,8 +133,8 @@ class _EnterPasscodeScreenState extends State<EnterPasscodeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
-            const Text(
-              'Enter passcode',
+            Text(
+              AppLocalizations.of(context)!.enterPasscode,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,

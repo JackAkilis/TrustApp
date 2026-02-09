@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../utils/theme_helper.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -41,7 +42,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             _buildBottomNavItem(
               context: context,
               icon: Icons.home,
-              label: 'Home',
+              label: AppLocalizations.of(context)!.home,
               index: 0,
               isSelected: selectedIndex == 0,
               primaryColor: primaryColor,
@@ -50,7 +51,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             _buildBottomNavItem(
               context: context,
               icon: Icons.trending_up,
-              label: 'Trending',
+              label: AppLocalizations.of(context)!.trending,
               index: 1,
               isSelected: selectedIndex == 1,
               primaryColor: primaryColor,
@@ -59,7 +60,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             _buildBottomNavItem(
               context: context,
               icon: Icons.swap_horiz,
-              label: 'Trade',
+              label: AppLocalizations.of(context)!.trade,
               index: 2,
               isSelected: selectedIndex == 2,
               primaryColor: primaryColor,
@@ -68,7 +69,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             _buildBottomNavItem(
               context: context,
               icon: Icons.eco,
-              label: 'Rewards',
+              label: AppLocalizations.of(context)!.rewards,
               index: 3,
               isSelected: selectedIndex == 3,
               showDot: showEarnBadge,
@@ -78,7 +79,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             _buildBottomNavItem(
               context: context,
               icon: Icons.explore,
-              label: 'Discover',
+              label: AppLocalizations.of(context)!.discover,
               index: 4,
               isSelected: selectedIndex == 4,
               primaryColor: primaryColor,

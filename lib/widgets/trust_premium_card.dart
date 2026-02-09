@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/theme_provider.dart';
 import '../screens/trust_premium/trust_premium_onboarding_screen.dart';
 import '../screens/trust_premium/trust_premium_screen.dart';
@@ -50,7 +51,7 @@ class TrustPremiumCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Level up',
+                  AppLocalizations.of(context)!.levelUp,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -103,7 +104,7 @@ class TrustPremiumCard extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  'Begin',
+                  AppLocalizations.of(context)!.begin,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

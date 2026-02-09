@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/trust_premium_card.dart';
 import '../../providers/theme_provider.dart';
 import '../address_book/address_book_screen.dart';
@@ -43,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
             title: Text(
-              'Settings',
+              AppLocalizations.of(context)!.settings,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -60,7 +61,7 @@ class SettingsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Trust Premium',
+                    AppLocalizations.of(context)!.trustPremium,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -78,7 +79,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Dark_mode.png',
-              title: 'Dark Mode',
+              title: AppLocalizations.of(context)!.darkMode,
               textColor: textColor,
               trailing: Switch(
                 value: isDarkMode,
@@ -109,7 +110,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Address_book.png',
-              title: 'Address Book',
+              title: AppLocalizations.of(context)!.addressBook,
               textColor: textColor,
               onTap: () {
                 Navigator.push(
@@ -130,7 +131,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Sync_to_extension.png',
-              title: 'Sync to Extension',
+              title: AppLocalizations.of(context)!.syncToExtension,
               textColor: textColor,
               onTap: () {
                 // Handle sync to extension
@@ -145,7 +146,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Trust_handles.png',
-              title: 'Trust handles',
+              title: AppLocalizations.of(context)!.trustHandles,
               textColor: textColor,
               onTap: () {
                 Navigator.push(
@@ -165,7 +166,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/scan_icon_20.png',
-              title: 'Scan QR code',
+              title: AppLocalizations.of(context)!.scanQrCode,
               textColor: textColor,
               onTap: () {
                 // Handle QR code scan
@@ -180,7 +181,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/WalletConnect.png',
-              title: 'WalletConnect',
+              title: AppLocalizations.of(context)!.walletConnect,
               textColor: textColor,
               onTap: () {
                 Navigator.push(
@@ -212,7 +213,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Preferences.png',
-              title: 'Preferences',
+              title: AppLocalizations.of(context)!.preferences,
               textColor: textColor,
               onTap: () {
                 Navigator.push(
@@ -232,7 +233,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Security.png',
-              title: 'Security',
+              title: AppLocalizations.of(context)!.security,
               textColor: textColor,
               onTap: () {
                 Navigator.push(
@@ -252,7 +253,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Notification.png',
-              title: 'Notifications',
+              title: AppLocalizations.of(context)!.notifications,
               textColor: textColor,
               onTap: () {
                 Navigator.push(
@@ -284,7 +285,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Help.png',
-              title: 'Help Center',
+              title: AppLocalizations.of(context)!.helpCenter,
               textColor: textColor,
               onTap: () {
                 // Handle help center
@@ -299,7 +300,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/Support.png',
-              title: 'Support',
+              title: AppLocalizations.of(context)!.support,
               textColor: textColor,
               onTap: () {
                 // Handle support
@@ -314,7 +315,7 @@ class SettingsScreen extends StatelessWidget {
             child: _buildSettingItem(
               context: context,
               iconPath: 'assets/icons/About.png',
-              title: 'About',
+              title: AppLocalizations.of(context)!.about,
               textColor: textColor,
               onTap: () {
                 // Handle about

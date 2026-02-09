@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../widgets/chain_selector.dart';
 import '../../services/api_service.dart';
@@ -194,7 +195,7 @@ class _SendScreenState extends State<SendScreen> {
           },
         ),
         title: Text(
-          'Send',
+          AppLocalizations.of(context)!.send,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,

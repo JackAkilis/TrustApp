@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
+import '../../providers/locale_provider.dart';
 import '../../utils/theme_helper.dart';
 
 class PreferencesScreen extends StatelessWidget {
@@ -28,7 +31,7 @@ class PreferencesScreen extends StatelessWidget {
           },
         ),
         title: Text(
-          'Preferences',
+          AppLocalizations.of(context)!.preferences,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -42,7 +45,7 @@ class PreferencesScreen extends StatelessWidget {
         children: [
           _buildPreferenceItem(
             context: context,
-            title: 'Currency',
+            title: AppLocalizations.of(context)!.currency,
             value: 'USDT',
             textColor: textColor,
             secondaryTextColor: secondaryTextColor,
@@ -52,17 +55,15 @@ class PreferencesScreen extends StatelessWidget {
           ),
           _buildPreferenceItem(
             context: context,
-            title: 'App Language',
-            value: 'English(United Kingdom)',
+            title: AppLocalizations.of(context)!.appLanguage,
+            value: _getLanguageDisplayName(context),
             textColor: textColor,
             secondaryTextColor: secondaryTextColor,
-            onTap: () {
-              // Handle language selection
-            },
+            onTap: () => _showLanguagePicker(context),
           ),
           _buildPreferenceItem(
             context: context,
-            title: 'DApp Browser',
+            title: AppLocalizations.of(context)!.dappBrowser,
             textColor: textColor,
             secondaryTextColor: secondaryTextColor,
             onTap: () {
@@ -71,7 +72,7 @@ class PreferencesScreen extends StatelessWidget {
           ),
           _buildPreferenceItem(
             context: context,
-            title: 'Node Setting',
+            title: AppLocalizations.of(context)!.nodeSetting,
             textColor: textColor,
             secondaryTextColor: secondaryTextColor,
             onTap: () {
@@ -80,7 +81,7 @@ class PreferencesScreen extends StatelessWidget {
           ),
           _buildPreferenceItem(
             context: context,
-            title: 'Unlock UIXOs',
+            title: AppLocalizations.of(context)!.unlockUixos,
             textColor: textColor,
             secondaryTextColor: secondaryTextColor,
             onTap: () {
@@ -88,6 +89,50 @@ class PreferencesScreen extends StatelessWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  String _getLanguageDisplayName(BuildContext context) {
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    final code = localeProvider.locale?.languageCode ?? 'en';
+    switch (code) {
+      case 'ko':
+        return '한국어 (대한민국)';
+      case 'vi':
+        return 'Tiếng Việt (Việt Nam)';
+      case 'pt':
+        return 'Português (Brasil)';
+      default:
+        return 'English (United Kingdom)';
+    }
+  }
+
+  void _showLanguagePicker(BuildContext context) {
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    final options = [
+      ('en', 'English (United Kingdom)'),
+      ('ko', '한국어 (대한민국)'),
+      ('vi', 'Tiếng Việt (Việt Nam)'),
+      ('pt', 'Português (Brasil)'),
+    ];
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: options
+              .map(
+                (opt) => ListTile(
+                  title: Text(opt.$2),
+                  onTap: () {
+                    localeProvider.setLocaleFromCode(opt.$1);
+                    Navigator.pop(ctx);
+                  },
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }

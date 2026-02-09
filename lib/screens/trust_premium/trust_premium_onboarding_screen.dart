@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../services/trust_premium_storage.dart';
 import 'trust_premium_screen.dart';
@@ -82,7 +83,7 @@ class _TrustPremiumOnboardingScreenState
                           }
                         : _onSkip,
                     child: Text(
-                      _currentPage == 3 ? 'Learn more' : 'Skip',
+                      _currentPage == 3 ? 'Learn more' : AppLocalizations.of(context)!.skip,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -204,7 +205,7 @@ class _TrustPremiumOnboardingScreenState
         children: [
           const SizedBox(height: 32),
           Text(
-            'Welcome to Trust Premium',
+            AppLocalizations.of(context)!.welcomeToTrustPremium,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w700,
@@ -266,7 +267,7 @@ class _TrustPremiumOnboardingScreenState
         children: [
           const SizedBox(height: 32),
           Text(
-            'Gold gets you maximum benefits',
+            AppLocalizations.of(context)!.useEarnLevelUp,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w700,
@@ -275,7 +276,7 @@ class _TrustPremiumOnboardingScreenState
           ),
           const SizedBox(height: 16),
           Text(
-            'Better benefits at every tier. Your daily check-ins, swaps and transfers earn XP. Level up to unlock 50% fee discounts, zero-gas swaps and membership-exclusive access.',
+            AppLocalizations.of(context)!.trustPremiumOnboardingGoldDescription,
             style: TextStyle(
               fontSize: 16,
               height: 1.5,
@@ -301,7 +302,7 @@ class _TrustPremiumOnboardingScreenState
         children: [
           const SizedBox(height: 32),
           Text(
-            'Lock TWT to level up faster',
+            AppLocalizations.of(context)!.boostWithTwt,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w700,
@@ -310,7 +311,7 @@ class _TrustPremiumOnboardingScreenState
           ),
           const SizedBox(height: 16),
           Text(
-            'Hold or lock TWT to multiply your XP and climb levels faster. Your loyalty now powers your wallet and token growth.',
+            AppLocalizations.of(context)!.boostWithTwtDescription,
             style: TextStyle(
               fontSize: 16,
               height: 1.5,
@@ -336,7 +337,7 @@ class _TrustPremiumOnboardingScreenState
         children: [
           const SizedBox(height: 32),
           Text(
-            'Keep moving to keep your tier',
+            AppLocalizations.of(context)!.keepMovingToKeepYourTier,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w700,
@@ -345,7 +346,7 @@ class _TrustPremiumOnboardingScreenState
           ),
           const SizedBox(height: 16),
           Text(
-            'Your membership is based on the last 14 days of activity and locked TWT. Stay active to maintain access - if you drop off, you\'ll have 14 days before your membership resets.',
+            AppLocalizations.of(context)!.trustPremiumKeepActiveDescription,
             style: TextStyle(
               fontSize: 16,
               height: 1.5,
@@ -386,9 +387,10 @@ class _TrustPremiumOnboardingScreenState
 
   Widget _buildPrimaryButton(Color primaryColor, Color textColor) {
     final isLastPage = _currentPage == 3;
+    final l10n = AppLocalizations.of(context)!;
     final label = isLastPage
         ? 'Go to Trust Premium'
-        : (_currentPage <= 1 ? 'Get Started' : 'Next');
+        : (_currentPage <= 1 ? l10n.getStarted : l10n.next);
 
     return SizedBox(
       width: double.infinity,

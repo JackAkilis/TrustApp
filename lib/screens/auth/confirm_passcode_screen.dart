@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/passcode_keypad.dart';
 import '../../widgets/passcode_dots.dart';
 import '../../constants/app_colors.dart';
@@ -110,8 +111,8 @@ class _ConfirmPasscodeScreenState extends State<ConfirmPasscodeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 40),
-            const Text(
-              'Confirm passcode',
+            Text(
+              AppLocalizations.of(context)!.confirmPasscode,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
@@ -129,7 +130,7 @@ class _ConfirmPasscodeScreenState extends State<ConfirmPasscodeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                'Re-enter your passcode. Be sure to remember it so you can unlock your wallet.',
+                AppLocalizations.of(context)!.confirmPasscodeHint,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,

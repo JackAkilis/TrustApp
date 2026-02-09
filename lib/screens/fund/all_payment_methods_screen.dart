@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
@@ -238,7 +239,7 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Select Crypto',
+          AppLocalizations.of(context)!.selectCrypto,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -269,7 +270,7 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
                           controller: _searchController,
                           textAlignVertical: TextAlignVertical.center,
                           decoration: InputDecoration(
-                            hintText: 'Search',
+                            hintText: AppLocalizations.of(context)!.search,
                             hintStyle: TextStyle(
                               fontSize: 14,
                               color: secondaryTextColor,
@@ -293,7 +294,14 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
                 height: 48,
                 child: TabBar(
                   controller: _tabController,
-                  tabs: _tabs.map((tab) => Tab(text: tab)).toList(),
+                  tabs: _tabs.map((tab) {
+                    final l10n = AppLocalizations.of(context)!;
+                    final label = tab == 'All' ? l10n.all
+                        : tab == 'Top 100' ? l10n.top100
+                        : tab == 'Stables' ? l10n.stables
+                        : l10n.watchlist;
+                    return Tab(text: label);
+                  }).toList(),
                   labelColor: primaryColor,
                   unselectedLabelColor: secondaryTextColor,
                   indicatorColor: primaryColor,
@@ -348,7 +356,7 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
                       child: filter['name'] == 'All'
                           ? Center(
                               child: Text(
-                                'All',
+                                AppLocalizations.of(context)!.all,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -389,7 +397,7 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
                 : _filteredCryptoList.isEmpty
                     ? Center(
                         child: Text(
-                          'No cryptocurrencies found',
+                          AppLocalizations.of(context)!.noCryptocurrenciesFound,
                           style: TextStyle(
                             fontSize: 14,
                             color: secondaryTextColor,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/api_service.dart';
 import '../../services/earn_storage.dart';
 import '../../constants/app_colors.dart';
@@ -184,7 +185,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
                   const Spacer(),
                   // Title
                   Text(
-                    'Trending tokens',
+                    AppLocalizations.of(context)!.trendingTokens,
                     style: TextStyle(
                       color: textColor,
                       fontWeight: FontWeight.w600,
@@ -222,7 +223,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Trending',
+                    AppLocalizations.of(context)!.trending,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -272,15 +273,15 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             Text(
-                              'View all',
+                              AppLocalizations.of(context)!.viewAll,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 14,
@@ -393,7 +394,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
 
     switch (_topMoversTabIndex) {
       case 0: // Memes
-        subtitle = 'Top Meme coins and tokens (24h % price gain)';
+        subtitle = AppLocalizations.of(context)!.topMemeCoinsSubtitle;
         items = [
           TokenItemData(
             rank: 1,
@@ -431,7 +432,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
         ];
         break;
       case 1: // RWAs
-        subtitle = 'Real-world assets (tokenized securities)';
+        subtitle = AppLocalizations.of(context)!.realWorldAssetsSubtitle;
         items = [
           TokenItemData(
             rank: 1,
@@ -470,7 +471,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
         break;
       case 2: // AI
       default:
-        subtitle = 'AI-powered tokens (24h % price gain)';
+        subtitle = AppLocalizations.of(context)!.aiPoweredTokensSubtitle;
         items = [
           TokenItemData(
             rank: 1,
@@ -509,13 +510,14 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
         break;
     }
 
+    final l10n = AppLocalizations.of(context)!;
     return TokenSection(
-      title: 'Top movers',
-      tabs: const ['Memes', 'RWAs', 'AI'],
+      title: l10n.topMovers,
+      tabs: [l10n.memes, l10n.rwas, l10n.ai],
       selectedTabIndex: _topMoversTabIndex,
       subtitle: subtitle,
       items: items,
-      viewAllText: 'View all >',
+      viewAllText: l10n.viewAll,
       onTabChanged: (index) {
         setState(() {
           _topMoversTabIndex = index;
@@ -859,13 +861,14 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
           }).toList();
         }
 
+        final l10n = AppLocalizations.of(context)!;
         return TokenSection(
-          title: 'Popular tokens',
-          tabs: const ['Top', 'BNB', 'ETH'],
+          title: l10n.popularTokens,
+          tabs: [l10n.top, l10n.bnb, l10n.eth],
           selectedTabIndex: _popularTokensTabIndex,
-          subtitle: 'Top tokens by total market cap',
+          subtitle: l10n.topTokensByMarketCap,
           items: items,
-          viewAllText: 'View all >',
+          viewAllText: l10n.viewAll,
           onTabChanged: (index) {
             setState(() {
               _popularTokensTabIndex = index;

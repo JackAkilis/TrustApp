@@ -5,27 +5,26 @@ import '../../constants/app_colors.dart';
 import '../../utils/theme_helper.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
-import '../../widgets/chain_selector.dart';
 import 'receive_detail_screen.dart';
 
-class ReceiveScreen extends StatefulWidget {
-  const ReceiveScreen({super.key});
+/// Select Crypto screen — same layout as Receive screen but with title "Select Crypto".
+/// Used for: Crypto wallet option in Fund your wallet, Sell button on home.
+class SelectCryptoScreen extends StatefulWidget {
+  const SelectCryptoScreen({super.key});
 
   @override
-  State<ReceiveScreen> createState() => _ReceiveScreenState();
+  State<SelectCryptoScreen> createState() => _SelectCryptoScreenState();
 }
 
-class _ReceiveScreenState extends State<ReceiveScreen> {
+class _SelectCryptoScreenState extends State<SelectCryptoScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-  String? _selectedChain;
   List<Map<String, dynamic>> _cryptoList = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _selectedChain = 'All';
     _loadWalletAddresses();
     _searchController.addListener(() {
       setState(() {
@@ -51,28 +50,25 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
       }
 
       final response = await ApiService.getWalletSummary(walletId);
-      
+
       if (response['success'] == true && response['data'] != null) {
         final data = response['data'];
         final chains = data['chains'] as List<dynamic>? ?? [];
-        
-        // Build crypto list from chains
+
         final List<Map<String, dynamic>> cryptoList = [];
-        final Set<String> addedSymbols = {}; // Track added symbols to avoid duplicates
-        
+        final Set<String> addedSymbols = {};
+
         for (var chain in chains) {
           final chainName = chain['chain']?.toString() ?? '';
           final symbol = chain['symbol']?.toString() ?? '';
           final address = chain['address']?.toString() ?? '';
           final isToken = chain['isToken'] == true;
-          
-          // Skip if already added (for native coins) or if it's a token and we want native first
+
           final key = isToken ? '${chainName}_$symbol' : chainName;
           if (addedSymbols.contains(key)) continue;
-          
-          // Get chain display name
+
           final chainDisplayName = _getChainDisplayName(chainName);
-          
+
           cryptoList.add({
             'chain': chainName,
             'symbol': symbol,
@@ -80,10 +76,10 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
             'chainDisplayName': chainDisplayName,
             'isToken': isToken,
           });
-          
+
           addedSymbols.add(key);
         }
-        
+
         setState(() {
           _cryptoList = cryptoList;
           _isLoading = false;
@@ -143,8 +139,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
   }
 
   String _getTokenIcon(String symbol) {
-    // Map token symbols to their icon paths
-    // If token icon doesn't exist, fallback to generic token icon
     final tokenIconMap = {
       'USDT': 'usdt.png',
       'USDC': 'usdc.png',
@@ -154,21 +148,11 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
       'WBTC': 'wbtc.png',
       'TRX': 'trx.png',
     };
-    
+
     final iconName = tokenIconMap[symbol.toUpperCase()] ?? 'token_1.png';
-    // Try token icon first, fallback to generic token icon
     return 'assets/icons/$iconName';
   }
 
-  // Popular crypto pairs (symbol + chain) shown in this exact order in the Popular section.
-  // These MUST match the mapping you specified:
-  // BTC — Bitcoin
-  // ETH — Ethereum
-  // SOL — Solana
-  // TWT — BNB Smart Chain
-  // BNB — BNB Smart Chain
-  // USDT — Ethereum
-  // USDC — Ethereum
   final List<Map<String, String>> _popularPairs = [
     {'symbol': 'BTC', 'chain': 'BITCOIN'},
     {'symbol': 'ETH', 'chain': 'ETHEREUM'},
@@ -179,43 +163,9 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
     {'symbol': 'USDC', 'chain': 'ETHEREUM'},
   ];
 
-  // Map ChainSelector names to chain IDs
-  String? _getChainIdFromSelectorName(String? selectorName) {
-    if (selectorName == null || selectorName == 'All') return null;
-    
-    final nameMap = {
-      'Bitcoin': 'BITCOIN',
-      'Ethereum': 'ETHEREUM',
-      'Solana': 'SOLANA',
-      'BNB Smart Chain': 'BSC',
-      'Tron': 'TRON',
-      'Arbitrum': 'ARBITRUM',
-      'Base': 'BASE',
-    };
-    
-    return nameMap[selectorName];
-  }
-
   List<Map<String, dynamic>> get _filteredCryptoList {
     var filtered = _cryptoList;
-    
-    // Filter by selected chain
-    if (_selectedChain != null && _selectedChain != 'All') {
-      final chainId = _getChainIdFromSelectorName(_selectedChain);
-      if (chainId != null) {
-        filtered = filtered.where((crypto) {
-          return crypto['chain']?.toString().toUpperCase() == chainId.toUpperCase();
-        }).toList();
-      } else {
-        // Try matching by display name if chain ID not found
-        filtered = filtered.where((crypto) {
-          final chainDisplayName = crypto['chainDisplayName']?.toString() ?? '';
-          return chainDisplayName == _selectedChain;
-        }).toList();
-      }
-    }
-    
-    // Filter by search query
+
     if (_searchQuery.isNotEmpty) {
       filtered = filtered.where((crypto) {
         final symbol = crypto['symbol']?.toString().toLowerCase() ?? '';
@@ -223,11 +173,10 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
         return symbol.contains(_searchQuery) || chainName.contains(_searchQuery);
       }).toList();
     }
-    
+
     return filtered;
   }
 
-  // Helper to build a unique key for a crypto entry based on symbol + chain
   String _cryptoKey(Map<String, dynamic> crypto) {
     final symbol = crypto['symbol']?.toString() ?? '';
     final chainId = crypto['chain']?.toString() ?? '';
@@ -237,8 +186,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
   List<Map<String, dynamic>> get _popularCryptoList {
     final List<Map<String, dynamic>> result = [];
 
-    // For each desired popular pair, pick the first matching entry (symbol + chain).
-    // If none exists in backend data, we simply skip it (only show backend-supported pairs).
     for (final pair in _popularPairs) {
       final targetSymbol = pair['symbol']!;
       final targetChain = pair['chain']!;
@@ -271,9 +218,9 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
   void _copyAddress(String address) {
     Clipboard.setData(ClipboardData(text: address));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Address copied to clipboard'),
-        duration: Duration(seconds: 2),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.addressCopiedToClipboard),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -283,26 +230,23 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
     final grayColor = ThemeHelper.getGrayColor(context);
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
-    
+
     final symbol = crypto['symbol']?.toString() ?? '';
     final chainName = crypto['chainDisplayName']?.toString() ?? '';
     final address = (crypto['address'] ?? '').toString();
     final chain = crypto['chain']?.toString() ?? '';
     final isToken = crypto['isToken'] == true;
-    
-    // Truncate address
+
     final truncatedAddress = address.length > 12
         ? '${address.substring(0, 6)}...${address.substring(address.length - 6)}'
         : address;
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Row(
         children: [
-          // Crypto icon
           Stack(
             children: [
-              // Main icon: token icon for tokens, chain icon for native coins
               Container(
                 width: 48,
                 height: 48,
@@ -312,14 +256,13 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                 ),
                 child: ClipOval(
                   child: Image.asset(
-                    isToken 
+                    isToken
                         ? _getTokenIcon(symbol)
                         : 'assets/chain_icons/${_getChainIcon(chain)}',
                     width: 48,
                     height: 48,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
-                      // Fallback: try generic token icon for tokens, or chain icon
                       if (isToken) {
                         return Image.asset(
                           'assets/icons/token_1.png',
@@ -342,7 +285,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                   ),
                 ),
               ),
-              // Network badge for tokens (shows chain icon)
               if (isToken)
                 Positioned(
                   right: 0,
@@ -377,7 +319,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
             ],
           ),
           const SizedBox(width: 12),
-          // Crypto info
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,7 +364,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
               ],
             ),
           ),
-          // QR code button
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -448,7 +388,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
             ),
           ),
           const SizedBox(width: 8),
-          // Copy button
           GestureDetector(
             onTap: () => _copyAddress(address),
             child: Container(
@@ -466,62 +405,14 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
     );
   }
 
-  void _showQRCode(String address, String symbol, String chainName) {
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '$symbol ($chainName)',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // TODO: Add QR code generation library (qr_flutter)
-              Container(
-                width: 200,
-                height: 200,
-                color: Colors.grey[200],
-                child: const Center(
-                  child: Text('QR Code\n(Add qr_flutter package)'),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                address,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final textColor = ThemeHelper.getTextColor(context);
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
     final grayColor = ThemeHelper.getGrayColor(context);
-    final primaryColor = ThemeHelper.getPrimaryColor(context);
-    final borderColor = ThemeHelper.getBorderColor(context);
-    
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -533,7 +424,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          AppLocalizations.of(context)!.receive,
+          l10n.selectCrypto,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -545,7 +436,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Search bar
             Padding(
               padding: const EdgeInsets.all(20),
               child: Container(
@@ -569,7 +459,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)!.search,
+                          hintText: l10n.search,
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: secondaryTextColor,
@@ -586,27 +476,14 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                 ),
               ),
             ),
-            
-            // Chain selector (same as Send screen)
-            const SizedBox(height: 12),
-            ChainSelector(
-              onChainSelected: (chainName) {
-                setState(() {
-                  _selectedChain = chainName == 'All' ? 'All' : chainName;
-                });
-              },
-            ),
-            
             const SizedBox(height: 16),
-            
-            // Crypto list
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : _filteredCryptoList.isEmpty
                       ? Center(
                           child: Text(
-                            'No cryptocurrencies found',
+                            l10n.noCryptocurrenciesFound,
                             style: TextStyle(
                               fontSize: 16,
                               color: secondaryTextColor,
@@ -616,12 +493,11 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                       : ListView(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           children: [
-                            // Popular section
                             if (_popularCryptoList.isNotEmpty) ...[
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: Text(
-                                  AppLocalizations.of(context)!.popular,
+                                  l10n.popular,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -632,13 +508,11 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                               ..._popularCryptoList.map((crypto) => _buildCryptoItem(crypto)),
                               const SizedBox(height: 24),
                             ],
-                            
-                            // All crypto section
                             if (_allCryptoList.isNotEmpty) ...[
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: Text(
-                                  AppLocalizations.of(context)!.allCrypto,
+                                  l10n.allCrypto,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,

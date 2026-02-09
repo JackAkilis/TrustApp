@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
@@ -236,7 +237,7 @@ class _GPaySelectCryptoScreenState extends State<GPaySelectCryptoScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Select Crypto',
+          AppLocalizations.of(context)!.selectCrypto,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -267,7 +268,7 @@ class _GPaySelectCryptoScreenState extends State<GPaySelectCryptoScreen> {
                         controller: _searchController,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          hintText: 'Search',
+                          hintText: AppLocalizations.of(context)!.search,
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: secondaryTextColor,
@@ -322,7 +323,7 @@ class _GPaySelectCryptoScreenState extends State<GPaySelectCryptoScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _selectedChain == 'All' ? 'All Networks' : _selectedChain!,
+                          _selectedChain == 'All' ? AppLocalizations.of(context)!.allNetworks : _selectedChain!,
                           style: TextStyle(
                             fontSize: 14,
                             color: textColor,
@@ -347,7 +348,7 @@ class _GPaySelectCryptoScreenState extends State<GPaySelectCryptoScreen> {
                   : _filteredCryptoList.isEmpty
                       ? Center(
                           child: Text(
-                            'No cryptocurrencies found',
+                            AppLocalizations.of(context)!.noCryptocurrenciesFound,
                             style: TextStyle(
                               fontSize: 16,
                               color: secondaryTextColor,
@@ -360,7 +361,7 @@ class _GPaySelectCryptoScreenState extends State<GPaySelectCryptoScreen> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: Text(
-                                'All crypto',
+                                AppLocalizations.of(context)!.allCrypto,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,

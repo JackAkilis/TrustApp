@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../widgets/token_image.dart';
 import '../../services/api_service.dart';
@@ -183,7 +184,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Swap',
+          AppLocalizations.of(context)!.swap,
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w600,
@@ -282,7 +283,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildSwapCard(
-              label: 'From',
+              label: AppLocalizations.of(context)!.from,
               tokenSymbol: fromSymbol,
               tokenName: fromChain,
               amountController: _fromAmountController,
@@ -313,7 +314,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
             ),
             const SizedBox(height: 12),
             _buildSwapCard(
-              label: 'To',
+              label: AppLocalizations.of(context)!.to,
               tokenSymbol: 'TWT',
               tokenName: 'BNB Smart Chain',
               amount: _isCalculating
@@ -569,7 +570,8 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
         text.isNotEmpty && parsedAmount != null && parsedAmount > 0;
 
     final isActive = !_isCalculating && hasValidAmount && _toAmount > 0;
-    final buttonText = _isCalculating ? 'Loading...' : 'Continue';
+    final l10n = AppLocalizations.of(context)!;
+    final buttonText = _isCalculating ? 'Loading...' : l10n.continueButton;
 
     return SizedBox(
       width: double.infinity,

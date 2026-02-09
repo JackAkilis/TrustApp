@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../widgets/token_image.dart';
 
@@ -11,6 +12,7 @@ class StablecoinEarnScreen extends StatelessWidget {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final textColor = ThemeHelper.getTextColor(context);
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -25,7 +27,7 @@ class StablecoinEarnScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Earn',
+          l10n.earn,
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w700,
@@ -39,11 +41,11 @@ class StablecoinEarnScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // My Earn portfolio card (simple placeholder)
-            _buildPortfolioCard(textColor, secondaryTextColor),
+            _buildPortfolioCard(context, textColor, secondaryTextColor),
             const SizedBox(height: 24),
             // Stablecoin Earn section (placeholder list)
             Text(
-              'Stablecoin Earn',
+              l10n.stablecoinEarn,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -55,25 +57,28 @@ class StablecoinEarnScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildStablecoinRow(
+                    context,
                     'USDT',
                     'ethereum',
-                    'up to 3.65% APY',
+                    '3.65',
                     textColor,
                     secondaryTextColor,
                   ),
                   const SizedBox(height: 12),
                   _buildStablecoinRow(
+                    context,
                     'USDC',
                     'ethereum',
-                    'up to 3.79% APY',
+                    '3.79',
                     textColor,
                     secondaryTextColor,
                   ),
                   const SizedBox(height: 12),
                   _buildStablecoinRow(
+                    context,
                     'USDT',
                     'bnb',
-                    'up to 1.6% APY',
+                    '1.6',
                     textColor,
                     secondaryTextColor,
                   ),
@@ -85,7 +90,7 @@ class StablecoinEarnScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Center(
                     child: Text(
-                      'View all  ›',
+                      l10n.seeAll,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -99,7 +104,7 @@ class StablecoinEarnScreen extends StatelessWidget {
             const SizedBox(height: 24),
             // Native Staking placeholder
             Text(
-              'Native Staking',
+              l10n.nativeStaking,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -110,11 +115,11 @@ class StablecoinEarnScreen extends StatelessWidget {
             _buildSimpleCard(
               child: Column(
                 children: [
-                  _buildNativeRow('Ethereum', 'ethereum', '\$1,919.03', '-7.32%', 'up to 2.64% APY', textColor, secondaryTextColor),
+                  _buildNativeRow(context, 'Ethereum', 'ethereum', '\$1,919.03', '-7.32%', '2.64', textColor, secondaryTextColor),
                   const SizedBox(height: 12),
-                  _buildNativeRow('BNB Smart Chain', 'bnb', '\$633.01', '-7.27%', 'up to 0.97% APY', textColor, secondaryTextColor),
+                  _buildNativeRow(context, 'BNB Smart Chain', 'bnb', '\$633.01', '-7.27%', '0.97', textColor, secondaryTextColor),
                   const SizedBox(height: 12),
-                  _buildNativeRow('Solana', 'solana', '\$80.98', '-9.88%', 'up to 6.61% APY', textColor, secondaryTextColor),
+                  _buildNativeRow(context, 'Solana', 'solana', '\$80.98', '-9.88%', '6.61', textColor, secondaryTextColor),
                   const SizedBox(height: 16),
                   Divider(
                     height: 1,
@@ -123,7 +128,7 @@ class StablecoinEarnScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Center(
                     child: Text(
-                      'View all  ›',
+                      l10n.seeAll,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -140,13 +145,14 @@ class StablecoinEarnScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPortfolioCard(Color textColor, Color secondaryTextColor) {
+  Widget _buildPortfolioCard(BuildContext context, Color textColor, Color secondaryTextColor) {
+    final l10n = AppLocalizations.of(context)!;
     return _buildSimpleCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'My Earn portfolio',
+            l10n.myEarnPortfolio,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -164,7 +170,7 @@ class StablecoinEarnScreen extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Total staked + rewards',
+            l10n.totalStakedRewards,
             style: TextStyle(
               fontSize: 12,
               color: secondaryTextColor,
@@ -188,7 +194,7 @@ class StablecoinEarnScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    'Your earning assets will appear here.',
+                    l10n.yourEarningAssetsWillAppearHere,
                     style: TextStyle(
                       fontSize: 12,
                       color: secondaryTextColor,
@@ -216,12 +222,14 @@ class StablecoinEarnScreen extends StatelessWidget {
   }
 
   Widget _buildStablecoinRow(
+    BuildContext context,
     String symbol,
     String chain,
-    String apyText,
+    String percent,
     Color textColor,
     Color secondaryTextColor,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     // Use lowercase chain key for TokenImage, but nicer label for text
     final chainKey = chain.toLowerCase();
     final chainLabel =
@@ -261,7 +269,7 @@ class StablecoinEarnScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              apyText.split(' APY').first,
+              l10n.upToPercent(percent),
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -282,15 +290,17 @@ class StablecoinEarnScreen extends StatelessWidget {
   }
 
   Widget _buildNativeRow(
+    BuildContext context,
     String name,
     String chain,
     String price,
     String changePct,
-    String apyText,
+    String percent,
     Color textColor,
     Color secondaryTextColor,
   ) {
     final chainKey = chain.toLowerCase();
+    final l10n = AppLocalizations.of(context)!;
     
     return Row(
       children: [
@@ -340,7 +350,7 @@ class StablecoinEarnScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              apyText.split(' APY').first,
+              l10n.upToPercent(percent),
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,

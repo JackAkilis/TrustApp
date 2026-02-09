@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../widgets/bottom_navigation_bar.dart';
 import '../../widgets/token_image.dart';
@@ -280,7 +281,7 @@ class _TradeScreenState extends State<TradeScreen> {
                             // TODO: Handle continue
                           },
                           child: Text(
-                            'Continue',
+                            AppLocalizations.of(context)!.continueButton,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -363,7 +364,13 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildTabBar(Color textColor, Color secondaryTextColor) {
-    final tabs = ['Swap', 'Predictions', 'Perps', 'Meme Rush'];
+    final l10n = AppLocalizations.of(context)!;
+    final tabs = [
+      l10n.swap,
+      l10n.predictionsNew,
+      l10n.perps,
+      l10n.memeRush,
+    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -477,6 +484,7 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildTopBarContent(Color textColor, Color secondaryTextColor) {
+    final l10n = AppLocalizations.of(context)!;
     if (_selectedTabIndex == 1) {
       // Predictions tab: Person icon, Trade text, Info icon
       return Row(
@@ -575,7 +583,7 @@ class _TradeScreenState extends State<TradeScreen> {
           ),
           const Spacer(),
           Text(
-            'Swap',
+            l10n.swap,
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.w600,
@@ -630,7 +638,7 @@ class _TradeScreenState extends State<TradeScreen> {
           ),
           const Spacer(),
           Text(
-            'Swap',
+            l10n.swap,
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.w600,
@@ -697,7 +705,7 @@ class _TradeScreenState extends State<TradeScreen> {
           ),
           const Spacer(),
           Text(
-            'Swap',
+            l10n.swap,
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.w600,
@@ -761,7 +769,7 @@ class _TradeScreenState extends State<TradeScreen> {
           ),
           const SizedBox(width: 3),
           Text(
-            'New',
+            AppLocalizations.of(context)!.newLabel,
             style: TextStyle(
               fontSize: 9,
               fontWeight: FontWeight.w600,
@@ -866,7 +874,7 @@ class _TradeScreenState extends State<TradeScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Trade Perps',
+                AppLocalizations.of(context)!.tradePerps,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -876,7 +884,7 @@ class _TradeScreenState extends State<TradeScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Trade on an asset\'s future price movements. Add funds to get started.',
+                AppLocalizations.of(context)!.tradePerpsDescription,
                 style: TextStyle(
                   fontSize: 14,
                   color: secondaryTextColor,
@@ -899,7 +907,7 @@ class _TradeScreenState extends State<TradeScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: Text(
-                    'Deposit',
+                    AppLocalizations.of(context)!.deposit,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -917,7 +925,7 @@ class _TradeScreenState extends State<TradeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Markets',
+              AppLocalizations.of(context)!.markets,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -1036,7 +1044,7 @@ class _TradeScreenState extends State<TradeScreen> {
               ),
               const SizedBox(width: 8),
               _buildMemeRushFilterChip(
-                'New',
+                AppLocalizations.of(context)!.newLabel,
                 Icons.settings_outlined,
                 null,
                 1,
@@ -1851,7 +1859,7 @@ class _TradeScreenState extends State<TradeScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _buildSwapCard(
-                  label: 'From',
+                  label: AppLocalizations.of(context)!.from,
                   tokenSymbol: fromSymbol,
                   tokenName: fromChain,
                   amountController: _fromAmountController,
@@ -1879,7 +1887,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 ),
                 const SizedBox(height: 12), // 12px gap between cards
                 _buildSwapCard(
-                  label: 'To',
+                  label: AppLocalizations.of(context)!.to,
                   tokenSymbol: 'TWT',
                   tokenName: 'BNB Smart Chain',
                   amount: _isCalculating ? '...' : (_toAmount > 0 ? _toAmount.toStringAsFixed(8).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '') : '0'),
@@ -2131,7 +2139,8 @@ class _TradeScreenState extends State<TradeScreen> {
     
     // Button is active only when calculation is complete and toAmount is calculated
     final isActive = !_isCalculating && hasValidAmount && _toAmount > 0;
-    final buttonText = _isCalculating ? 'Loading...' : 'Continue';
+    final l10n = AppLocalizations.of(context)!;
+    final buttonText = _isCalculating ? 'Loading...' : l10n.continueButton;
     
     return SizedBox(
       width: double.infinity,

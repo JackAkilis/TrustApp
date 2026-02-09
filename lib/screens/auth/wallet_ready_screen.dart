@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../home/home_screen.dart';
 
 class WalletReadyScreen extends StatefulWidget {
@@ -71,8 +72,8 @@ class _WalletReadyScreenState extends State<WalletReadyScreen> {
                             borderRadius: BorderRadius.circular(999),
                           ),
                         ),
-                        child: const Text(
-                          'Skip',
+                        child: Text(
+                          AppLocalizations.of(context)!.skip,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -87,7 +88,7 @@ class _WalletReadyScreenState extends State<WalletReadyScreen> {
                     child: Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           // Empty wallet GIF above the text
                           SizedBox(
                             height: 160,
@@ -100,7 +101,7 @@ class _WalletReadyScreenState extends State<WalletReadyScreen> {
                           ),
                           SizedBox(height: 24),
                           Text(
-                            'Brilliant, your wallet is ready!',
+                            AppLocalizations.of(context)!.brilliantWalletReady,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 24,
@@ -110,7 +111,7 @@ class _WalletReadyScreenState extends State<WalletReadyScreen> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'Add funds to get started',
+                            AppLocalizations.of(context)!.addFundsToGetStarted,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14,
@@ -136,8 +137,8 @@ class _WalletReadyScreenState extends State<WalletReadyScreen> {
                         ),
                         elevation: 0,
                       ),
-                      child: const Text(
-                        'Fund your wallet',
+                      child: Text(
+                        AppLocalizations.of(context)!.fundYourWallet,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

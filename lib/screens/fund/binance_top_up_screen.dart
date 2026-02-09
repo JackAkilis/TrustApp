@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
@@ -276,7 +277,7 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Receiving payment',
+          AppLocalizations.of(context)!.receivingPayment,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -313,7 +314,7 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
                         controller: _searchController,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          hintText: 'Search',
+                          hintText: AppLocalizations.of(context)!.search,
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: secondaryTextColor,
@@ -340,7 +341,7 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
                   : _filteredCryptoList.isEmpty
                       ? Center(
                           child: Text(
-                            'No cryptocurrencies found',
+                            AppLocalizations.of(context)!.noCryptocurrenciesFound,
                             style: TextStyle(
                               fontSize: 16,
                               color: secondaryTextColor,
@@ -355,7 +356,7 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: Text(
-                                  'Popular',
+                                  AppLocalizations.of(context)!.popular,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -386,7 +387,7 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16),
                                 child: Text(
-                                  'All crypto',
+                                  AppLocalizations.of(context)!.allCrypto,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import 'enter_passcode_screen.dart';
 
 const String _kHasSeenWelcomeKey = 'has_seen_welcome';
@@ -30,14 +31,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final List<String> _messages = const [
-    'Unlock opportunities across 100+ chains',
-    'Earn rewards, buy crypto, swap tokens',
-    'Explore a limitless world of dApps',
-    'Your one-stop Web3 wallet',
-    'Own, control, and leverage the power of your digital assets',
-  ];
-
   int _currentIndex = 0;
   bool _isVisible = true;
   Timer? _timer;
@@ -59,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       Future.delayed(const Duration(seconds: 1), () {
         if (!mounted) return;
         setState(() {
-          _currentIndex = (_currentIndex + 1) % _messages.length;
+          _currentIndex = (_currentIndex + 1) % 5;
           _isVisible = true;
         });
       });
@@ -104,6 +97,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final messages = [
+      l10n.unlockOpportunities100Chains,
+      l10n.earnRewardsBuyCryptoSwapTokens,
+      l10n.exploreLimitlessDapps,
+      l10n.yourOnestopWeb3Wallet,
+      l10n.ownControlLeverageAssets,
+    ];
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -142,7 +143,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             opacity: _isVisible ? 1 : 0,
                             duration: const Duration(milliseconds: 350),
                             child: Text(
-                              _messages[_currentIndex],
+                              messages[_currentIndex],
                               textAlign: TextAlign.left,
                               softWrap: true,
                               overflow: TextOverflow.visible,
@@ -178,7 +179,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                         elevation: 0,
                       ),
-                      child: const Text('Create new wallet'),
+                      child: Text(l10n.createNewWallet),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -195,7 +196,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                         elevation: 0,
                       ),
-                      child: const Text('I already have a wallet'),
+                      child: Text(l10n.iAlreadyHaveWallet),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -208,12 +209,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         height: 1.4,
                       ),
                       children: [
-                        const TextSpan(
-                          text:
-                              'By tapping any button you agree and consent to our\n',
-                        ),
+                        TextSpan(text: l10n.byTappingAgreeTerms),
                         TextSpan(
-                          text: 'Terms of Service',
+                          text: l10n.termsOfService,
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.primaryBlue,
@@ -225,9 +223,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               );
                             },
                         ),
-                        const TextSpan(text: ' and '),
+                        TextSpan(text: l10n.and),
                         TextSpan(
-                          text: 'Privacy Policy.',
+                          text: l10n.privacyPolicy,
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.primaryBlue,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import '../../widgets/bottom_navigation_bar.dart';
 import '../../widgets/token_section.dart';
@@ -119,7 +120,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   const Spacer(),
                   // Title
                   Text(
-                    'Discover',
+                    AppLocalizations.of(context)!.discover,
                     style: TextStyle(
                       color: textColor,
                       fontWeight: FontWeight.w700,
@@ -152,7 +153,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                 color: secondaryTextColor,
                               ),
                               const SizedBox(width: 8),
-                              const Text('History'),
+                              Text(AppLocalizations.of(context)!.swapHistory),
                             ],
                           ),
                         ),
@@ -169,7 +170,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                 color: secondaryTextColor,
                               ),
                               const SizedBox(width: 8),
-                              const Text('Favorites'),
+                              Text(AppLocalizations.of(context)!.favorites),
                             ],
                           ),
                         ),
@@ -208,7 +209,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
-                          hintText: 'Search or enter DApp URL',
+                          hintText: AppLocalizations.of(context)!.searchOrEnterDappUrl,
                           hintStyle: TextStyle(
                             color: secondaryTextColor,
                             fontSize: 14,
@@ -609,13 +610,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         break;
     }
 
+    final l10n = AppLocalizations.of(context)!;
     return TokenSection(
-      title: 'Explore dApps',
+      title: l10n.exploreDapps,
       tabs: const ['Featured', 'BSC', 'DEX', 'Lend'],
       selectedTabIndex: _selectedCategoryIndex,
       subtitle: '',
       items: dAppItems,
-      viewAllText: 'View all >',
+      viewAllText: l10n.seeAll,
       onTabChanged: (index) {
         setState(() {
           _selectedCategoryIndex = index;
@@ -711,7 +713,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 // TODO: Navigate to all latest
               },
               child: Text(
-                'View all >',
+                AppLocalizations.of(context)!.seeAll,
                 style: TextStyle(
                   fontSize: 14,
                   color: textColor,

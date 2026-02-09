@@ -1,0 +1,262 @@
+{
+  "appTitle": { "en": "Trust App", "ko": "Trust App", "vi": "Trust App", "pt": "Trust App" },
+
+  "createNewWallet": { "en": "Create new wallet", "ko": "Create new wallet", "vi": "Create new wallet", "pt": "Create new wallet" },
+  "iAlreadyHaveWallet": { "en": "I already have a wallet", "ko": "I already have a wallet", "vi": "I already have a wallet", "pt": "I already have a wallet" },
+
+  "unlockOpportunities100Chains": { "en": "Unlock opportunities across 100+ chains", "ko": "Unlock opportunities across 100+ chains", "vi": "Unlock opportunities across 100+ chains", "pt": "Unlock opportunities across 100+ chains" },
+  "earnRewardsBuyCryptoSwapTokens": { "en": "Earn rewards, buy crypto, swap tokens", "ko": "Earn rewards, buy crypto, swap tokens", "vi": "Earn rewards, buy crypto, swap tokens", "pt": "Earn rewards, buy crypto, swap tokens" },
+  "exploreLimitlessDapps": { "en": "Explore a limitless world of dApps", "ko": "Explore a limitless world of dApps", "vi": "Explore a limitless world of dApps", "pt": "Explore a limitless world of dApps" },
+  "yourOnestopWeb3Wallet": { "en": "Your one-stop Web3 wallet", "ko": "Your one-stop Web3 wallet", "vi": "Your one-stop Web3 wallet", "pt": "Your one-stop Web3 wallet" },
+  "ownControlLeverageAssets": { "en": "Own, control, and leverage the power of your digital assets", "ko": "Own, control, and leverage the power of your digital assets", "vi": "Own, control, and leverage the power of your digital assets", "pt": "Own, control, and leverage the power of your digital assets" },
+
+  "byTappingAgreeTerms": { "en": "By tapping any button you agree and consent to our\n", "ko": "By tapping any button you agree and consent to our\n", "vi": "By tapping any button you agree and consent to our\n", "pt": "By tapping any button you agree and consent to our\n" },
+
+  "termsOfService": { "en": "Terms of Service", "ko": "서비스 약관", "vi": "Điều khoản Dịch vụ của Binance", "pt": "Termos de Serviço" },
+
+  "and": { "en": " and ", "ko": " and ", "vi": " and ", "pt": " and " },
+
+  "privacyPolicy": { "en": "Privacy Policy.", "ko": "개인 정보 정책", "vi": "Chính sách Quyền riêng tư", "pt": "Política de Privacidade" },
+
+  "enterPasscode": { "en": "Enter passcode", "ko": "비밀번호 입력", "vi": "Nhập mật mã", "pt": "Digite a senha" },
+
+  "confirmPasscode": { "en": "Confirm passcode", "ko": "Confirm passcode", "vi": "Confirm passcode", "pt": "Confirm passcode" },
+  "confirmPasscodeHint": { "en": "Re-enter your passcode. Be sure to remember it so you can unlock your wallet.", "ko": "Re-enter your passcode. Be sure to remember it so you can unlock your wallet.", "vi": "Re-enter your passcode. Be sure to remember it so you can unlock your wallet.", "pt": "Re-enter your passcode. Be sure to remember it so you can unlock your wallet." },
+
+  "loadFailed": { "en": "Load failed", "ko": "Load failed", "vi": "Load failed", "pt": "Load failed" },
+  "walletCreationFailed": { "en": "Wallet Creation Failed", "ko": "Wallet Creation Failed", "vi": "Wallet Creation Failed", "pt": "Wallet Creation Failed" },
+  "returnToHome": { "en": "Return to Home", "ko": "Return to Home", "vi": "Return to Home", "pt": "Return to Home" },
+  "unknownErrorOccurred": { "en": "Unknown error occurred", "ko": "Unknown error occurred", "vi": "Unknown error occurred", "pt": "Unknown error occurred" },
+
+  "skip": { "en": "Skip", "ko": "건너뛰기", "vi": "Bỏ qua", "pt": "Pular" },
+
+  "brilliantWalletReady": { "en": "Brilliant, your wallet is ready!", "ko": "Brilliant, your wallet is ready!", "vi": "Brilliant, your wallet is ready!", "pt": "Brilliant, your wallet is ready!" },
+
+  "addFundsToGetStarted": { "en": "Add funds to get started", "ko": "시작하려면 자금을 추가하세요", "vi": "Nạp tiền để bắt đầu", "pt": "Adicione fundos para começar" },
+
+  "fundYourWallet": { "en": "Fund your wallet", "ko": "지갑에 자금 입금", "vi": "Nạp tiền vào ví của bạn", "pt": "Adiciona fundos à tua carteira" },
+
+  "mainWallet": { "en": "Main Wallet", "ko": "Main Wallet", "vi": "Main Wallet", "pt": "Main Wallet" },
+
+  "send": { "en": "Send", "ko": "전송", "vi": "Gửi", "pt": "Enviar" },
+  "fund": { "en": "Fund", "ko": "자금", "vi": "Quỹ", "pt": "Adicionar fundos" },
+  "swap": { "en": "Swap", "ko": "스왑", "vi": "Hoán đổi", "pt": "Swap" },
+  "sell": { "en": "Sell", "ko": "판매", "vi": "Bán", "pt": "Vender" },
+  "earn": { "en": "Earn", "ko": "Earn", "vi": "Earn", "pt": "Earn" },
+  "myEarnPortfolio": { "en": "My Earn portfolio", "ko": "내 수익 창출 포트폴리오", "vi": "Danh mục đầu tư Earn của tôi", "pt": "My Earn portfolio" },
+  "totalStakedRewards": { "en": "Total staked + rewards", "ko": "총 스테이킹 + 보상", "vi": "Tổng đã stake + phần thưởng", "pt": "Total staked + rewards" },
+  "yourEarningAssetsWillAppearHere": { "en": "Your earning assets will appear here.", "ko": "수익 자산은 여기에 표시됩니다.", "vi": "Tài sản đang sinh lời của bạn sẽ xuất hiện ở đây.", "pt": "Your earning assets will appear here." },
+  "stablecoinEarn": { "en": "Stablecoin Earn", "ko": "스테이블코인 수익 창출", "vi": "Kiếm tiền ổn định", "pt": "Stablecoin Earn" },
+  "nativeStaking": { "en": "Native Staking", "ko": "네이티브 스테이킹", "vi": "Staking gốc", "pt": "Native Staking" },
+  "upToPercent": { "en": "up to {percent}%", "ko": "최대 {percent}%", "vi": "lên đến {percent}%", "pt": "up to {percent}%" },
+
+  "home": { "en": "Home", "ko": "홈", "vi": "Trang chủ", "pt": "Página" },
+  "trending": { "en": "Trending", "ko": "인기", "vi": "Thịnh hành", "pt": "Em alta" },
+  "trade": { "en": "Trade", "ko": "거래", "vi": "Giao dịch", "pt": "trade" },
+  "rewards": { "en": "Rewards", "ko": "보상", "vi": "Phần thưởng", "pt": "Recompensas" },
+  "discover": { "en": "Discover", "ko": "탐색", "vi": "Khám phá", "pt": "Descubra" },
+  "searchOrEnterDappUrl": { "en": "Search or enter dApp URL", "ko": "디앱  URL  검색 또는 입력", "vi": "Tìm kiếm hoặc nhập URL của DApp", "pt": "Pesquise ou insira o URL do dApp" },
+  "exploreDapps": { "en": "Explore dApps", "ko": "dApps 살펴보기", "vi": "Khám phá dApps", "pt": "Explore dApps" },
+  "swapHistory": { "en": "Swap history", "ko": "스왑 내역", "vi": "Lịch sử swap", "pt": "Histórico de swap" },
+  "favorites": { "en": "Favorites", "ko": "즐겨찾기", "vi": "Yêu thích", "pt": "Favoritos" },
+  "seeAll": { "en": "See All", "ko": "모두 보기", "vi": "Xem tất cả", "pt": "Ver tudo" },
+
+  "backUpToSecureAssets": { "en": "Back up to secure your assets", "ko": "Back up to secure your assets", "vi": "Back up to secure your assets", "pt": "Back up to secure your assets" },
+  "backUpWallet": { "en": "Back up wallet →", "ko": "Back up wallet →", "vi": "Back up wallet →", "pt": "Back up wallet →" },
+
+  "crypto": { "en": "Crypto", "ko": "Crypto", "vi": "Tiền mã hóa", "pt": "Crypto" },
+  "prediction": { "en": "Prediction", "ko": "예측", "vi": "Dự đoán", "pt": "Previsão" },
+  "predictionsNew": { "en": "Predictions New", "ko": "예측 시장 （ 새로운）", "vi": "Dự đoán New", "pt": "Predictions New" },
+  "memeRush": { "en": "Meme Rush", "ko": "밈 러시", "vi": "Meme Rush", "pt": "Meme Rush" },
+  "buy": { "en": "Buy", "ko": "구매", "vi": "Mua", "pt": "Comprar" },
+  "watchlist": { "en": "Watchlist", "ko": "관심 목록", "vi": "Danh sách theo dõi", "pt": "Lista de observação" },
+  "nfts": { "en": "NFTs", "ko": "NFTs", "vi": "NFTs", "pt": "NFTs" },
+  "approvals": { "en": "Approvals", "ko": "Approvals", "vi": "Approvals", "pt": "Approvals" },
+
+  "manageCrypto": { "en": "Manage crypto", "ko": "가상자산 관리", "vi": "Quản lý tiền mã hóa", "pt": "Gerenciar cripto" },
+  "browsePredictions": { "en": "Browse Predictions", "ko": "예측 둘러보기", "vi": "Xem dự đoán", "pt": "Explorar previsões" },
+  "watchlistWelcome": { "en": "Welcome to Watchlist! Save your favorite crypto to keep up with price movements.", "ko": "관심 목록에 오신 것을 환영합니다! 가격 변동을 확인하려면 좋아하는 암호화폐를 저장하세요.", "vi": "Chào mừng đến với Danh sách theo dõi! Lưu các mã hóa yêu thích để theo dõi biến động giá.", "pt": "Bem-vindo à Lista de observação! Guarde as suas criptomoedas favoritas para acompanhar os movimentos de preços." },
+  "createList": { "en": "Create list", "ko": "목록 만들기", "vi": "Tạo danh sách", "pt": "Criar lista" },
+  "noNftsYet": { "en": "No NFTs yet. Purchased or received NFTs will show up here.", "ko": "아직 NFT가 없습니다. 구매하거나 받은 NFT가 여기에 표시됩니다.", "vi": "Chưa có NFT. NFT đã mua hoặc nhận sẽ hiển thị ở đây.", "pt": "Ainda não tem NFTs. Os NFTs comprados ou recebidos aparecerão aqui." },
+  "receiveNfts": { "en": "Receive NFTs", "ko": "NFT 받기", "vi": "Nhận NFT", "pt": "Receber NFTs" },
+  "noActiveApprovals": { "en": "You have no active approvals", "ko": "활성 승인 없음", "vi": "Bạn chưa có phê duyệt nào", "pt": "Não tem aprovações ativas" },
+
+  "topMovers": { "en": "Top movers", "ko": "최고 상승", "vi": "Top biến động", "pt": "Principais movimentações" },
+  "memes": { "en": "Memes", "ko": "밈", "vi": "Memes", "pt": "Memes" },
+  "rwas": { "en": "RWAs", "ko": "RWAs", "vi": "RWAs", "pt": "RWAs" },
+  "ai": { "en": "AI", "ko": "AI", "vi": "AI", "pt": "AI" },
+
+  "top": { "en": "Top", "ko": "상위", "vi": "Top", "pt": "Top" },
+  "bnb": { "en": "BNB", "ko": "BNB", "vi": "BNB", "pt": "BNB" },
+  "eth": { "en": "ETH", "ko": "ETH", "vi": "ETH", "pt": "ETH" },
+
+  "topMemeCoinsSubtitle": { "en": "Top Meme coins and tokens (24h % price gain)", "ko": "Top Meme coins and tokens (24h % price gain)", "vi": "Top Meme coins and tokens (24h % price gain)", "pt": "Top Meme coins and tokens (24h % price gain)" },
+  "realWorldAssetsSubtitle": { "en": "Real-world assets (tokenized securities)", "ko": "Real-world assets (tokenized securities)", "vi": "Real-world assets (tokenized securities)", "pt": "Real-world assets (tokenized securities)" },
+  "aiPoweredTokensSubtitle": { "en": "AI-powered tokens (24h % price gain)", "ko": "AI-powered tokens (24h % price gain)", "vi": "AI-powered tokens (24h % price gain)", "pt": "AI-powered tokens (24h % price gain)" },
+
+  "viewAll": { "en": "View all >", "ko": "전체 보기", "vi": "Xem tất cả", "pt": "Ver tudo" },
+
+  "popularTokens": { "en": "Popular tokens", "ko": "인기 토큰", "vi": "Token phổ biến", "pt": "Tokens populares" },
+
+  "topTokensByMarketCap": { "en": "Top tokens by total market cap", "ko": "시가 총액 기준 상위 토큰", "vi": "Top Token theo tổng mức vốn hóa thị trường", "pt": "Os principais tokens por capitalização de mercado total" },
+
+  "new": { "en": "New", "ko": "New", "vi": "New", "pt": "New" },
+  "perps": { "en": "Perps", "ko": "무기한 선물", "vi": "Vĩnh cửu", "pt": "Perps" },
+
+  "tradeMarketMoves100Pairs": { "en": "Trade market moves with over 100 pairs", "ko": "Trade market moves with over 100 pairs", "vi": "Trade market moves with over 100 pairs", "pt": "Negocie movimentos do mercado com mais de 100 pares" },
+
+  "howPerpsWork": { "en": "How perps work?", "ko": "무기한 선물은 어떻게 작동하나요?", "vi": "Cách hợp đồng vĩnh cửu hoạt động", "pt": "How perps work?" },
+
+  "learnPerpsLongShort": { "en": "Learn how to go long or short in minutes.", "ko": "몇 분 안에 롱 또는 숏으로 거래하는 방법을 알아보세요", "vi": "Học cách mở vị thế Long hoặc Short sau vài phút", "pt": "Aprenda a ir comprado ou vendido em minutos" },
+
+  "upTo100xLeverage": { "en": "Up to 100x leverage", "ko": "Up to 100x leverage", "vi": "Up to 100x leverage", "pt": "Up to 100x leverage" },
+
+  "tradeOnYourKnowledge": { "en": "Trade on your knowledge", "ko": "Trade on your knowledge", "vi": "Trade on your knowledge", "pt": "Trade on your knowledge" },
+
+  "cryptoWinterQuestion": { "en": "Crypto Winter is coming?", "ko": "Crypto Winter is coming?", "vi": "Crypto Winter is coming?", "pt": "Crypto Winter is coming?" },
+
+  "inProgress": { "en": "In Progress", "ko": "In Progress", "vi": "In Progress", "pt": "In Progress" },
+  "alphaTokens": { "en": "Alpha tokens", "ko": "Alpha tokens", "vi": "Alpha tokens", "pt": "Alpha tokens" },
+  "trustPremium": { "en": "Trust Premium", "ko": "Trust Premium", "vi": "Trust Premium", "pt": "Trust Premium" },
+  "levelUp": { "en": "Level up", "ko": "레벨업", "vi": "Thăng cấp", "pt": "Subir de nível" },
+  "welcomeToTrustPremium": { "en": "Welcome to Trust Premium", "ko": "Trust Premium에 오신 것을 환영합니다", "vi": "Chào mừng đến với Trust Premium", "pt": "Bem-vindo(a) ao Trust Premium" },
+  "getStarted": { "en": "Get Started", "ko": "시작하기", "vi": "Hãy bắt đầu", "pt": "Comece agora" },
+  "begin": { "en": "Begin", "ko": "시작하기", "vi": "Bắt đầu", "pt": "Começar" },
+  "useEarnLevelUp": { "en": "Use. Earn. Level Up", "ko": "사용하고, 적립하세요. 레벨업", "vi": "Sử dụng. Kiếm. Lên cấp", "pt": "Gold gets you maximum benefits" },
+  "trustPremiumOnboardingGoldDescription": { "en": "Complete tasks inside Trust Premium to earn XP. Level up and unlock rewards as you go.\n\nBronze -> Silver -> Gold\n\nHigher tiers = more perks, better access.", "ko": "Trust Premium 과제를 완료하면 XP 적립을 완료할 수 있습니다. 레벨을 올리고 더 많은 보상을 받으세요.\n\n청동 -> 은 -> 금\n\n높은 등급 = 더 많은 혜택, 더 많은 접근 권한.", "vi": "Hoàn thành các nhiệm vụ trong Trust Premium để kiếm XP. Thăng cấp và mở khóa phần thưởng khi bạn tiếp tục.\nĐồng → Bạc Vàng\nCấp bậc cao hơn = nhiều đặc quyền hơn, khả\nnăng truy cập tốt hơn.", "pt": "Better benefits at every tier. Your daily check-ins, swaps and transfers earn XP. Level up to unlock 50% fee discounts, zero-gas swaps and membership-exclusive access." },
+  "next": { "en": "Next", "ko": "다음", "vi": "Tiếp theo", "pt": "Próximo" },
+  "boostWithTwt": { "en": "Boost With TWT", "ko": "TWT로 부스트", "vi": "Tăng tốc với TWT", "pt": "Lock TWT to level up faster" },
+  "boostWithTwtDescription": { "en": "Hold or lock TWT to multiply your XP and climb levels faster. Your loyalty now powers your wallet and token growth.", "ko": "TWT를 보유하거나 락업하면 XP가 증가하고 레벨이 더 빨리 올라갑니다. 이제 귀하의 로열티를 통해 지갑\n\n과 토큰 성장이 더 크게 성장합니다.", "vi": "Nắm giữ hoặc khóa TWT để nhân số XP của bạn và thăng cấp nhanh hơn. Sự gắn bó của bạn giờ đây thúc đẩy sự phát triển của ví và token của bạn.", "pt": "Hold or lock TWT to multiply your XP and climb levels faster. Your loyalty now powers your wallet and token growth." },
+  "keepMovingToKeepYourTier": { "en": "Keep moving to keep your tier", "ko": "최고가 되세요. 더 많이 적립하세요", "vi": "Giữ vững vị trí dẫn đầu.\nKiếm nhiều hơn", "pt": "Keep moving to keep your tier" },
+  "trustPremiumKeepActiveDescription": { "en": "We track your XP and locked TWT over the last 14 days. Keep up your progress to maintain your level — you'll have 14 days before it resets.", "ko": "지난 14일 동안 귀하의 XP 및 락업된 TWT를 추적합니다. 레벨을 유지하려면 계속 성장하세요. 레벨이 초기화되기까지 14일 남았습니다.", "vi": "Chúng tôi theo dõi XP và lượng TWT đã khóa của bạn trong 14 ngày qua. Tiếp tục tiến độ để duy trì cấp độ của bạn. Bạn sẽ có 14 ngày trước khi cấp độ được đặt lại.", "pt": "Your membership is based on the last 14 days of activity and locked TWT. Stay active to maintain access – if you drop off, you'll have 14 days before your membership resets." },
+  "earnSection": { "en": "Earn", "ko": "수익", "vi": "Kiếm tiền", "pt": "Ganhar" },
+
+  "pastPerformanceDisclaimer": { "en": "Past performance is not a reliable indicator of future results. Data source is from CoinMarketCap. ", "ko": "과거의 실적이 미래의 결과를 담보하지는 않습니다.", "vi": "Hiệu suất trong quá khứ không phải là chỉ số đáng tin cậy để xác định hiệu suất trong tương lai.", "pt": "O desempenho passado não é um indicador fiável de resultados futuros." },
+
+  "subjectToTerms": { "en": "Subject to our Terms", "ko": "당사 약관을 따릅니다", "vi": "Tuân thủ Điều khoản của chúng tôi", "pt": "Sujeito aos nossos Termos" },
+
+  "settings": { "en": "Settings", "ko": "Settings", "vi": "Settings", "pt": "Settings" },
+
+  "darkMode": { "en": "Dark Mode", "ko": "다크 모드", "vi": "Chế độ Tối", "pt": "Modo Escuro" },
+
+  "addressBook": { "en": "Address Book", "ko": "주소록", "vi": "Sổ địa chỉ", "pt": "Livro de Endereços" },
+
+  "syncToExtension": { "en": "Sync to Extension", "ko": "확장 프로그램과 동기화", "vi": "Đồng bộ hóa với tiện ích mở rộng", "pt": "Sincronizar com a extensão" },
+
+  "trustHandles": { "en": "Trust handles", "ko": "Trust 핸들", "vi": "Tên người dùng Trust", "pt": "Identificadores Trust" },
+
+  "scanQrCode": { "en": "Scan QR code", "ko": "QR 코드 스캔", "vi": "Quét mã QR", "pt": "Ler código QR" },
+
+  "walletConnect": { "en": "WalletConnect", "ko": "WalletConnect", "vi": "WalletConnect", "pt": "WalletConnect" },
+
+  "preferences": { "en": "Preferences", "ko": "환경설정", "vi": "Ưa thích", "pt": "Preferências" },
+
+  "security": { "en": "Security", "ko": "보안", "vi": "Bảo mật", "pt": "Segurança" },
+
+  "notifications": { "en": "Notifications", "ko": "알림", "vi": "Thông báo", "pt": "Notificações" },
+
+  "helpCenter": { "en": "Help Center", "ko": "도움말 센터", "vi": "Trung tâm Trợ giúp", "pt": "Centro de Ajuda" },
+
+  "support": { "en": "Support", "ko": "고객 지원", "vi": "Hỗ trợ", "pt": "Apoio ao Cliente" },
+
+  "about": { "en": "About", "ko": "소개", "vi": "Giới thiệu", "pt": "Sobre" },
+
+  "currency": { "en": "Currency", "ko": "통화", "vi": "Loại tiền tệ", "pt": "Moeda" },
+
+  "appLanguage": { "en": "App Language", "ko": "앱 언어", "vi": "Ngôn ngữ ứng dụng", "pt": "Idioma do aplicativo" },
+
+  "englishUnitedKingdom": { "en": "English (United Kingdom)", "ko": "한국어 (대한민국)", "vi": "Tiếng Việt (Việt Nam)", "pt": "Português (Brasil)" },
+
+  "dappBrowser": { "en": "DApp Browser", "ko": "DApp Browser", "vi": "DApp Browser", "pt": "DApp Browser" },
+  "nodeSetting": { "en": "Node Setting", "ko": "Node Setting", "vi": "Node Setting", "pt": "Node Setting" },
+  "unlockUixos": { "en": "Unlock UIXOs", "ko": "Unlock UIXOs", "vi": "Unlock UIXOs", "pt": "Unlock UIXOs" },
+
+  "passcode": { "en": "Passcode", "ko": "Passcode", "vi": "Passcode", "pt": "Passcode" },
+  "autoLock": { "en": "Auto-lock", "ko": "Auto-lock", "vi": "Auto-lock", "pt": "Auto-lock" },
+  "lockMethod": { "en": "Lock method", "ko": "Lock method", "vi": "Lock method", "pt": "Lock method" },
+  "transactionSigning": { "en": "Transaction signing", "ko": "Transaction signing", "vi": "Transaction signing", "pt": "Transaction signing" },
+  "askApprovalAheadTransactions": { "en": "Ask for approval ahead of transactions.", "ko": "Ask for approval ahead of transactions.", "vi": "Ask for approval ahead of transactions.", "pt": "Ask for approval ahead of transactions." },
+  "immediate": { "en": "Immediate", "ko": "Immediate", "vi": "Immediate", "pt": "Immediate" },
+  "leaveMoreThan1Minute": { "en": "Leave for more than 1 minute", "ko": "Leave for more than 1 minute", "vi": "Leave for more than 1 minute", "pt": "Leave for more than 1 minute" },
+  "leaveMoreThan5Minute": { "en": "Leave for more than 5 minute", "ko": "Leave for more than 5 minute", "vi": "Leave for more than 5 minute", "pt": "Leave for more than 5 minute" },
+  "leaveMoreThan1Hour": { "en": "Leave for more than 1 hour", "ko": "Leave for more than 1 hour", "vi": "Leave for more than 1 hour", "pt": "Leave for more than 1 hour" },
+  "leaveMoreThan5Hour": { "en": "Leave for more than 5 hour", "ko": "Leave for more than 5 hour", "vi": "Leave for more than 5 hour", "pt": "Leave for more than 5 hour" },
+
+  "selectNetwork": { "en": "Select network", "ko": "네트워크 선택", "vi": "Chọn mạng lưới", "pt": "Selecionar rede" },
+
+  "search": { "en": "Search", "ko": "검색", "vi": "Tìm kiếm", "pt": "Pesquisar" },
+
+  "multiCoinWallet": { "en": "Multi-coin wallet", "ko": "Multi-coin wallet", "vi": "Multi-coin wallet", "pt": "Multi-coin wallet" },
+  "recommended": { "en": "Recommended", "ko": "Recommended", "vi": "Recommended", "pt": "Recommended" },
+
+  "wallets": { "en": "Wallets", "ko": "지갑", "vi": "Ví", "pt": "Carteiras" },
+  "noWalletsFound": { "en": "No wallets found", "ko": "No wallets found", "vi": "No wallets found", "pt": "No wallets found" },
+  "addWallet": { "en": "Add wallet", "ko": "지갑 추가", "vi": "Thêm ví", "pt": "Adicionar carteira" },
+
+  "fundYourWalletTitle": { "en": "Fund your wallet", "ko": "지갑에 자금 입금", "vi": "Nạp tiền vào ví của bạn", "pt": "Adiciona fundos à tua carteira" },
+  "recommendedForYou": { "en": "Recommended for you", "ko": "Recommended for you", "vi": "Recommended for you", "pt": "Recommended for you" },
+  "googlePay": { "en": "Google Pay", "ko": "Google Pay", "vi": "Google Pay", "pt": "Google Pay" },
+  "allOptions": { "en": "All options", "ko": "모든 옵션", "vi": "Tất cả tùy chọn", "pt": "Todas as opções" },
+  "allPaymentMethods": { "en": "All payment methods", "ko": "All payment methods", "vi": "All payment methods", "pt": "All payment methods" },
+  "p2p": { "en": "P2P", "ko": "P2P", "vi": "P2P", "pt": "P2P" },
+  "exchange": { "en": "Exchange", "ko": "거래소", "vi": "Giao dịch", "pt": "Exchange" },
+  "cryptoWallet": { "en": "Crypto wallet", "ko": "Crypto wallet", "vi": "Crypto wallet", "pt": "Crypto wallet" },
+
+  "selectCrypto": { "en": "Select Crypto", "ko": "가상자산 선택", "vi": "Chọn tiền mã hóa", "pt": "Selecionar criptomoeda" },
+  "allNetworks": { "en": "All Networks", "ko": "모든 네트워크", "vi": "Tất cả các mạng lưới", "pt": "Todas as redes" },
+  "top100": { "en": "Top 100", "ko": "상위 100개", "vi": "Top 100", "pt": "Top 100" },
+  "stables": { "en": "Stables", "ko": "스테이블", "vi": "Cố định", "pt": "Estáveis" },
+  "selectMethod": { "en": "Select a method", "ko": "방법 선택", "vi": "Chọn một phương thức", "pt": "Seleciona um método" },
+  "depositFromBinance": { "en": "Deposit from Binance", "ko": "Binance에서 입금", "vi": "Nạp tiền từ Binance", "pt": "Depósito da Binance" },
+  "depositFromCoinbase": { "en": "Deposit from Coinbase", "ko": "Coinbase에서 입금", "vi": "Nạp tiền từ Coinbase", "pt": "Depósito a partir de Coinbase" },
+  "topUpWallet": { "en": "Top-up Wallet", "ko": "지갑 충전", "vi": "Nạp tiền vào ví", "pt": "Carteira de top-up" },
+  "availableToKhrPair": { "en": "Available to KHR pair", "ko": "KHR 페어에서 사용 가능", "vi": "Dành cho cặp KHR", "pt": "Disponível para o par KHR" },
+  "allCrypto": { "en": "All crypto", "ko": "All crypto", "vi": "All crypto", "pt": "All crypto" },
+  "popular": { "en": "Popular", "ko": "인기", "vi": "Phổ biến", "pt": "Popular" },
+  "noCryptocurrenciesFound": { "en": "No cryptocurrencies found", "ko": "No cryptocurrencies found", "vi": "No cryptocurrencies found", "pt": "No cryptocurrencies found" },
+  "receivingPayment": { "en": "Receiving payment", "ko": "Receiving payment", "vi": "Receiving payment", "pt": "Receiving payment" },
+
+  "secretPhrase": { "en": "Secret phrase", "ko": "Secret phrase", "vi": "Secret phrase", "pt": "Secret phrase" },
+  "showDetails": { "en": "Show details", "ko": "Show details", "vi": "Show details", "pt": "Show details" },
+  "swift": { "en": "Swift", "ko": "Swift", "vi": "Swift", "pt": "Swift" },
+  "beta": { "en": "Beta", "ko": "Beta", "vi": "Beta", "pt": "Beta" },
+  "walletName": { "en": "Wallet name", "ko": "Wallet name", "vi": "Wallet name", "pt": "Wallet name" },
+  "typically12Words": { "en": "Typically 12 (sometimes 18, 24) words separated by single spaces.", "ko": "Typically 12 (sometimes 18, 24) words separated by single spaces.", "vi": "Typically 12 (sometimes 18, 24) words separated by single spaces.", "pt": "Typically 12 (sometimes 18, 24) words separated by single spaces." },
+  "paste": { "en": "Paste", "ko": "Paste", "vi": "Paste", "pt": "Paste" },
+  "restoreWallet": { "en": "Restore wallet", "ko": "Restore wallet", "vi": "Restore wallet", "pt": "Restore wallet" },
+  "whatIsSecretPhrase": { "en": "What is a secret phrase?", "ko": "What is a secret phrase?", "vi": "What is a secret phrase?", "pt": "What is a secret phrase?" },
+
+  "noAssetsFound": { "en": "No assets found", "ko": "No assets found", "vi": "No assets found", "pt": "No assets found" },
+  "addressCopiedToClipboard": { "en": "Address copied to clipboard", "ko": "Address copied to clipboard", "vi": "Address copied to clipboard", "pt": "Address copied to clipboard" },
+
+  "receive": { "en": "Receive", "ko": "수령", "vi": "Nhận", "pt": "Receber" },
+
+  "close": { "en": "Close", "ko": "Close", "vi": "Close", "pt": "Close" },
+
+  "memeTokensDisclaimer": { "en": "Meme tokens can be fun but also volatile. Always do your own research and trade carefully.", "ko": "Meme tokens can be fun but also volatile. Always do your own research and trade carefully.", "vi": "Meme tokens can be fun but also volatile. Always do your own research and trade carefully.", "pt": "Meme tokens can be fun but also volatile. Always do your own research and trade carefully." },
+
+  "continue": { "en": "Continue", "ko": "계속하기", "vi": "Tiếp tục", "pt": "Continuar" },
+
+  "tradePerps": { "en": "Trade Perps", "ko": "Trade Perps", "vi": "Giao dịch Hợp đồng tương lai vĩnh cửu", "pt": "trade" },
+  "tradePerpsDescription": { "en": "Trade on an asset's future price movements. Add funds to get started.", "ko": "Trade on an asset's future price movements. Add funds to get started.", "vi": "Giao dịch trên biến động giá tương lai của tài sản. Nạp thêm tiền để bắt đầu.", "pt": "Negocie com base nos movimentos futuros de preço de um ativo. Adicione fundos para começar." },
+
+  "deposit": { "en": "Deposit", "ko": "입금", "vi": "Thị trường", "pt": "Depositar" },
+  "markets": { "en": "Markets", "ko": "마켓", "vi": "Markets", "pt": "Markets" },
+  "noMarketsAvailable": { "en": "No markets available", "ko": "No markets available", "vi": "No markets available", "pt": "No markets available" },
+  "age": { "en": "Age", "ko": "Age", "vi": "Age", "pt": "Age" },
+  "holders": { "en": "Holders", "ko": "Holders", "vi": "Holders", "pt": "Holders" },
+  "score": { "en": "Score", "ko": "Score", "vi": "Score", "pt": "Score" },
+  "mcap": { "en": "MCap", "ko": "MCap", "vi": "MCap", "pt": "MCap" },
+  "positionsValueUsd": { "en": "Positions value (USD)", "ko": "Positions value (USD)", "vi": "Positions value (USD)", "pt": "Positions value (USD)" },
+  "viewMyPositions": { "en": "View my positions", "ko": "View my positions", "vi": "View my positions", "pt": "View my positions" },
+  "searchMarkets": { "en": "Search markets", "ko": "Search markets", "vi": "Search markets", "pt": "Search markets" },
+
+  "from": { "en": "From", "ko": "전환 자산", "vi": "Từ", "pt": "De" },
+
+  "to": { "en": "To", "ko": "수령 자산", "vi": "Đến", "pt": "Para" },
+
+  "trendingTokens": { "en": "Trending tokens", "ko": "Trending tokens", "vi": "Trending tokens", "pt": "Trending tokens" },
+  "availableToCurrencyPair": { "en": "Available to {currency} pair", "ko": "Available to {currency} pair", "vi": "Available to {currency} pair", "pt": "Available to {currency} pair" },
+
+  "all": { "en": "All", "ko": "전체", "vi": "Tất cả", "pt": "Tudo" }
+}

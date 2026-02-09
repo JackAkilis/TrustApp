@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
 import 'binance_top_up_screen.dart';
 
@@ -30,7 +31,7 @@ class TopUpWalletScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Top-up Wallet',
+          AppLocalizations.of(context)!.topUpWallet,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -45,7 +46,7 @@ class TopUpWalletScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Please select one method',
+              AppLocalizations.of(context)!.selectMethod,
               style: TextStyle(
                 fontSize: 14,
                 color: secondaryTextColor,
@@ -61,7 +62,7 @@ class TopUpWalletScreen extends StatelessWidget {
                 children: [
                   _TopUpRow(
                     iconPath: 'assets/icons/binance.png',
-                    title: 'Top up from Binance',
+                    title: AppLocalizations.of(context)!.depositFromBinance,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -73,7 +74,7 @@ class TopUpWalletScreen extends StatelessWidget {
                   ),
                   _TopUpRow(
                     iconPath: 'assets/icons/coinbase.png',
-                    title: 'Deposit from Coinbase',
+                    title: AppLocalizations.of(context)!.depositFromCoinbase,
                     onTap: () {
                       // TODO: Implement Coinbase deposit flow
                     },

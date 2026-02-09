@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
-import '../receive/receive_screen.dart';
+import '../receive/select_crypto_screen.dart';
 import 'top_up_wallet_screen.dart';
 import 'gpay_select_crypto_screen.dart';
 import 'p2p_screen.dart';
@@ -34,7 +35,7 @@ class FundWalletScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Fund your wallet',
+          AppLocalizations.of(context)!.fundYourWallet,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -49,7 +50,7 @@ class FundWalletScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Recommended for you',
+              AppLocalizations.of(context)!.recommendedForYou,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -113,7 +114,7 @@ class FundWalletScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'All options',
+              AppLocalizations.of(context)!.allOptions,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -135,7 +136,7 @@ class FundWalletScreen extends StatelessWidget {
                       child: _buildOptionRow(
                         context,
                         icon: Icons.credit_card,
-                        label: 'All payment methods',
+                        label: AppLocalizations.of(context)!.allPaymentMethods,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -150,7 +151,7 @@ class FundWalletScreen extends StatelessWidget {
                       child: _buildOptionRow(
                         context,
                         icon: Icons.group,
-                        label: 'P2P',
+                        label: AppLocalizations.of(context)!.p2p,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -165,7 +166,7 @@ class FundWalletScreen extends StatelessWidget {
                       child: _buildOptionRow(
                         context,
                         icon: Icons.swap_horiz,
-                        label: 'Exchange',
+                        label: AppLocalizations.of(context)!.exchange,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -180,12 +181,12 @@ class FundWalletScreen extends StatelessWidget {
                       child: _buildOptionRow(
                         context,
                         icon: Icons.qr_code_2,
-                        label: 'Crypto wallet',
+                        label: AppLocalizations.of(context)!.cryptoWallet,
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ReceiveScreen(),
+                              builder: (context) => const SelectCryptoScreen(),
                             ),
                           );
                         },

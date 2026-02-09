@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class PageFailedScreen extends StatelessWidget {
   final String errorMessage;
   
@@ -19,8 +21,8 @@ class PageFailedScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Load failed',
+        title: Text(
+          AppLocalizations.of(context)!.loadFailed,
           style: TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -57,8 +59,8 @@ class PageFailedScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              const Text(
-                'Wallet Creation Failed',
+              Text(
+                AppLocalizations.of(context)!.walletCreationFailed,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
@@ -90,8 +92,8 @@ class PageFailedScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
-                    'Return to Home',
+                  child: Text(
+                    AppLocalizations.of(context)!.returnToHome,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
