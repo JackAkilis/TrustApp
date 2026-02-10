@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
+import '../../widgets/token_image.dart';
 import '../../widgets/chain_selector.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
@@ -51,38 +52,45 @@ class _SendScreenState extends State<SendScreen> {
         return;
       }
 
-      final response = await ApiService.getWalletBalances(walletId);
+      // Use getWalletSummary (same data source as receive/select crypto) so assets show consistently
+      final response = await ApiService.getWalletSummary(walletId);
 
       if (response['success'] == true && response['data'] != null) {
         final data = response['data'];
-        final balances = data['balances'] as List<dynamic>? ?? [];
+        final chains = data['chains'] as List<dynamic>? ?? [];
 
         final List<Map<String, dynamic>> assets = [];
+        final Set<String> addedKeys = {};
 
-        for (var balanceData in balances) {
+        for (var chainData in chains) {
           try {
-            final balanceStr = balanceData['balance']?.toString() ?? '0';
-            final humanReadableBalance = double.tryParse(balanceStr) ?? 0.0;
+            final chainName = chainData['chain']?.toString() ?? '';
+            final symbol = (chainData['symbol']?.toString() ?? '').toUpperCase();
+            final balanceRaw = chainData['balance']?.toString() ?? '0';
+            final decimals = chainData['decimals'] as int? ?? 18;
 
-            if (humanReadableBalance <= 0) {
-              continue;
-            }
+            if (symbol.isEmpty || chainName.isEmpty) continue;
 
-            final symbol = (balanceData['symbol']?.toString() ?? '').toUpperCase();
-            final chain = balanceData['chain']?.toString() ?? '';
-            if (symbol.isEmpty || chain.isEmpty) continue;
+            final key = chainData['isToken'] == true ? '${chainName}_$symbol' : chainName;
+            if (addedKeys.contains(key)) continue;
+            addedKeys.add(key);
 
-            // Get USD price
+            final balanceNum = double.tryParse(balanceRaw) ?? 0.0;
+            final divisor = double.parse('1${'0' * decimals}');
+            final humanReadableBalance = balanceNum / divisor;
+
+            if (humanReadableBalance <= 0) continue;
+
             final priceInfo = await ApiService.getTokenPriceWithChange(symbol);
             final priceUsd = priceInfo?['priceUsd'] ?? 0.0;
             final balanceUsd = humanReadableBalance * priceUsd;
 
             assets.add({
               'symbol': symbol,
-              'chain': chain,
+              'chain': chainName,
               'balance': humanReadableBalance,
               'balanceUsd': balanceUsd,
-              'icon': _getChainIcon(chain),
+              'icon': _getChainIcon(chainName),
             });
           } catch (e) {
             continue;
@@ -139,6 +147,27 @@ class _SendScreenState extends State<SendScreen> {
       return 'Avalanche';
     }
     return chain;
+  }
+
+  String _getChainKeyForTokenImage(String chain) {
+    final chainUpper = chain.toUpperCase();
+    if (chainUpper.contains('BITCOIN') || chainUpper == 'BTC') return 'bitcoin';
+    if (chainUpper.contains('ETHEREUM') || chainUpper == 'ETH') return 'ethereum';
+    if (chainUpper.contains('SOLANA') || chainUpper == 'SOL') return 'solana';
+    if (chainUpper.contains('BSC') || chainUpper.contains('BNB')) return 'bsc';
+    if (chainUpper.contains('TRON') || chainUpper == 'TRX') return 'tron';
+    if (chainUpper.contains('AVALANCHE') || chainUpper == 'AVAX') return 'avalanche';
+    return chain.toLowerCase();
+  }
+
+  bool _isStablecoinToken(String symbol) =>
+      symbol.toUpperCase() == 'USDT' || symbol.toUpperCase() == 'USDC';
+
+  String? _getTokenIconAsset(String symbol) {
+    final s = symbol.toUpperCase();
+    if (s == 'USDT') return 'usdt.png';
+    if (s == 'USDC') return 'usdc.png';
+    return null;
   }
 
   List<Map<String, dynamic>> get _filteredAssets {
@@ -316,8 +345,10 @@ class _SendScreenState extends State<SendScreen> {
     final chain = asset['chain'] as String;
     final balance = asset['balance'] as double;
     final balanceUsd = asset['balanceUsd'] as double;
-    final iconPath = asset['icon'] as String;
     final chainName = _getChainName(chain);
+    final chainKey = _getChainKeyForTokenImage(chain);
+    final isStablecoin = _isStablecoinToken(symbol);
+    final tokenIconAsset = _getTokenIconAsset(symbol);
 
     return InkWell(
                       onTap: () {
@@ -327,34 +358,12 @@ class _SendScreenState extends State<SendScreen> {
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
-            // Icon
-            Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/chain_icons/$iconPath',
-                width: 40,
-                height: 40,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: grayColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.circle,
-                      color: secondaryTextColor,
-                      size: 20,
-                    ),
-                  );
-                },
-              ),
+            // Icon: USDT/USDC show token icon + chain overlay; others show chain icon only
+            TokenImage(
+              isNativeToken: !isStablecoin,
+              chain: isStablecoin ? chainKey : null,
+              tokenName: !isStablecoin ? chainKey : null,
+              tokenAssetName: tokenIconAsset,
             ),
             const SizedBox(width: 16),
             // Name and chain

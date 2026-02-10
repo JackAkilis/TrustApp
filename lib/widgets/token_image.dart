@@ -123,6 +123,8 @@ class TokenImage extends StatelessWidget {
       'bitcoin': 'bitcoin.png',
       'binance': 'BNB smart.png',
       'bnb': 'BNB smart.png',
+      'bsc': 'BNB smart.png',
+      'tron': 'tron.png',
       'polygon': 'polygon.png',
       'avalanche': 'avalanche.png',
       'arbitrum': 'arbitrum.png',

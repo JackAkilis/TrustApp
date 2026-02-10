@@ -80,13 +80,14 @@ class _EarnScreenState extends State<EarnScreen> {
             // Top illustration
             Center(
               child: Image.asset(
-                'assets/animations/empty_wallet.gif',
-                width: 200,
-                height: 200,
+                'assets/images/rewards_main.png',
+                width: 160,
+                height: 160,
+                fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
-                    width: 200,
-                    height: 200,
+                    width: 160,
+                    height: 160,
                     color: cardColor,
                     child: Icon(
                       Icons.account_balance_wallet_outlined,
@@ -107,7 +108,6 @@ class _EarnScreenState extends State<EarnScreen> {
                     '100 XP to Bronze',
                     textColor,
                     secondaryTextColor,
-                    cardColor,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -117,7 +117,6 @@ class _EarnScreenState extends State<EarnScreen> {
                     '0 XP',
                     textColor,
                     secondaryTextColor,
-                    cardColor,
                   ),
                 ),
               ],
@@ -125,6 +124,7 @@ class _EarnScreenState extends State<EarnScreen> {
             const SizedBox(height: 24),
             // Redeem XP section
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Redeem XP',
@@ -140,28 +140,28 @@ class _EarnScreenState extends State<EarnScreen> {
                   size: 18,
                   color: secondaryTextColor,
                 ),
-                const Spacer(),
+                const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF8B6914), // Brown/bronze color
+                    color: const Color(0xFFEADDD4),
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.shield,
-                        size: 12,
-                        color: Colors.white,
+                      Image.asset(
+                        'assets/icons/brown_guard.png',
+                        width: 14,
+                        height: 14,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         'Bronze required',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -174,8 +174,8 @@ class _EarnScreenState extends State<EarnScreen> {
             Text(
               'Partner Benefits',
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+                fontSize: 17,
+                fontWeight: FontWeight.w400,
                 color: textColor,
               ),
             ),
@@ -185,10 +185,14 @@ class _EarnScreenState extends State<EarnScreen> {
               children: [
                 Expanded(
                   child: _buildOfferCard(
-                    header: '\$50',
-                    headerColor: const Color(0xFFE91E63), // Pink
-                    description: '\$50 hotel coupon with Umy',
-                    xpCost: '800XP',
+                    imagePath: 'assets/images/rewards_benefits_1.png',
+                    headerColor: const Color(0xFF1FA4FF),
+                    title: '40%',
+                    subtitle: 'OFF',
+                    imageWidth: 53,
+                    imageHeight: 53,
+                    description: '40% off eSIM with TonMobile',
+                    xpCost: '400XP',
                     textColor: textColor,
                     secondaryTextColor: secondaryTextColor,
                     isEnded: true,
@@ -197,16 +201,219 @@ class _EarnScreenState extends State<EarnScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildOfferCard(
-                    header: '40% OFF',
-                    headerColor: const Color(0xFF2196F3), // Blue
-                    description: '40% off eSIM with TonMobile',
-                    xpCost: '400XP',
+                    imagePath: 'assets/images/rewards_benefits_2.png',
+                    headerColor: const Color(0xFF00553B),
+                    title: '3GB',
+                    imageWidth: 101,
+                    imageHeight: 40,
+                    description: 'Free 3GB Global eSIM (7 days) with Tunz',
+                    xpCost: '1000XP',
                     textColor: textColor,
                     secondaryTextColor: secondaryTextColor,
                     isEnded: true,
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 24),
+            // Trust Alpha reward section (title above gray card)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Trust Alpha',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: textColor,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEADDD4),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/icons/brown_guard.png',
+                            width: 14,
+                            height: 14,
+                          ),
+                          const SizedBox(width: 4),
+                          const Text(
+                            'Bronze required',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    Icon(
+                      Icons.chevron_right,
+                      size: 20,
+                      color: secondaryTextColor,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F4F6),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'Earn ATWO with TWT',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: textColor,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFFFF500),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                'assets/token_icons/atwo.png',
+                                width: 24,
+                                height: 24,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.card_giftcard,
+                            size: 16,
+                            color: secondaryTextColor,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '5M ATWO',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: textColor,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Container(
+                            width: 1,
+                            height: 14,
+                            color: secondaryTextColor.withOpacity(0.3),
+                          ),
+                          const SizedBox(width: 12),
+                          Icon(
+                            Icons.access_time,
+                            size: 16,
+                            color: secondaryTextColor,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'ENDED',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: secondaryTextColor,
+                            ),
+                          ),
+                          const Spacer(),
+                          Container(
+                            width: 32,
+                            height: 32,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFD4D3F3),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.arrow_forward,
+                              size: 18,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // More benefits card
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: const Color(0xFFE0E0E0),
+                ),
+              ),
+              // Remove left and bottom padding so image sits at (0, 0) from left/bottom
+              padding: const EdgeInsets.only(top: 16, right: 16),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      'assets/images/more_benefits.png',
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'More benefits coming',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: textColor,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Check back soon',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: secondaryTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 24),
                 ],
@@ -265,13 +472,15 @@ class _EarnScreenState extends State<EarnScreen> {
     String value,
     Color textColor,
     Color secondaryTextColor,
-    Color cardColor,
   ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: cardColor,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: const Color(0xFFE0E0E0),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,8 +507,12 @@ class _EarnScreenState extends State<EarnScreen> {
   }
 
   Widget _buildOfferCard({
-    required String header,
+    required String imagePath,
     required Color headerColor,
+    required String title,
+    String? subtitle,
+    required double imageWidth,
+    required double imageHeight,
     required String description,
     required String xpCost,
     required Color textColor,
@@ -308,71 +521,120 @@ class _EarnScreenState extends State<EarnScreen> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF4F4F6),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header section
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: headerColor,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(14),
-                topRight: Radius.circular(14),
+          // Colored header box with logo, text, and ENDED badge
+          SizedBox(
+            height: 112,
+            child: Container(
+              decoration: BoxDecoration(
+                color: headerColor,
+                borderRadius: BorderRadius.circular(14),
               ),
-            ),
-            child: Stack(
-              children: [
-                Center(
-                  child: Text(
-                    header,
-                    style: const TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                if (isEnded)
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            size: 10,
-                            color: Colors.black,
+              padding: const EdgeInsets.all(8),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (subtitle == null)
+                          const SizedBox(height: 12),
+                        SizedBox(
+                          width: imageWidth,
+                          height: imageHeight,
+                          child: Image.asset(
+                            imagePath,
+                            fit: BoxFit.contain,
                           ),
-                          const SizedBox(width: 3),
+                        ),
+                        if (subtitle != null)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                title,
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                subtitle,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF64CDFF),
+                                ),
+                              ),
+                            ],
+                          )
+                        else
                           Text(
-                            'ENDED',
-                            style: TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
+                            title,
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
                             ),
                           ),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
-              ],
+                  if (isEnded)
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: SizedBox(
+                        width: 80,
+                        height: 24,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.access_time,
+                                size: 12,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                'ENDED',
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
-          // Content section
+          // Content section (no horizontal padding)
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

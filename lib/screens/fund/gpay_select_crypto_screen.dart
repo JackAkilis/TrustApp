@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
+import '../../widgets/token_image.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
 import '../send/chain_list_screen.dart';
@@ -137,6 +138,21 @@ class _GPaySelectCryptoScreenState extends State<GPaySelectCryptoScreen> {
     };
     final iconName = tokenIconMap[symbol.toUpperCase()] ?? 'token_1.png';
     return 'assets/icons/$iconName';
+  }
+
+  String _getChainKeyForTokenImage(String chain) {
+    final chainUpper = chain.toUpperCase();
+    if (chainUpper.contains('BITCOIN') || chainUpper == 'BTC') return 'bitcoin';
+    if (chainUpper.contains('ETHEREUM') || chainUpper == 'ETH') return 'ethereum';
+    if (chainUpper.contains('SOLANA') || chainUpper == 'SOL') return 'solana';
+    if (chainUpper.contains('BSC') || chainUpper.contains('BNB')) return 'bsc';
+    if (chainUpper.contains('TRON') || chainUpper == 'TRX') return 'tron';
+    return chain.toLowerCase();
+  }
+
+  String? _getTokenIconAssetForTokenImage(String symbol) {
+    final m = {'USDT': 'usdt.png', 'USDC': 'usdc.png', 'TWT': 'twt.png'};
+    return m[symbol.toUpperCase()];
   }
 
   String _getTokenFullName(String symbol) {
@@ -415,52 +431,11 @@ class _GPaySelectCryptoScreenState extends State<GPaySelectCryptoScreen> {
         },
         child: Row(
           children: [
-            Stack(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey[300],
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      isToken
-                          ? _getTokenIcon(symbol)
-                          : 'assets/chain_icons/${_getChainIcon(chain)}',
-                      width: 48,
-                      height: 48,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                if (isToken)
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: grayColor,
-                        border: Border.all(
-                          color: backgroundColor,
-                          width: 2,
-                        ),
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/chain_icons/${_getChainIcon(chain)}',
-                          width: 20,
-                          height: 20,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+            TokenImage(
+              isNativeToken: !isToken,
+              chain: isToken ? _getChainKeyForTokenImage(chain) : null,
+              tokenName: !isToken ? _getChainKeyForTokenImage(chain) : null,
+              tokenAssetName: isToken ? (_getTokenIconAssetForTokenImage(symbol) ?? 'usdt.png') : null,
             ),
             const SizedBox(width: 12),
             Expanded(

@@ -13,6 +13,7 @@ import '../../widgets/prediction_card.dart';
 import '../../widgets/alpha_token_card.dart';
 import '../../widgets/trust_premium_card.dart';
 import '../../widgets/earn_card.dart';
+import '../../widgets/token_image.dart';
 import '../../widgets/bottom_navigation_bar.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
@@ -407,6 +408,28 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
       return 'Avalanche';
     }
     return chain;
+  }
+
+  /// Chain key for TokenImage (USDT/USDC token icon + chain overlay).
+  String _getChainKeyForTokenImage(String chain) {
+    final chainUpper = chain.toUpperCase();
+    if (chainUpper.contains('BITCOIN') || chainUpper == 'BTC') return 'bitcoin';
+    if (chainUpper.contains('ETHEREUM') || chainUpper == 'ETH') return 'ethereum';
+    if (chainUpper.contains('SOLANA') || chainUpper == 'SOL') return 'solana';
+    if (chainUpper.contains('BSC') || chainUpper.contains('BNB')) return 'bsc';
+    if (chainUpper.contains('TRON') || chainUpper == 'TRX') return 'tron';
+    if (chainUpper.contains('AVALANCHE') || chainUpper == 'AVAX') return 'avalanche';
+    return chain.toLowerCase();
+  }
+
+  bool _isStablecoinToken(String symbol) =>
+      symbol.toUpperCase() == 'USDT' || symbol.toUpperCase() == 'USDC';
+
+  String? _getTokenIconAsset(String symbol) {
+    final s = symbol.toUpperCase();
+    if (s == 'USDT') return 'usdt.png';
+    if (s == 'USDC') return 'usdc.png';
+    return null;
   }
 
   /// Format large numbers into human‑readable strings like 1.26T, 80.23B, 67.89M.
@@ -1246,12 +1269,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
     final balanceUsd = asset['balanceUsd'] as double;
     final priceUsd = asset['priceUsd'] as double;
     final change24hPct = asset['change24hPct'] as double;
-    final iconPath = asset['icon'] as String;
     final chainName = _getChainName(chain);
 
     final isPositive = change24hPct >= 0;
     final changeColor = isPositive ? Colors.green : Colors.red;
     final changeIcon = isPositive ? Icons.arrow_upward : Icons.arrow_downward;
+
+    final chainKey = _getChainKeyForTokenImage(chain);
+    final isStablecoin = _isStablecoinToken(symbol);
+    final tokenIconAsset = _getTokenIconAsset(symbol);
 
     return InkWell(
       onTap: () {
@@ -1259,34 +1285,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
       },
       child: Row(
         children: [
-          // Icon
-          Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: Image.asset(
-              'assets/chain_icons/$iconPath',
-              width: 40,
-              height: 40,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: grayColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.circle,
-                    color: secondaryTextColor,
-                    size: 20,
-                  ),
-                );
-              },
-            ),
+          // Icon: USDT/USDC show token icon + chain overlay; others show chain icon only
+          TokenImage(
+            isNativeToken: !isStablecoin,
+            chain: isStablecoin ? chainKey : null,
+            tokenName: !isStablecoin ? chainKey : null,
+            tokenAssetName: tokenIconAsset,
           ),
           const SizedBox(width: 16),
           // Name and price

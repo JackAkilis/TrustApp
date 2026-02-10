@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
+import '../../widgets/token_image.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
 import 'buy_screen.dart';
@@ -175,6 +176,27 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
       'WETH': 'weth.png',
     };
     return iconMap[symbol.toUpperCase()] ?? '${symbol.toLowerCase()}.png';
+  }
+
+  String _getChainKeyForTokenImage(String chain) {
+    final chainUpper = chain.toUpperCase();
+    if (chainUpper.contains('BITCOIN') || chainUpper == 'BTC') return 'bitcoin';
+    if (chainUpper.contains('ETHEREUM') || chainUpper == 'ETH') return 'ethereum';
+    if (chainUpper.contains('SOLANA') || chainUpper == 'SOL') return 'solana';
+    if (chainUpper.contains('BSC') || chainUpper.contains('BNB')) return 'bsc';
+    if (chainUpper.contains('TRON') || chainUpper == 'TRX') return 'tron';
+    if (chainUpper.contains('AVALANCHE') || chainUpper == 'AVAX') return 'avalanche';
+    return chain.toLowerCase();
+  }
+
+  bool _isStablecoinToken(String symbol) =>
+      symbol.toUpperCase() == 'USDT' || symbol.toUpperCase() == 'USDC';
+
+  String? _getTokenIconAsset(String symbol) {
+    final s = symbol.toUpperCase();
+    if (s == 'USDT') return 'usdt.png';
+    if (s == 'USDC') return 'usdc.png';
+    return null;
   }
 
   List<Map<String, dynamic>> get _filteredCryptoList {
@@ -433,10 +455,8 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
     final key = '$symbol-$chain';
     final isSelected = _selectedCryptoKey == key;
 
-    // Use token icon for tokens, chain icon for native coins
-    final iconPath = isToken
-        ? 'assets/icons/${_getTokenIcon(symbol)}'
-        : 'assets/chain_icons/${_getChainIcon(chain)}';
+    final chainKey = _getChainKeyForTokenImage(chain);
+    final tokenIconAsset = _getTokenIconAsset(symbol);
 
     return InkWell(
       onTap: () {
@@ -453,61 +473,12 @@ class _AllPaymentMethodsScreenState extends State<AllPaymentMethodsScreen> with 
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
-            // Crypto icon
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: Stack(
-                children: [
-                  ClipOval(
-                    child: Image.asset(
-                      iconPath,
-                      width: 40,
-                      height: 40,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: grayColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(Icons.circle, size: 40, color: grayColor),
-                        );
-                      },
-                    ),
-                  ),
-                  // Network badge for tokens
-                  if (isToken)
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 16,
-                        height: 16,
-                        decoration: BoxDecoration(
-                          color: backgroundColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            'assets/chain_icons/${_getChainIcon(chain)}',
-                            width: 12,
-                            height: 12,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return SizedBox.shrink();
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+            // Crypto icon: USDT/USDC show token icon + chain overlay; others show chain or token icon
+            TokenImage(
+              isNativeToken: !isToken,
+              chain: isToken ? chainKey : null,
+              tokenName: !isToken ? chainKey : null,
+              tokenAssetName: isToken ? (tokenIconAsset ?? _getTokenIcon(symbol)) : null,
             ),
             const SizedBox(width: 12),
             // Symbol and full name

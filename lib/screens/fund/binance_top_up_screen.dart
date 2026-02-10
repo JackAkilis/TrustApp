@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
+import '../../widgets/token_image.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
 import '../receive/receive_detail_screen.dart';
@@ -158,6 +159,27 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
     
     final iconName = tokenIconMap[symbol.toUpperCase()] ?? 'token_1.png';
     return 'assets/icons/$iconName';
+  }
+
+  String _getChainKeyForTokenImage(String chain) {
+    final chainUpper = chain.toUpperCase();
+    if (chainUpper.contains('BITCOIN') || chainUpper == 'BTC') return 'bitcoin';
+    if (chainUpper.contains('ETHEREUM') || chainUpper == 'ETH') return 'ethereum';
+    if (chainUpper.contains('SOLANA') || chainUpper == 'SOL') return 'solana';
+    if (chainUpper.contains('BSC') || chainUpper.contains('BNB')) return 'bsc';
+    if (chainUpper.contains('TRON') || chainUpper == 'TRX') return 'tron';
+    if (chainUpper.contains('AVALANCHE') || chainUpper == 'AVAX') return 'avalanche';
+    return chain.toLowerCase();
+  }
+
+  String? _getTokenIconAssetForTokenImage(String symbol) {
+    final m = {
+      'USDT': 'usdt.png',
+      'USDC': 'usdc.png',
+      'TWT': 'twt.png',
+      'WMTX': 'WMTX.png',
+    };
+    return m[symbol.toUpperCase()];
   }
 
   String _getTokenFullName(String symbol) {
@@ -442,80 +464,12 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            // Icon on left
-            Stack(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey[300],
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      isToken 
-                          ? _getTokenIcon(symbol)
-                          : 'assets/chain_icons/${_getChainIcon(chain)}',
-                      width: 48,
-                      height: 48,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        if (isToken) {
-                          return Image.asset(
-                            'assets/icons/token_1.png',
-                            width: 48,
-                            height: 48,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Colors.grey[300],
-                                child: const Icon(Icons.currency_bitcoin),
-                              );
-                            },
-                          );
-                        }
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Icon(Icons.currency_bitcoin),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                // Network badge for tokens
-                if (isToken)
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: grayColor,
-                        border: Border.all(
-                          color: backgroundColor,
-                          width: 2,
-                        ),
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/chain_icons/${_getChainIcon(chain)}',
-                          width: 20,
-                          height: 20,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: grayColor,
-                              child: const Icon(Icons.circle, size: 16),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+            // Icon: USDT/USDC show token icon + chain overlay; others show chain or token icon
+            TokenImage(
+              isNativeToken: !isToken,
+              chain: isToken ? _getChainKeyForTokenImage(chain) : null,
+              tokenName: !isToken ? _getChainKeyForTokenImage(chain) : null,
+              tokenAssetName: isToken ? (_getTokenIconAssetForTokenImage(symbol) ?? 'usdt.png') : null,
             ),
             const SizedBox(width: 12),
             // Symbol and chain name on right
@@ -584,80 +538,12 @@ class _BinanceTopUpScreenState extends State<BinanceTopUpScreen> {
         },
         child: Row(
           children: [
-            // Crypto icon
-            Stack(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey[300],
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      isToken 
-                          ? _getTokenIcon(symbol)
-                          : 'assets/chain_icons/${_getChainIcon(chain)}',
-                      width: 48,
-                      height: 48,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        if (isToken) {
-                          return Image.asset(
-                            'assets/icons/token_1.png',
-                            width: 48,
-                            height: 48,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Colors.grey[300],
-                                child: const Icon(Icons.currency_bitcoin),
-                              );
-                            },
-                          );
-                        }
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Icon(Icons.currency_bitcoin),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                // Network badge for tokens
-                if (isToken)
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: grayColor,
-                        border: Border.all(
-                          color: backgroundColor,
-                          width: 2,
-                        ),
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/chain_icons/${_getChainIcon(chain)}',
-                          width: 20,
-                          height: 20,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: grayColor,
-                              child: const Icon(Icons.circle, size: 16),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+            // Crypto icon: USDT/USDC show token icon + chain overlay
+            TokenImage(
+              isNativeToken: !isToken,
+              chain: isToken ? _getChainKeyForTokenImage(chain) : null,
+              tokenName: !isToken ? _getChainKeyForTokenImage(chain) : null,
+              tokenAssetName: isToken ? (_getTokenIconAssetForTokenImage(symbol) ?? 'usdt.png') : null,
             ),
             const SizedBox(width: 12),
             // Crypto info

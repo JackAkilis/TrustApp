@@ -107,34 +107,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     ];
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              // Image area: takes all remaining space; only image uses fit:cover, text overlay separate
-              Expanded(
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    // Image only: fill this area with cover (text is not part of cover)
-                    ClipRect(
-                      child: Image.asset(
-                        'assets/images/crypto_winter.png',
-                        fit: BoxFit.contain,
-                        errorBuilder: (_, __, ___) => const Center(
-                          child: Icon(
-                            Icons.image_not_supported_outlined,
-                            size: 120,
-                            color: AppColors.secondaryGray,
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Text overlay: left 0, bottom 0, full width so it wraps (no overflow)
-                    Positioned(
-                      left: 0,
-                      bottom: 0,
+      body: Stack(
+        children: [
+          // Full-screen background animation GIF (under text and buttons)
+          Positioned.fill(
+            child: ClipRect(
+              child: Image.asset(
+                'assets/animations/firstscreen_animation.gif',
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => const Center(
+                  child: Icon(
+                    Icons.image_not_supported_outlined,
+                    size: 120,
+                    color: AppColors.secondaryGray,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Foreground content: text + buttons
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  // Text overlay area, aligned above buttons
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 16, bottom: 8),
                         child: SizedBox(
@@ -158,94 +158,94 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              // Button area (fixed at bottom, same 20 padding from parent)
-              Padding(
-                padding: const EdgeInsets.only(top: 24, bottom: 16),
-                child: Column(
-                  children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () => _onCreateNewWallet(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
-                        foregroundColor: AppColors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: Text(l10n.createNewWallet),
-                    ),
                   ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () => _onAlreadyHaveWallet(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.mainGray,
-                        foregroundColor: AppColors.mainBlack,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: Text(l10n.iAlreadyHaveWallet),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.secondaryGray,
-                        height: 1.4,
-                      ),
+                  // Button area at the bottom
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24, bottom: 16),
+                    child: Column(
                       children: [
-                        TextSpan(text: l10n.byTappingAgreeTerms),
-                        TextSpan(
-                          text: l10n.termsOfService,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.primaryBlue,
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => _onCreateNewWallet(context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryBlue,
+                              foregroundColor: AppColors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(l10n.createNewWallet),
                           ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              _openExternalLink(
-                                'https://trustwallet.com/terms-of-service',
-                              );
-                            },
                         ),
-                        TextSpan(text: l10n.and),
-                        TextSpan(
-                          text: l10n.privacyPolicy,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.primaryBlue,
+                        const SizedBox(height: 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => _onAlreadyHaveWallet(context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.mainGray,
+                              foregroundColor: AppColors.mainBlack,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(l10n.iAlreadyHaveWallet),
                           ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              _openExternalLink(
-                                'https://trustwallet.com/privacy-notice',
-                              );
-                            },
+                        ),
+                        const SizedBox(height: 24),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.secondaryGray,
+                              height: 1.4,
+                            ),
+                            children: [
+                              TextSpan(text: l10n.byTappingAgreeTerms),
+                              TextSpan(
+                                text: l10n.termsOfService,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.primaryBlue,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    _openExternalLink(
+                                      'https://trustwallet.com/terms-of-service',
+                                    );
+                                  },
+                              ),
+                              TextSpan(text: l10n.and),
+                              TextSpan(
+                                text: l10n.privacyPolicy,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.primaryBlue,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    _openExternalLink(
+                                      'https://trustwallet.com/privacy-notice',
+                                    );
+                                  },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  ],
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
