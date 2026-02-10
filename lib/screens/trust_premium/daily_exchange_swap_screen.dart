@@ -173,11 +173,14 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final textColor = ThemeHelper.getTextColor(context);
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final primaryColor = ThemeHelper.getPrimaryColor(context);
+    final cardColor = isDarkMode ? AppColors.secondaryGray.withOpacity(0.3) : const Color(0xFFF4F4F6);
 
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: isDarkMode ? AppColors.darkBackground : Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: textColor),
@@ -202,7 +205,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF4F4F6),
+                  color: cardColor,
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Row(
@@ -239,7 +242,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 12),
-                  _buildSwapContent(textColor, secondaryTextColor),
+                  _buildSwapContent(textColor, secondaryTextColor, cardColor, primaryColor),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -255,15 +258,14 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
               ),
             ),
             padding: const EdgeInsets.all(16),
-            child: _buildContinueButton(textColor, secondaryTextColor),
+            child: _buildContinueButton(textColor, secondaryTextColor, primaryColor),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSwapContent(Color textColor, Color secondaryTextColor) {
-    final cardColor = const Color(0xFFF4F4F6);
+  Widget _buildSwapContent(Color textColor, Color secondaryTextColor, Color cardColor, Color primaryColor) {
 
     final fromSymbol = _fromAsset != null && (_fromAsset!['symbol'] as String).isNotEmpty
         ? _fromAsset!['symbol'] as String
@@ -293,6 +295,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
               cardColor: cardColor,
               textColor: textColor,
               secondaryTextColor: secondaryTextColor,
+              primaryColor: primaryColor,
               showAmountChips: true,
               isNativeToken: true,
               chain: fromChain,
@@ -330,6 +333,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
               cardColor: cardColor,
               textColor: textColor,
               secondaryTextColor: secondaryTextColor,
+              primaryColor: primaryColor,
               showAmountChips: false,
               isNativeToken: false,
               chain: 'BNB',
@@ -344,7 +348,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: ThemeHelper.isDarkMode(context) ? AppColors.secondaryGray.withOpacity(0.5) : Colors.white,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
@@ -357,7 +361,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
               child: Icon(
                 Icons.swap_vert,
                 size: 24,
-                color: Colors.grey.shade600,
+                color: secondaryTextColor,
               ),
             ),
           ),
@@ -378,6 +382,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
     required Color cardColor,
     required Color textColor,
     required Color secondaryTextColor,
+    required Color primaryColor,
     required bool showAmountChips,
     required bool isNativeToken,
     required String chain,
@@ -428,11 +433,11 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
                       walletBalance != null &&
                       onPercentageTap != null) ...[
                     const SizedBox(width: 12),
-                    _buildAmountChip('25%', () => onPercentageTap(0.25)),
+                    _buildAmountChip('25%', () => onPercentageTap(0.25), primaryColor),
                     const SizedBox(width: 6),
-                    _buildAmountChip('50%', () => onPercentageTap(0.5)),
+                    _buildAmountChip('50%', () => onPercentageTap(0.5), primaryColor),
                     const SizedBox(width: 6),
-                    _buildAmountChip('Max', () => onPercentageTap(1.0)),
+                    _buildAmountChip('Max', () => onPercentageTap(1.0), primaryColor),
                   ],
                 ],
               ),
@@ -464,10 +469,10 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(
+                        Icon(
                           Icons.chevron_right,
                           size: 18,
-                          color: AppColors.primaryBlue,
+                          color: primaryColor,
                         ),
                       ],
                     ),
@@ -542,19 +547,19 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
     );
   }
 
-  Widget _buildAmountChip(String label, VoidCallback onTap) {
+  Widget _buildAmountChip(String label, VoidCallback onTap, Color primaryColor) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: const Color(0xFFE3E3FF),
+          color: primaryColor.withOpacity(0.25),
           borderRadius: BorderRadius.circular(999),
         ),
         child: Text(
           label,
-          style: const TextStyle(
-            color: AppColors.primaryBlue,
+          style: TextStyle(
+            color: primaryColor,
             fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
@@ -563,7 +568,7 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
     );
   }
 
-  Widget _buildContinueButton(Color textColor, Color secondaryTextColor) {
+  Widget _buildContinueButton(Color textColor, Color secondaryTextColor, Color primaryColor) {
     final text = _fromAmountController.text.trim();
     final parsedAmount = double.tryParse(text);
     final hasValidAmount =
@@ -584,21 +589,21 @@ class _DailyExchangeSwapScreenState extends State<DailyExchangeSwapScreen> {
             : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: isActive
-              ? AppColors.primaryBlue
-              : const Color(0xFFDEDAFD),
+              ? primaryColor
+              : primaryColor.withOpacity(0.25),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(999),
           ),
           padding: const EdgeInsets.symmetric(vertical: 16),
-          disabledBackgroundColor: const Color(0xFFDEDAFD),
+          disabledBackgroundColor: primaryColor.withOpacity(0.25),
         ),
         child: Text(
           buttonText,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 16,
-            color: Colors.white,
+            color: isActive ? AppColors.white : ThemeHelper.getSecondaryTextColor(context),
           ),
         ),
       ),

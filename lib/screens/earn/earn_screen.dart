@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../utils/theme_helper.dart';
 import '../../widgets/bottom_navigation_bar.dart';
+import '../../l10n/app_localizations.dart';
 import '../home/home_screen.dart';
 import '../home/trending_tokens_screen.dart';
 import '../trade/trade_screen.dart';
@@ -40,7 +41,14 @@ class _EarnScreenState extends State<EarnScreen> {
     final textColor = ThemeHelper.getTextColor(context);
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
-    final cardColor = const Color(0xFFF4F4F6);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardColor = isDarkMode
+        ? AppColors.secondaryGray.withOpacity(0.3)
+        : const Color(0xFFF4F4F6);
+    final cardSurfaceColor = isDarkMode
+        ? AppColors.black
+        : Colors.white;
+    final borderColor = ThemeHelper.getBorderColor(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -50,14 +58,14 @@ class _EarnScreenState extends State<EarnScreen> {
           SafeArea(
             bottom: false,
             child: Container(
-              color: AppColors.white,
+              color: isDarkMode ? AppColors.darkBackground : AppColors.white,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
                   const Spacer(),
                   // Title
                   Text(
-                    'Rewards',
+                    AppLocalizations.of(context)!.rewards,
                     style: TextStyle(
                       color: textColor,
                       fontWeight: FontWeight.w700,
@@ -108,6 +116,8 @@ class _EarnScreenState extends State<EarnScreen> {
                     '100 XP to Bronze',
                     textColor,
                     secondaryTextColor,
+                    cardSurfaceColor,
+                    borderColor,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -117,6 +127,8 @@ class _EarnScreenState extends State<EarnScreen> {
                     '0 XP',
                     textColor,
                     secondaryTextColor,
+                    cardSurfaceColor,
+                    borderColor,
                   ),
                 ),
               ],
@@ -185,6 +197,7 @@ class _EarnScreenState extends State<EarnScreen> {
               children: [
                 Expanded(
                   child: _buildOfferCard(
+                    context: context,
                     imagePath: 'assets/images/rewards_benefits_1.png',
                     headerColor: const Color(0xFF1FA4FF),
                     title: '40%',
@@ -201,6 +214,7 @@ class _EarnScreenState extends State<EarnScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildOfferCard(
+                    context: context,
                     imagePath: 'assets/images/rewards_benefits_2.png',
                     headerColor: const Color(0xFF00553B),
                     title: '3GB',
@@ -268,7 +282,7 @@ class _EarnScreenState extends State<EarnScreen> {
                 const SizedBox(height: 8),
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF4F4F6),
+                    color: cardColor,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.all(16),
@@ -349,14 +363,14 @@ class _EarnScreenState extends State<EarnScreen> {
                           Container(
                             width: 32,
                             height: 32,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFD4D3F3),
+                            decoration: BoxDecoration(
+                              color: ThemeHelper.getPrimaryColor(context).withOpacity(0.25),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               Icons.arrow_forward,
                               size: 18,
-                              color: AppColors.primaryBlue,
+                              color: ThemeHelper.getPrimaryColor(context),
                             ),
                           ),
                         ],
@@ -370,10 +384,10 @@ class _EarnScreenState extends State<EarnScreen> {
             // More benefits card
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: cardSurfaceColor,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: const Color(0xFFE0E0E0),
+                  color: borderColor,
                 ),
               ),
               // Remove left and bottom padding so image sits at (0, 0) from left/bottom
@@ -472,14 +486,16 @@ class _EarnScreenState extends State<EarnScreen> {
     String value,
     Color textColor,
     Color secondaryTextColor,
+    Color cardSurfaceColor,
+    Color borderColor,
   ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardSurfaceColor,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: const Color(0xFFE0E0E0),
+          color: borderColor,
         ),
       ),
       child: Column(
@@ -507,6 +523,7 @@ class _EarnScreenState extends State<EarnScreen> {
   }
 
   Widget _buildOfferCard({
+    required BuildContext context,
     required String imagePath,
     required Color headerColor,
     required String title,
@@ -519,9 +536,15 @@ class _EarnScreenState extends State<EarnScreen> {
     required Color secondaryTextColor,
     required bool isEnded,
   }) {
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardSurfaceColor = isDarkMode
+        ? AppColors.black
+        : Colors.white;
+    final primaryColor = ThemeHelper.getPrimaryColor(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardSurfaceColor,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
@@ -602,7 +625,7 @@ class _EarnScreenState extends State<EarnScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: isDarkMode ? AppColors.black : Colors.white,
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: Row(
@@ -612,15 +635,15 @@ class _EarnScreenState extends State<EarnScreen> {
                               Icon(
                                 Icons.access_time,
                                 size: 12,
-                                color: Colors.black,
+                                color: isDarkMode ? Colors.white : Colors.black,
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 'ENDED',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.black,
+                                  color: isDarkMode ? Colors.white : Colors.black,
                                 ),
                               ),
                             ],
@@ -658,12 +681,12 @@ class _EarnScreenState extends State<EarnScreen> {
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                    child: ElevatedButton(
                     onPressed: () {
                       // TODO: Handle view
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD4D3F3),
+                      backgroundColor: primaryColor.withOpacity(0.25),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(999),
@@ -673,7 +696,7 @@ class _EarnScreenState extends State<EarnScreen> {
                     child: Text(
                       'View',
                       style: TextStyle(
-                        color: AppColors.primaryBlue,
+                        color: primaryColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),

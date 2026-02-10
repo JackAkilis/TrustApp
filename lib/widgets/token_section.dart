@@ -240,7 +240,7 @@ class _TokenSectionState extends State<TokenSection> {
                     width: textPainter.width,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
+                      color: isSelected ? ThemeHelper.getPrimaryColor(context) : Colors.transparent,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   );

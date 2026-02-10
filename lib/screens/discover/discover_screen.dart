@@ -54,6 +54,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final grayColor = ThemeHelper.getGrayColor(context);
     final primaryColor = ThemeHelper.getPrimaryColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -63,7 +64,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           SafeArea(
             bottom: false,
             child: Container(
-              color: AppColors.white,
+              color: isDarkMode ? AppColors.darkBackground : AppColors.white,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
@@ -378,6 +379,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     required String buttonText,
     required Color primaryColor,
   }) {
+    final isDarkMode = ThemeHelper.isDarkMode(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
@@ -423,7 +425,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   height: 18,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF84E2FC),
+                    color: isDarkMode ? primaryColor : const Color(0xFF84E2FC),
                     border: Border.all(
                       color: primaryColor,
                       width: 1,
@@ -436,7 +438,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       style: TextStyle(
                         fontSize: 9,
                         fontWeight: FontWeight.w600,
-                        color: primaryColor,
+                        color: isDarkMode ? Colors.black : primaryColor,
                       ),
                     ),
                   ),

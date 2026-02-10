@@ -12,12 +12,14 @@ class StablecoinEarnScreen extends StatelessWidget {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final textColor = ThemeHelper.getTextColor(context);
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardSurfaceColor = isDarkMode ? AppColors.secondaryGray.withOpacity(0.3) : const Color(0xFFF4F4F6);
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: isDarkMode ? AppColors.darkBackground : AppColors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -41,7 +43,7 @@ class StablecoinEarnScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // My Earn portfolio card (simple placeholder)
-            _buildPortfolioCard(context, textColor, secondaryTextColor),
+            _buildPortfolioCard(context, textColor, secondaryTextColor, cardSurfaceColor),
             const SizedBox(height: 24),
             // Stablecoin Earn section (placeholder list)
             Text(
@@ -54,6 +56,7 @@ class StablecoinEarnScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             _buildSimpleCard(
+              cardSurfaceColor: cardSurfaceColor,
               child: Column(
                 children: [
                   _buildStablecoinRow(
@@ -113,6 +116,7 @@ class StablecoinEarnScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             _buildSimpleCard(
+              cardSurfaceColor: cardSurfaceColor,
               child: Column(
                 children: [
                   _buildNativeRow(context, 'Ethereum', 'ethereum', '\$1,919.03', '-7.32%', '2.64', textColor, secondaryTextColor),
@@ -145,9 +149,10 @@ class StablecoinEarnScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPortfolioCard(BuildContext context, Color textColor, Color secondaryTextColor) {
+  Widget _buildPortfolioCard(BuildContext context, Color textColor, Color secondaryTextColor, Color cardSurfaceColor) {
     final l10n = AppLocalizations.of(context)!;
     return _buildSimpleCard(
+      cardSurfaceColor: cardSurfaceColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -209,11 +214,11 @@ class StablecoinEarnScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSimpleCard({required Widget child}) {
+  Widget _buildSimpleCard({required Color cardSurfaceColor, required Widget child}) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFFF4F4F6),
+        color: cardSurfaceColor,
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(16),
@@ -270,17 +275,17 @@ class StablecoinEarnScreen extends StatelessWidget {
           children: [
             Text(
               l10n.upToPercent(percent),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF8A50FF), // purple-ish APY color
+                color: ThemeHelper.getPrimaryColor(context),
               ),
             ),
-            const Text(
+            Text(
               'APY',
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.grey,
+                color: secondaryTextColor,
               ),
             ),
           ],
@@ -351,17 +356,17 @@ class StablecoinEarnScreen extends StatelessWidget {
           children: [
             Text(
               l10n.upToPercent(percent),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF8A50FF),
+                color: ThemeHelper.getPrimaryColor(context),
               ),
             ),
-            const Text(
+            Text(
               'APY',
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.grey,
+                color: secondaryTextColor,
               ),
             ),
           ],

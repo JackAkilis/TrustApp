@@ -207,6 +207,7 @@ class _TradeScreenState extends State<TradeScreen> {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final textColor = ThemeHelper.getTextColor(context);
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -246,7 +247,9 @@ class _TradeScreenState extends State<TradeScreen> {
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF9E7), // Light yellow/beige
+                color: ThemeHelper.isDarkMode(context)
+                    ? const Color(0xFF3D2C1E) // Dark brown in dark mode
+                    : const Color(0xFFFFF9E7), // Light yellow/beige in light mode
                 borderRadius: BorderRadius.circular(12),
                 border: Border(
                   top: BorderSide(
@@ -285,7 +288,7 @@ class _TradeScreenState extends State<TradeScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.primaryBlue,
+                              color: ThemeHelper.getPrimaryColor(context),
                             ),
                           ),
                         ),
@@ -303,7 +306,9 @@ class _TradeScreenState extends State<TradeScreen> {
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF4F4F6),
+                        color: ThemeHelper.isDarkMode(context)
+                            ? AppColors.secondaryGray.withOpacity(0.3)
+                            : const Color(0xFFF4F4F6),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -378,8 +383,8 @@ class _TradeScreenState extends State<TradeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(tabs.length, (index) {
           final isSelected = _selectedTabIndex == index;
-          // Active tab: dark black and bold, inactive: secondary text color
-          final tabColor = isSelected ? Colors.black : secondaryTextColor;
+          // Active tab: primary text color, inactive: secondary text color
+          final tabColor = isSelected ? textColor : secondaryTextColor;
           final fontWeight = isSelected ? FontWeight.w700 : FontWeight.w500;
 
           return Expanded(
@@ -460,7 +465,7 @@ class _TradeScreenState extends State<TradeScreen> {
                         height: 2,
                         width: totalWidth,
                         decoration: BoxDecoration(
-                          color: isSelected ? AppColors.primaryBlue : Colors.transparent,
+                          color: isSelected ? ThemeHelper.getPrimaryColor(context) : Colors.transparent,
                           borderRadius: BorderRadius.circular(999),
                         ),
                       );
@@ -476,8 +481,9 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildTopBar(Color textColor, Color secondaryTextColor) {
+    final isDarkMode = ThemeHelper.isDarkMode(context);
     return Container(
-      color: AppColors.white,
+      color: isDarkMode ? AppColors.darkBackground : AppColors.white,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: _buildTopBarContent(textColor, secondaryTextColor),
     );
@@ -561,7 +567,7 @@ class _TradeScreenState extends State<TradeScreen> {
                       return Icon(
                         Icons.bolt_outlined,
                         size: 20,
-                        color: AppColors.primaryBlue,
+                        color: ThemeHelper.getPrimaryColor(context),
                       );
                     },
                   ),
@@ -719,12 +725,14 @@ class _TradeScreenState extends State<TradeScreen> {
               onTap: () {
                 // TODO: slippage/settings
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF4F4F6),
-                  borderRadius: BorderRadius.circular(999),
-                ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: ThemeHelper.isDarkMode(context)
+                    ? AppColors.secondaryGray.withOpacity(0.3)
+                    : const Color(0xFFF4F4F6),
+                borderRadius: BorderRadius.circular(999),
+              ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -753,10 +761,13 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildNewBadge(Color secondaryTextColor) {
+    final isDarkMode = ThemeHelper.isDarkMode(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: isDarkMode
+            ? AppColors.secondaryGray.withOpacity(0.3)
+            : Colors.grey.shade200,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -843,7 +854,10 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildPerpsContent(Color textColor, Color secondaryTextColor) {
-    final cardColor = const Color(0xFFF4F4F6);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardColor = isDarkMode
+        ? AppColors.secondaryGray.withOpacity(0.3)
+        : const Color(0xFFF4F4F6);
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -868,7 +882,7 @@ class _TradeScreenState extends State<TradeScreen> {
                   return Icon(
                     Icons.all_inclusive,
                     size: 84,
-                    color: AppColors.primaryBlue,
+                    color: ThemeHelper.getPrimaryColor(context),
                   );
                 },
               ),
@@ -899,7 +913,7 @@ class _TradeScreenState extends State<TradeScreen> {
                     // TODO: Handle deposit
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: ThemeHelper.getPrimaryColor(context),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(999),
@@ -1016,7 +1030,10 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildMemeRushContent(Color textColor, Color secondaryTextColor) {
-    final cardColor = const Color(0xFFF4F4F6);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardColor = isDarkMode
+        ? AppColors.secondaryGray.withOpacity(0.3)
+        : const Color(0xFFF4F4F6);
     
     // Sample meme tokens from token_icons folder
     final memeTokens = [
@@ -1173,10 +1190,14 @@ class _TradeScreenState extends State<TradeScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFFF4F4F6),
+          color: ThemeHelper.isDarkMode(context)
+              ? AppColors.secondaryGray.withOpacity(0.3)
+              : const Color(0xFFF4F4F6),
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: isSelected ? AppColors.primaryBlue : Colors.transparent,
+            color: isSelected
+                ? ThemeHelper.getPrimaryColor(context)
+                : Colors.transparent,
             width: 1,
           ),
         ),
@@ -1190,11 +1211,13 @@ class _TradeScreenState extends State<TradeScreen> {
                         iconPath,
                         width: 16,
                         height: 16,
+                        color: ThemeHelper.getPrimaryColor(context),
+                        colorBlendMode: BlendMode.srcIn,
                         errorBuilder: (context, error, stackTrace) {
                           return Icon(
                             icon ?? Icons.help_outline,
                             size: 16,
-                            color: isSelected ? textColor : secondaryTextColor,
+                            color: ThemeHelper.getPrimaryColor(context),
                           );
                         },
                       ),
@@ -1203,11 +1226,13 @@ class _TradeScreenState extends State<TradeScreen> {
                       iconPath,
                       width: 16,
                       height: 16,
+                      color: ThemeHelper.getPrimaryColor(context),
+                      colorBlendMode: BlendMode.srcIn,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           icon ?? Icons.help_outline,
                           size: 16,
-                          color: isSelected ? textColor : secondaryTextColor,
+                          color: ThemeHelper.getPrimaryColor(context),
                         );
                       },
                     )
@@ -1318,7 +1343,7 @@ class _TradeScreenState extends State<TradeScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryBlue.withOpacity(0.1),
+                        color: ThemeHelper.getPrimaryColor(context).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Row(
@@ -1327,7 +1352,7 @@ class _TradeScreenState extends State<TradeScreen> {
                           Icon(
                             Icons.star,
                             size: 10,
-                            color: AppColors.primaryBlue,
+                            color: ThemeHelper.getPrimaryColor(context),
                           ),
                           const SizedBox(width: 2),
                           Text(
@@ -1335,7 +1360,7 @@ class _TradeScreenState extends State<TradeScreen> {
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.primaryBlue,
+                              color: ThemeHelper.getPrimaryColor(context),
                             ),
                           ),
                         ],
@@ -1391,7 +1416,7 @@ class _TradeScreenState extends State<TradeScreen> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: const Color(0xFFD4D3F3),
+              color: ThemeHelper.getPrimaryColor(context).withOpacity(0.25),
               shape: BoxShape.circle,
             ),
             child: Center(
@@ -1403,7 +1428,7 @@ class _TradeScreenState extends State<TradeScreen> {
                   return Icon(
                     Icons.bolt,
                     size: 20,
-                    color: AppColors.primaryBlue,
+                    color: ThemeHelper.getPrimaryColor(context),
                   );
                 },
               ),
@@ -1475,7 +1500,9 @@ class _TradeScreenState extends State<TradeScreen> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFE5E5E5),
+                            color: ThemeHelper.isDarkMode(context)
+                                ? AppColors.secondaryGray.withOpacity(0.5)
+                                : const Color(0xFFE5E5E5),
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: Text(
@@ -1573,8 +1600,10 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildPredictionsContent(Color textColor, Color secondaryTextColor) {
-    final cardColor = const Color(0xFFF4F4F6);
     final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardColor = isDarkMode
+        ? AppColors.secondaryGray.withOpacity(0.3)
+        : const Color(0xFFF4F4F6);
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     
     return Column(
@@ -1623,7 +1652,7 @@ class _TradeScreenState extends State<TradeScreen> {
                         // TODO: Handle view positions
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFD4D3F3),
+                        backgroundColor: ThemeHelper.getPrimaryColor(context).withOpacity(0.25),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(999),
@@ -1636,7 +1665,7 @@ class _TradeScreenState extends State<TradeScreen> {
                           Text(
                             'View my positions',
                             style: TextStyle(
-                              color: AppColors.primaryBlue,
+                              color: ThemeHelper.getPrimaryColor(context),
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
@@ -1645,7 +1674,7 @@ class _TradeScreenState extends State<TradeScreen> {
                           Icon(
                             Icons.arrow_forward,
                             size: 16,
-                            color: AppColors.primaryBlue,
+                            color: ThemeHelper.getPrimaryColor(context),
                           ),
                         ],
                       ),
@@ -1804,10 +1833,14 @@ class _TradeScreenState extends State<TradeScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFFF4F4F6),
+          color: ThemeHelper.isDarkMode(context)
+              ? AppColors.secondaryGray.withOpacity(0.3)
+              : const Color(0xFFF4F4F6),
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: isSelected ? AppColors.primaryBlue : Colors.transparent,
+            color: isSelected
+                ? ThemeHelper.getPrimaryColor(context)
+                : Colors.transparent,
             width: 1,
           ),
         ),
@@ -1835,7 +1868,10 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildSwapContent(Color textColor, Color secondaryTextColor) {
-    final cardColor = const Color(0xFFF4F4F6);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardColor = isDarkMode
+        ? AppColors.secondaryGray.withOpacity(0.3)
+        : const Color(0xFFF4F4F6);
 
     final fromSymbol = _fromAsset != null && (_fromAsset!['symbol'] as String).isNotEmpty
         ? _fromAsset!['symbol'] as String
@@ -2033,10 +2069,10 @@ class _TradeScreenState extends State<TradeScreen> {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(
+                        Icon(
                           Icons.chevron_right,
                           size: 18,
-                          color: AppColors.primaryBlue,
+                          color: ThemeHelper.getPrimaryColor(context),
                         ),
                       ],
                     ),
@@ -2110,18 +2146,19 @@ class _TradeScreenState extends State<TradeScreen> {
   }
 
   Widget _buildAmountChip(String label, VoidCallback onTap) {
+    final primaryColor = ThemeHelper.getPrimaryColor(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: const Color(0xFFE3E3FF),
+          color: primaryColor.withOpacity(0.15),
           borderRadius: BorderRadius.circular(999),
         ),
         child: Text(
           label,
-          style: const TextStyle(
-            color: AppColors.primaryBlue,
+          style: TextStyle(
+            color: primaryColor,
             fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
@@ -2139,6 +2176,8 @@ class _TradeScreenState extends State<TradeScreen> {
     
     // Button is active only when calculation is complete and toAmount is calculated
     final isActive = !_isCalculating && hasValidAmount && _toAmount > 0;
+    final primaryColor = ThemeHelper.getPrimaryColor(context);
+    final inactiveColor = primaryColor.withOpacity(0.3);
     final l10n = AppLocalizations.of(context)!;
     final buttonText = _isCalculating ? 'Loading...' : l10n.continueButton;
     
@@ -2149,15 +2188,13 @@ class _TradeScreenState extends State<TradeScreen> {
           // TODO: implement swap preview
         } : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isActive 
-              ? AppColors.primaryBlue 
-              : const Color(0xFFDEDAFD), // Light purple when inactive/loading
+          backgroundColor: isActive ? primaryColor : inactiveColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(999),
           ),
           padding: const EdgeInsets.symmetric(vertical: 16),
-          disabledBackgroundColor: const Color(0xFFDEDAFD),
+          disabledBackgroundColor: inactiveColor,
         ),
         child: Text(
           buttonText,

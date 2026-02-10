@@ -169,6 +169,10 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     final textColor = ThemeHelper.getTextColor(context);
     final secondaryTextColor = ThemeHelper.getSecondaryTextColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final cardBackgroundColor = isDarkMode
+        ? AppColors.secondaryGray.withOpacity(0.3)
+        : const Color(0xFFF4F4F6);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -178,7 +182,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
           SafeArea(
             bottom: false,
             child: Container(
-              color: AppColors.white,
+              color: isDarkMode ? AppColors.darkBackground : AppColors.white,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
@@ -261,7 +265,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          backgroundColor: const Color(0xFFF4F4F6),
+                          backgroundColor: cardBackgroundColor,
                           foregroundColor: textColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(999),
