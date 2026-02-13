@@ -98,7 +98,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get sell => 'Vender';
 
   @override
-  String get earn => 'Earn';
+  String get earn => 'Ganhar';
 
   @override
   String get myEarnPortfolio => 'My Earn portfolio';
@@ -328,7 +328,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get subjectToTerms => 'Sujeito aos nossos Termos';
 
   @override
-  String get settings => 'Settings';
+  String get settings => 'Configurações';
 
   @override
   String get darkMode => 'Modo Escuro';

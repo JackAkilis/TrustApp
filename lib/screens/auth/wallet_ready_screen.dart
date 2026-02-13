@@ -36,8 +36,7 @@ class _WalletReadyScreenState extends State<WalletReadyScreen> {
   }
 
   void _goToHome(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const HomeScreen(),
       ),

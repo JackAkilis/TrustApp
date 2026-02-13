@@ -76,7 +76,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Future<void> _onCreateNewWallet(BuildContext context) async {
     await setHasSeenWelcome();
     if (!context.mounted) return;
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const EnterPasscodeScreen(),
       ),
@@ -86,7 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Future<void> _onAlreadyHaveWallet(BuildContext context) async {
     await setHasSeenWelcome();
     if (!context.mounted) return;
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const EnterPasscodeScreen(
           isImportingWallet: true,

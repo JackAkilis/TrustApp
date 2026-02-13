@@ -98,7 +98,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sell => 'Bán';
 
   @override
-  String get earn => 'Earn';
+  String get earn => 'Kiếm tiền';
 
   @override
   String get myEarnPortfolio => 'Danh mục đầu tư Earn của tôi';
@@ -329,7 +329,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get subjectToTerms => 'Tuân thủ Điều khoản của chúng tôi';
 
   @override
-  String get settings => 'Settings';
+  String get settings => 'Cài đặt';
 
   @override
   String get darkMode => 'Chế độ Tối';

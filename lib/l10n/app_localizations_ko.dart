@@ -98,7 +98,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get sell => '판매';
 
   @override
-  String get earn => 'Earn';
+  String get earn => '수익';
 
   @override
   String get myEarnPortfolio => '내 수익 창출 포트폴리오';
@@ -323,7 +323,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get subjectToTerms => '당사 약관을 따릅니다';
 
   @override
-  String get settings => 'Settings';
+  String get settings => '설정';
 
   @override
   String get darkMode => '다크 모드';

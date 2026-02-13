@@ -3,10 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
-import 'screens/auth/app_start_screen.dart';
 import 'constants/app_colors.dart';
 import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
+import 'screens/auth/enter_passcode_screen.dart';
+import 'screens/auth/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,11 +15,23 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const TrustApp());
+
+  // Remove the in-app "splash" (loading spinner) by deciding the first screen
+  // before rendering the app.
+  final seenWelcome = await hasSeenWelcome();
+  final Widget initialHome =
+      seenWelcome ? const EnterPasscodeScreen() : const WelcomeScreen();
+
+  runApp(TrustApp(home: initialHome));
 }
 
 class TrustApp extends StatelessWidget {
-  const TrustApp({super.key});
+  final Widget home;
+
+  const TrustApp({
+    super.key,
+    required this.home,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +56,7 @@ class TrustApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const AppStartScreen(),
+            home: home,
           );
         },
       ),

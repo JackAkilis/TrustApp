@@ -4,26 +4,19 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 class ApiService {
-  // Get the correct base URL based on the platform
-  static String get baseUrl {
-    if (kIsWeb) {
-      // Web - use localhost
-      return 'http://localhost:8083';
-    } else if (Platform.isAndroid) {
-      // Android emulator - use 10.0.2.2 to reach host machine
-      // For physical Android device, change this to your computer's IP
-      return 'http://10.0.2.2:8083';
-    } else if (Platform.isIOS) {
-      // iOS simulator - use localhost
-      return 'http://localhost:8083';
-    } else {
-      // Desktop or other platforms
-      return 'http://127.0.0.1:8083';
-    }
-  }
-  
-  // For physical Android device, uncomment and set your computer's IP:
-  // static const String baseUrl = 'http://192.168.1.XXX:8083';
+  /// Backend API base URL (TrustWallet-Like Multi-Chain Backend)
+
+
+  static const String baseUrl = 'https://dev-wallet.newtwwin.com:7074';
+
+  // Optional: use local backend per platform (uncomment to override [baseUrl] above)
+  // static String get baseUrl {
+  //   if (kIsWeb) return 'http://localhost:8083';
+  //   if (Platform.isAndroid) return 'http://10.0.2.2:8083';
+  //   if (Platform.isIOS) return 'http://localhost:8083';
+  //   return 'http://127.0.0.1:8083';
+  // }
+
 
   /// Create device passcode
   static Future<Map<String, dynamic>> createDevicePasscode({

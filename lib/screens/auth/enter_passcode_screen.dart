@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/passcode_keypad.dart';
 import '../../widgets/passcode_dots.dart';
@@ -25,6 +24,7 @@ class _EnterPasscodeScreenState extends State<EnterPasscodeScreen> {
   bool _isMatched = false;
   bool _isError = false;
   bool _isNewUser = true;
+  bool _passcodeChecked = false;
   String? _savedPasscode;
 
   @override
@@ -37,10 +37,18 @@ class _EnterPasscodeScreenState extends State<EnterPasscodeScreen> {
     final hasPasscode = await PasscodeStorage.hasPasscode();
     if (hasPasscode) {
       _savedPasscode = await PasscodeStorage.getPasscode();
+      if (!mounted) return;
       setState(() {
         _isNewUser = false;
+        _passcodeChecked = true;
       });
+      return;
     }
+
+    if (!mounted) return;
+    setState(() {
+      _passcodeChecked = true;
+    });
   }
 
   void _onNumberPressed(String number) {
@@ -54,7 +62,7 @@ class _EnterPasscodeScreenState extends State<EnterPasscodeScreen> {
           // New user - navigate to confirm passcode screen
           final passcodeToPass = _passcode;
           Future.delayed(const Duration(milliseconds: 300), () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => ConfirmPasscodeScreen(
@@ -116,46 +124,52 @@ class _EnterPasscodeScreenState extends State<EnterPasscodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
+    final canNavigateBack = _passcodeChecked && _isNewUser;
+    return WillPopScope(
+      // If this screen is being used to unlock an existing wallet, disable
+      // Android back / iOS back-swipe to avoid leaving the auth flow.
+      onWillPop: () async => canNavigateBack,
+      child: Scaffold(
         backgroundColor: AppColors.white,
-        elevation: 0,
-        leading: _isNewUser
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back, color: AppColors.mainBlack),
-                onPressed: () => Navigator.pop(context),
-              )
-            : null,
-      ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40),
-            Text(
-              AppLocalizations.of(context)!.enterPasscode,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: AppColors.mainBlack,
+        appBar: AppBar(
+          backgroundColor: AppColors.white,
+          elevation: 0,
+          leading: canNavigateBack
+              ? IconButton(
+                  icon: const Icon(Icons.arrow_back, color: AppColors.mainBlack),
+                  onPressed: () => Navigator.pop(context),
+                )
+              : null,
+        ),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              Text(
+                AppLocalizations.of(context)!.enterPasscode,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.mainBlack,
+                ),
               ),
-            ),
-            const SizedBox(height: 40),
-            PasscodeDots(
-              passcodeLength: _passcode.length,
-              isConfirming: false,
-              isMatched: _isMatched,
-              isError: _isError,
-            ),
-            const Spacer(),
-            PasscodeKeypad(
-              onNumberPressed: _onNumberPressed,
-              onDeletePressed: _onDeletePressed,
-              showBiometric: true,
-            ),
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 40),
+              PasscodeDots(
+                passcodeLength: _passcode.length,
+                isConfirming: false,
+                isMatched: _isMatched,
+                isError: _isError,
+              ),
+              const Spacer(),
+              PasscodeKeypad(
+                onNumberPressed: _onNumberPressed,
+                onDeletePressed: _onDeletePressed,
+                showBiometric: true,
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

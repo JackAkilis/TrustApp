@@ -12,6 +12,7 @@ import '../earn/earn_screen.dart';
 import '../earn/stablecoin_earn_screen.dart';
 import '../trust_premium/trust_premium_screen.dart';
 import '../../services/earn_storage.dart';
+import '../common/loading_screen.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
@@ -61,126 +62,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       body: Column(
         children: [
           // Custom top bar
-          SafeArea(
-            bottom: false,
-            child: Container(
-              color: isDarkMode ? AppColors.darkBackground : AppColors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  // Premium button
-                  GestureDetector(
-                    onTap: () {
-                      // TODO: Navigate to Premium
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/icons/premium.png',
-                          width: 18,
-                          height: 18,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Icon(
-                              Icons.star,
-                              size: 18,
-                              color: primaryColor,
-                            );
-                          },
-                        ),
-                        const SizedBox(width: 4),
-                        Flexible(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Premium',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                  color: textColor,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                'Upgrade Level',
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  color: secondaryTextColor,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  // Title
-                  Text(
-                    AppLocalizations.of(context)!.discover,
-                    style: TextStyle(
-                      color: textColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const Spacer(),
-                  // Menu icon with popup menu
-                  PopupMenuButton<String>(
-                    padding: EdgeInsets.zero,
-                    offset: const Offset(-16, 36), // Push menu a bit down so icon stays visible
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: textColor,
-                    ),
-                    onSelected: (value) {
-                      // TODO: Handle menu actions
-                      // e.g. if (value == 'history') { ... }
-                    },
-                    itemBuilder: (context) => [
-                      PopupMenuItem<String>(
-                        value: 'history',
-                        child: SizedBox(
-                          width: 100, // Slightly wider menu
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.history,
-                                size: 18,
-                                color: secondaryTextColor,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(AppLocalizations.of(context)!.swapHistory),
-                            ],
-                          ),
-                        ),
-                      ),
-                      PopupMenuItem<String>(
-                        value: 'favorites',
-                        child: SizedBox(
-                          width: 100, // Match width with first item
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.favorite_border,
-                                size: 18,
-                                color: secondaryTextColor,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(AppLocalizations.of(context)!.favorites),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          _buildDiscoverTopBar(
+            context: context,
+            textColor: textColor,
+            secondaryTextColor: secondaryTextColor,
+            primaryColor: primaryColor,
+            isDarkMode: isDarkMode,
           ),
           // Body content
           Expanded(
@@ -271,7 +158,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             return;
           } else if (index == 0) {
             // Home
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
@@ -279,7 +166,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             );
           } else if (index == 1) {
             // Trending
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const TrendingTokensScreen(),
@@ -287,7 +174,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             );
           } else if (index == 2) {
             // Trade
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const TradeScreen(),
@@ -295,7 +182,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             );
           } else if (index == 3) {
             // Earn
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const EarnScreen(),
@@ -626,7 +513,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         });
       },
       onViewAll: () {
-        // TODO: Navigate to all dApps
+        _pushDiscoverLoading(context);
       },
     );
   }
@@ -712,7 +599,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           Center(
             child: GestureDetector(
               onTap: () {
-                // TODO: Navigate to all latest
+                _pushDiscoverLoading(context);
               },
               child: Text(
                 AppLocalizations.of(context)!.seeAll,
@@ -725,6 +612,191 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDiscoverTopBar({
+    required BuildContext context,
+    required Color textColor,
+    required Color secondaryTextColor,
+    required Color primaryColor,
+    required bool isDarkMode,
+  }) {
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        color: isDarkMode ? AppColors.darkBackground : AppColors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            // Premium button
+            GestureDetector(
+              onTap: () {
+                // TODO: Navigate to Premium
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/icons/premium.png',
+                    width: 18,
+                    height: 18,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.star,
+                        size: 18,
+                        color: primaryColor,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 4),
+                  Flexible(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Premium',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: textColor,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          'Upgrade Level',
+                          style: TextStyle(
+                            fontSize: 9,
+                            color: secondaryTextColor,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            // Title
+            Text(
+              AppLocalizations.of(context)!.discover,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+              ),
+            ),
+            const Spacer(),
+            // Menu icon with popup menu
+            PopupMenuButton<String>(
+              padding: EdgeInsets.zero,
+              offset: const Offset(-16, 36),
+              icon: Icon(
+                Icons.more_vert,
+                color: textColor,
+              ),
+              onSelected: (value) {
+                if (value == 'history' || value == 'favorites') {
+                  _pushDiscoverLoading(context);
+                }
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem<String>(
+                  value: 'history',
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(minWidth: 100),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.history,
+                          size: 18,
+                          color: secondaryTextColor,
+                        ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            AppLocalizations.of(context)!.swapHistory,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'favorites',
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(minWidth: 100),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.favorite_border,
+                          size: 18,
+                          color: secondaryTextColor,
+                        ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            AppLocalizations.of(context)!.favorites,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _pushDiscoverLoading(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(
+          topBarBuilder: (context) => _buildDiscoverTitleOnlyTopBar(
+            context: context,
+            textColor: ThemeHelper.getTextColor(context),
+            isDarkMode: ThemeHelper.isDarkMode(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDiscoverTitleOnlyTopBar({
+    required BuildContext context,
+    required Color textColor,
+    required bool isDarkMode,
+  }) {
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        color: isDarkMode ? AppColors.darkBackground : AppColors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            const Spacer(),
+            Text(
+              AppLocalizations.of(context)!.discover,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }

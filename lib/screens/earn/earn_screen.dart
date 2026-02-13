@@ -8,6 +8,7 @@ import '../home/trending_tokens_screen.dart';
 import '../trade/trade_screen.dart';
 import '../discover/discover_screen.dart';
 import '../../services/earn_storage.dart';
+import '../common/loading_screen.dart';
 
 class EarnScreen extends StatefulWidget {
   const EarnScreen({super.key});
@@ -55,27 +56,10 @@ class _EarnScreenState extends State<EarnScreen> {
       body: Column(
         children: [
           // Custom top bar
-          SafeArea(
-            bottom: false,
-            child: Container(
-              color: isDarkMode ? AppColors.darkBackground : AppColors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  // Title
-                  Text(
-                    AppLocalizations.of(context)!.rewards,
-                    style: TextStyle(
-                      color: textColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const Spacer(),
-                ],
-              ),
-            ),
+          _buildRewardsTopBar(
+            context: context,
+            textColor: textColor,
+            isDarkMode: isDarkMode,
           ),
           // Body content
           Expanded(
@@ -109,6 +93,7 @@ class _EarnScreenState extends State<EarnScreen> {
             const SizedBox(height: 32),
             // Level and XP Balance cards
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: _buildStatCard(
@@ -118,6 +103,9 @@ class _EarnScreenState extends State<EarnScreen> {
                     secondaryTextColor,
                     cardSurfaceColor,
                     borderColor,
+                    onTap: () {
+                      _pushRewardsLoading(context);
+                    },
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -129,6 +117,9 @@ class _EarnScreenState extends State<EarnScreen> {
                     secondaryTextColor,
                     cardSurfaceColor,
                     borderColor,
+                    onTap: () {
+                      _pushRewardsLoading(context);
+                    },
                   ),
                 ),
               ],
@@ -234,50 +225,61 @@ class _EarnScreenState extends State<EarnScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Trust Alpha',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: textColor,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEADDD4),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => _pushRewardsLoading(context),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6),
                       child: Row(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset(
-                            'assets/icons/brown_guard.png',
-                            width: 14,
-                            height: 14,
-                          ),
-                          const SizedBox(width: 4),
-                          const Text(
-                            'Bronze required',
+                          Text(
+                            'Trust Alpha',
                             style: TextStyle(
-                              fontSize: 11,
+                              fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black,
+                              color: textColor,
                             ),
+                          ),
+                          const SizedBox(width: 6),
+                          Container(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEADDD4),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/brown_guard.png',
+                                  width: 14,
+                                  height: 14,
+                                ),
+                                const SizedBox(width: 4),
+                                const Text(
+                                  'Bronze required',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          Icon(
+                            Icons.chevron_right,
+                            size: 20,
+                            color: secondaryTextColor,
                           ),
                         ],
                       ),
                     ),
-                    const Spacer(),
-                    Icon(
-                      Icons.chevron_right,
-                      size: 20,
-                      color: secondaryTextColor,
-                    ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Container(
@@ -445,7 +447,7 @@ class _EarnScreenState extends State<EarnScreen> {
             return;
           } else if (index == 0) {
             // Home
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
@@ -453,7 +455,7 @@ class _EarnScreenState extends State<EarnScreen> {
             );
           } else if (index == 1) {
             // Trending
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const TrendingTokensScreen(),
@@ -461,7 +463,7 @@ class _EarnScreenState extends State<EarnScreen> {
             );
           } else if (index == 2) {
             // Trade
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const TradeScreen(),
@@ -469,7 +471,7 @@ class _EarnScreenState extends State<EarnScreen> {
             );
           } else if (index == 4) {
             // Discover
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const DiscoverScreen(),
@@ -481,6 +483,48 @@ class _EarnScreenState extends State<EarnScreen> {
     );
   }
 
+  Widget _buildRewardsTopBar({
+    required BuildContext context,
+    required Color textColor,
+    required bool isDarkMode,
+  }) {
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        color: isDarkMode ? AppColors.darkBackground : AppColors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            const Spacer(),
+            Text(
+              AppLocalizations.of(context)!.rewards,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _pushRewardsLoading(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(
+          topBarBuilder: (context) => _buildRewardsTopBar(
+            context: context,
+            textColor: ThemeHelper.getTextColor(context),
+            isDarkMode: ThemeHelper.isDarkMode(context),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildStatCard(
     String title,
     String value,
@@ -488,36 +532,44 @@ class _EarnScreenState extends State<EarnScreen> {
     Color secondaryTextColor,
     Color cardSurfaceColor,
     Color borderColor,
+    {VoidCallback? onTap}
   ) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardSurfaceColor,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: borderColor,
+        child: Ink(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: cardSurfaceColor,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: borderColor,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: secondaryTextColor,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: textColor,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 13,
-              color: secondaryTextColor,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: textColor,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -682,9 +734,7 @@ class _EarnScreenState extends State<EarnScreen> {
                 SizedBox(
                   width: double.infinity,
                     child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: Handle view
-                    },
+                    onPressed: () => _pushRewardsLoading(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor.withOpacity(0.25),
                       elevation: 0,

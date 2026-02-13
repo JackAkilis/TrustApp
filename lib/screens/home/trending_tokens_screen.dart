@@ -12,6 +12,7 @@ import '../../utils/theme_helper.dart';
 import '../../widgets/bottom_navigation_bar.dart';
 import '../../widgets/token_list_item.dart';
 import '../../widgets/token_section.dart';
+import '../common/loading_screen.dart';
 
 class TrendingTokensScreen extends StatefulWidget {
   const TrendingTokensScreen({super.key});
@@ -179,39 +180,11 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
       body: Column(
         children: [
           // Custom top bar
-          SafeArea(
-            bottom: false,
-            child: Container(
-              color: isDarkMode ? AppColors.darkBackground : AppColors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  // Title
-                  Text(
-                    AppLocalizations.of(context)!.trendingTokens,
-                    style: TextStyle(
-                      color: textColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                    ),
-                  ),
-                  const Spacer(),
-                  // Search icon
-                  IconButton(
-                    icon: Icon(
-                      Icons.search,
-                      color: secondaryTextColor,
-                    ),
-                    onPressed: () {
-                      // TODO: search behavior
-                    },
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
-                ],
-              ),
-            ),
+          _buildTrendingTopBar(
+            context: context,
+            textColor: textColor,
+            secondaryTextColor: secondaryTextColor,
+            isDarkMode: isDarkMode,
           ),
           // Body content
           Expanded(
@@ -260,9 +233,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
                     child: SizedBox(
                       width: 140,
                       child: ElevatedButton(
-                        onPressed: () {
-                          // TODO: full trending view if needed
-                        },
+                        onPressed: () => _pushTrendingLoading(context),
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
                           backgroundColor: cardBackgroundColor,
@@ -320,7 +291,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
             return;
           } else if (index == 0) {
             // Home
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
@@ -328,7 +299,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
             );
           } else if (index == 2) {
             // Trade
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const TradeScreen(),
@@ -336,7 +307,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
             );
           } else if (index == 3) {
             // Earn
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const EarnScreen(),
@@ -344,7 +315,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
             );
           } else if (index == 4) {
             // Discover
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const DiscoverScreen(),
@@ -528,7 +499,7 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
         });
       },
       onViewAll: () {
-        // TODO: full list
+        _pushTrendingLoading(context);
       },
     );
   }
@@ -879,10 +850,90 @@ class _TrendingTokensScreenState extends State<TrendingTokensScreen> {
             });
           },
           onViewAll: () {
-            // TODO: full list
+            _pushTrendingLoading(context);
           },
         );
       },
+    );
+  }
+
+  Widget _buildTrendingTopBar({
+    required BuildContext context,
+    required Color textColor,
+    required Color secondaryTextColor,
+    required bool isDarkMode,
+  }) {
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        color: isDarkMode ? AppColors.darkBackground : AppColors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            const Spacer(),
+            Text(
+              AppLocalizations.of(context)!.trendingTokens,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: secondaryTextColor,
+              ),
+              onPressed: () => _pushTrendingLoading(context),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _pushTrendingLoading(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(
+          topBarBuilder: (context) => _buildTrendingTitleOnlyTopBar(
+            context: context,
+            textColor: ThemeHelper.getTextColor(context),
+            isDarkMode: ThemeHelper.isDarkMode(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTrendingTitleOnlyTopBar({
+    required BuildContext context,
+    required Color textColor,
+    required bool isDarkMode,
+  }) {
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        color: isDarkMode ? AppColors.darkBackground : AppColors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            const Spacer(),
+            Text(
+              AppLocalizations.of(context)!.trendingTokens,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
     );
   }
 }

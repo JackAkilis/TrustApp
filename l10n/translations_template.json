@@ -1,8 +1,8 @@
 {
   "appTitle": { "en": "Trust App", "ko": "Trust App", "vi": "Trust App", "pt": "Trust App" },
 
-  "createNewWallet": { "en": "Create new wallet", "ko": "Create new wallet", "vi": "Create new wallet", "pt": "Create new wallet" },
-  "iAlreadyHaveWallet": { "en": "I already have a wallet", "ko": "I already have a wallet", "vi": "I already have a wallet", "pt": "I already have a wallet" },
+  "createNewWallet": { "en": "Create new wallet", "ko": "새 지갑 만들기", "vi": "Tạo ví mới", "pt": "Criar nova carteira" },
+  "iAlreadyHaveWallet": { "en": "I already have a wallet", "ko": "이미 지갑이 있습니다", "vi": "Tôi đã có ví", "pt": "Já tenho uma carteira" },
 
   "unlockOpportunities100Chains": { "en": "Unlock opportunities across 100+ chains", "ko": "Unlock opportunities across 100+ chains", "vi": "Unlock opportunities across 100+ chains", "pt": "Unlock opportunities across 100+ chains" },
   "earnRewardsBuyCryptoSwapTokens": { "en": "Earn rewards, buy crypto, swap tokens", "ko": "Earn rewards, buy crypto, swap tokens", "vi": "Earn rewards, buy crypto, swap tokens", "pt": "Earn rewards, buy crypto, swap tokens" },
@@ -42,7 +42,7 @@
   "fund": { "en": "Fund", "ko": "자금", "vi": "Quỹ", "pt": "Adicionar fundos" },
   "swap": { "en": "Swap", "ko": "스왑", "vi": "Hoán đổi", "pt": "Swap" },
   "sell": { "en": "Sell", "ko": "판매", "vi": "Bán", "pt": "Vender" },
-  "earn": { "en": "Earn", "ko": "Earn", "vi": "Earn", "pt": "Earn" },
+  "earn": { "en": "Earn", "ko": "수익", "vi": "Kiếm tiền", "pt": "Ganhar" },
   "myEarnPortfolio": { "en": "My Earn portfolio", "ko": "내 수익 창출 포트폴리오", "vi": "Danh mục đầu tư Earn của tôi", "pt": "My Earn portfolio" },
   "totalStakedRewards": { "en": "Total staked + rewards", "ko": "총 스테이킹 + 보상", "vi": "Tổng đã stake + phần thưởng", "pt": "Total staked + rewards" },
   "yourEarningAssetsWillAppearHere": { "en": "Your earning assets will appear here.", "ko": "수익 자산은 여기에 표시됩니다.", "vi": "Tài sản đang sinh lời của bạn sẽ xuất hiện ở đây.", "pt": "Your earning assets will appear here." },

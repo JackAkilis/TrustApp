@@ -14,6 +14,7 @@ import '../home/home_screen.dart';
 import '../home/trending_tokens_screen.dart';
 import '../earn/earn_screen.dart';
 import '../discover/discover_screen.dart';
+import '../common/loading_screen.dart';
 
 class TradeScreen extends StatefulWidget {
   const TradeScreen({super.key});
@@ -217,7 +218,7 @@ class _TradeScreenState extends State<TradeScreen> {
           // Custom top bar
           SafeArea(
             bottom: false,
-            child: _buildTopBar(textColor, secondaryTextColor),
+            child: _buildTopBar(context, textColor, secondaryTextColor),
           ),
           _buildTabBar(textColor, secondaryTextColor),
           const SizedBox(height: 12),
@@ -280,9 +281,7 @@ class _TradeScreenState extends State<TradeScreen> {
                         ),
                         const SizedBox(height: 8),
                         GestureDetector(
-                          onTap: () {
-                            // TODO: Handle continue
-                          },
+                          onTap: () => _pushTradeLoading(context),
                           child: Text(
                             AppLocalizations.of(context)!.continueButton,
                             style: TextStyle(
@@ -332,7 +331,7 @@ class _TradeScreenState extends State<TradeScreen> {
             return;
           } else if (index == 0) {
             // Home
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const HomeScreen(),
@@ -340,7 +339,7 @@ class _TradeScreenState extends State<TradeScreen> {
             );
           } else if (index == 1) {
             // Trending
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const TrendingTokensScreen(),
@@ -348,7 +347,7 @@ class _TradeScreenState extends State<TradeScreen> {
             );
           } else if (index == 3) {
             // Earn
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const EarnScreen(),
@@ -356,7 +355,7 @@ class _TradeScreenState extends State<TradeScreen> {
             );
           } else if (index == 4) {
             // Discover
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const DiscoverScreen(),
@@ -480,16 +479,16 @@ class _TradeScreenState extends State<TradeScreen> {
     );
   }
 
-  Widget _buildTopBar(Color textColor, Color secondaryTextColor) {
+  Widget _buildTopBar(BuildContext context, Color textColor, Color secondaryTextColor) {
     final isDarkMode = ThemeHelper.isDarkMode(context);
     return Container(
       color: isDarkMode ? AppColors.darkBackground : AppColors.white,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: _buildTopBarContent(textColor, secondaryTextColor),
+      child: _buildTopBarContent(context, textColor, secondaryTextColor),
     );
   }
 
-  Widget _buildTopBarContent(Color textColor, Color secondaryTextColor) {
+  Widget _buildTopBarContent(BuildContext context, Color textColor, Color secondaryTextColor) {
     final l10n = AppLocalizations.of(context)!;
     if (_selectedTabIndex == 1) {
       // Predictions tab: Person icon, Trade text, Info icon
@@ -500,9 +499,7 @@ class _TradeScreenState extends State<TradeScreen> {
               Icons.person,
               color: secondaryTextColor,
             ),
-            onPressed: () {
-              // TODO: open profile
-            },
+            onPressed: () => _pushTradeLoading(context),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -538,9 +535,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 ),
               ),
             ),
-            onPressed: () {
-              // TODO: show info
-            },
+            onPressed: () => _pushTradeLoading(context),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -553,9 +548,7 @@ class _TradeScreenState extends State<TradeScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 12),
             child: GestureDetector(
-              onTap: () {
-                // TODO: Handle BNB button
-              },
+              onTap: () => _pushTradeLoading(context),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -619,9 +612,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 ),
               ),
             ),
-            onPressed: () {
-              // TODO: show info
-            },
+            onPressed: () => _pushTradeLoading(context),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -636,9 +627,7 @@ class _TradeScreenState extends State<TradeScreen> {
               Icons.person_outline,
               color: secondaryTextColor,
             ),
-            onPressed: () {
-              // TODO: open profile
-            },
+            onPressed: () => _pushTradeLoading(context),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -674,9 +663,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 ),
               ),
             ),
-            onPressed: () {
-              // TODO: show info
-            },
+            onPressed: () => _pushTradeLoading(context),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -686,9 +673,7 @@ class _TradeScreenState extends State<TradeScreen> {
               Icons.settings_outlined,
               color: secondaryTextColor,
             ),
-            onPressed: () {
-              // TODO: open settings
-            },
+            onPressed: () => _pushTradeLoading(context),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -703,9 +688,7 @@ class _TradeScreenState extends State<TradeScreen> {
               Icons.history,
               color: secondaryTextColor,
             ),
-            onPressed: () {
-              // TODO: open swap history
-            },
+            onPressed: () => _pushTradeLoading(context),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -722,9 +705,7 @@ class _TradeScreenState extends State<TradeScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
-              onTap: () {
-                // TODO: slippage/settings
-              },
+              onTap: () => _pushTradeLoading(context),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
@@ -909,9 +890,7 @@ class _TradeScreenState extends State<TradeScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: Handle deposit
-                  },
+                  onPressed: () => _pushTradeLoading(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ThemeHelper.getPrimaryColor(context),
                     elevation: 0,
@@ -952,7 +931,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 color: secondaryTextColor,
               ),
               onPressed: () {
-                // TODO: View all markets
+                _pushTradeLoading(context);
               },
             ),
           ],
@@ -1009,10 +988,10 @@ class _TradeScreenState extends State<TradeScreen> {
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      // TODO: View all markets
+                      _pushTradeLoading(context);
                     },
                     child: Text(
-                      'View all',
+                      AppLocalizations.of(context)!.viewAll,
                       style: TextStyle(
                         fontSize: 14,
                         color: textColor,
@@ -1026,6 +1005,46 @@ class _TradeScreenState extends State<TradeScreen> {
           ),
         const SizedBox(height: 24),
       ],
+    );
+  }
+
+  void _pushTradeLoading(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(
+          topBarBuilder: (context) => _buildTradeTitleOnlyTopBar(context),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTradeTitleOnlyTopBar(BuildContext context) {
+    final textColor = ThemeHelper.getTextColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+    final l10n = AppLocalizations.of(context)!;
+
+    final String title = _selectedTabIndex == 1 ? 'Trade' : l10n.swap;
+
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        color: isDarkMode ? AppColors.darkBackground : AppColors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            const Spacer(),
+            Text(
+              title,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -1266,9 +1285,7 @@ class _TradeScreenState extends State<TradeScreen> {
   ) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          // TODO: Handle button tap
-        },
+        onTap: () => _pushTradeLoading(context),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
@@ -1648,9 +1665,7 @@ class _TradeScreenState extends State<TradeScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // TODO: Handle view positions
-                      },
+                      onPressed: () => _pushTradeLoading(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ThemeHelper.getPrimaryColor(context).withOpacity(0.25),
                         elevation: 0,
@@ -1803,12 +1818,8 @@ class _TradeScreenState extends State<TradeScreen> {
               currentValue: '\$100.11',
               status: 'In Progress',
               provider: 'Myriad',
-              onYesPressed: () {
-                // TODO: Handle Yes button press
-              },
-              onNoPressed: () {
-                // TODO: Handle No button press
-              },
+              onYesPressed: () => _pushTradeLoading(context),
+              onNoPressed: () => _pushTradeLoading(context),
             ),
             const SizedBox(height: 24),
           ],
@@ -2185,7 +2196,7 @@ class _TradeScreenState extends State<TradeScreen> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: isActive ? () {
-          // TODO: implement swap preview
+          _pushTradeLoading(context);
         } : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: isActive ? primaryColor : inactiveColor,

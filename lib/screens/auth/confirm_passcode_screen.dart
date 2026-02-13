@@ -44,20 +44,18 @@ class _ConfirmPasscodeScreenState extends State<ConfirmPasscodeScreen> {
             if (!mounted) return;
             if (widget.isImportingWallet) {
               // Navigate to AddExistingWalletScreen for import flow
-              Navigator.pushReplacement(
-                context,
+              Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const AddExistingWalletScreen(),
                 ),
               );
             } else {
               // Navigate to WalletLoadingScreen for new wallet creation
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const WalletLoadingScreen(),
-              ),
-            );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const WalletLoadingScreen(),
+                ),
+              );
             }
           });
         } else {

@@ -94,8 +94,7 @@ class PreferencesScreen extends StatelessWidget {
   }
 
   String _getLanguageDisplayName(BuildContext context) {
-    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
-    final code = localeProvider.locale?.languageCode ?? 'en';
+    final code = _currentLanguageCode(context);
     switch (code) {
       case 'ko':
         return '한국어 (대한민국)';
@@ -108,8 +107,18 @@ class PreferencesScreen extends StatelessWidget {
     }
   }
 
+  String _currentLanguageCode(BuildContext context) {
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    // If user never selected a language, LocaleProvider.locale is null and the app
+    // falls back to the device/system locale. Use the actual current locale in that case.
+    return localeProvider.locale?.languageCode ?? Localizations.localeOf(context).languageCode;
+  }
+
   void _showLanguagePicker(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    final selectedCode = _currentLanguageCode(context);
+    final sheetBackground = ThemeHelper.getBackgroundColor(context);
+    final sheetTextColor = ThemeHelper.getTextColor(context);
     final options = [
       ('en', 'English (United Kingdom)'),
       ('ko', '한국어 (대한민국)'),
@@ -118,20 +127,65 @@ class PreferencesScreen extends StatelessWidget {
     ];
     showModalBottomSheet(
       context: context,
+      backgroundColor: sheetBackground,
       builder: (ctx) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: options
-              .map(
-                (opt) => ListTile(
-                  title: Text(opt.$2),
-                  onTap: () {
-                    localeProvider.setLocaleFromCode(opt.$1);
-                    Navigator.pop(ctx);
-                  },
+          children: [
+            const SizedBox(height: 8),
+            Container(
+              width: 44,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.secondaryGray.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(999),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.appLanguage,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: sheetTextColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...options.map((opt) {
+              final isSelected = opt.$1 == selectedCode;
+              final radioBorderColor = isSelected
+                  ? AppColors.primaryBlue
+                  : AppColors.secondaryGray.withOpacity(0.5);
+              return ListTile(
+                title: Text(
+                  opt.$2,
+                  style: TextStyle(
+                    color: sheetTextColor,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              )
-              .toList(),
+                trailing: _LanguageRadio(
+                  isSelected: isSelected,
+                  borderColor: radioBorderColor,
+                  fillColor: AppColors.primaryBlue,
+                ),
+                onTap: () {
+                  localeProvider.setLocaleFromCode(opt.$1);
+                  Navigator.pop(ctx);
+                },
+              );
+            }),
+            const SizedBox(height: 8),
+          ],
         ),
       ),
     );
@@ -174,6 +228,46 @@ class PreferencesScreen extends StatelessWidget {
               ),
             ],
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageRadio extends StatelessWidget {
+  final bool isSelected;
+  final Color borderColor;
+  final Color fillColor;
+
+  const _LanguageRadio({
+    required this.isSelected,
+    required this.borderColor,
+    required this.fillColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 22,
+      height: 22,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: borderColor,
+            width: 2,
+          ),
+        ),
+        child: Center(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 120),
+            width: isSelected ? 10 : 0,
+            height: isSelected ? 10 : 0,
+            decoration: BoxDecoration(
+              color: isSelected ? fillColor : Colors.transparent,
+              shape: BoxShape.circle,
+            ),
+          ),
         ),
       ),
     );

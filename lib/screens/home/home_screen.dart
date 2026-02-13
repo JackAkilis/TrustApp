@@ -22,6 +22,7 @@ import '../settings/settings_screen.dart';
 import '../scan/scan_qr_screen.dart';
 import '../fund/fund_wallet_screen.dart';
 import '../receive/select_crypto_screen.dart';
+import '../receive/receive_screen.dart';
 import '../wallet/wallet_selection_screen.dart';
 import '../trade/trade_screen.dart';
 import '../earn/earn_screen.dart';
@@ -30,6 +31,7 @@ import '../discover/discover_screen.dart';
 import '../trust_premium/daily_exchange_swap_screen.dart';
 import 'trending_tokens_screen.dart';
 import '../../services/earn_storage.dart';
+import '../common/loading_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   double _lastTotalUsd = 0.0;
   double _lastChangeUsd = 0.0;
   List<Map<String, dynamic>> _cryptoAssets = [];
+  Future<List<dynamic>>? _perpsTokensFuture;
   
   // Static cache for balance data across screen rebuilds
   static String? _cachedWalletId;
@@ -84,6 +87,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
     
     // Restore cached data if available for current wallet
     _restoreCachedData();
+
+    // Kick off Perps markets load once so Home Perps card
+    // doesn't recreate the future on every rebuild.
+    _perpsTokensFuture = ApiService.getTopTokens(limit: 20);
 
     // Load fresh balance data in background
     _loadWalletBalance();
@@ -680,7 +687,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
               color: isDarkMode ? textColor : null,
               colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ReceiveScreen(),
+                ),
+              );
+            },
           ),
           // Search Icon
           IconButton(
@@ -691,9 +705,47 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
               color: isDarkMode ? textColor : null,
               colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
             ),
-            onPressed: () {},
+            onPressed: () => _pushHomeLoading(context),
           ),
         ],
+      ),
+    );
+  }
+
+  void _pushHomeLoading(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => LoadingScreen(
+          topBarBuilder: (context) => _buildHomeTitleOnlyTopBar(context),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHomeTitleOnlyTopBar(BuildContext context) {
+    final textColor = ThemeHelper.getTextColor(context);
+    final isDarkMode = ThemeHelper.isDarkMode(context);
+
+    return SafeArea(
+      bottom: false,
+      child: Container(
+        color: isDarkMode ? AppColors.darkBackground : AppColors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        child: Row(
+          children: [
+            const Spacer(),
+            Text(
+              _currentWalletName,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: textColor,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
@@ -996,7 +1048,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                       ),
                       const SizedBox(height: 8),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => _pushHomeLoading(context),
                         child: Text(
                           AppLocalizations.of(context)!.backUpWallet,
                           style: TextStyle(
@@ -1124,7 +1176,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                   color: isDarkMode ? textColor : null,
                   colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
                 ),
-                onPressed: () {},
+                onPressed: () => _pushHomeLoading(context),
               ),
               IconButton(
                 icon: Image.asset(
@@ -1134,7 +1186,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                   color: isDarkMode ? textColor : null,
                   colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
                 ),
-                onPressed: () {},
+                onPressed: () => _pushHomeLoading(context),
               ),
             ],
           ),
@@ -1241,7 +1293,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: GestureDetector(
-            onTap: () {},
+            onTap: () => _pushHomeLoading(context),
             child: Text(
               AppLocalizations.of(context)!.manageCrypto,
               style: TextStyle(
@@ -1622,7 +1674,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => _pushHomeLoading(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -1642,7 +1694,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           const SizedBox(height: 16),
           GestureDetector(
-            onTap: () {},
+            onTap: () => _pushHomeLoading(context),
             child: Text(
               AppLocalizations.of(context)!.manageCrypto,
               style: TextStyle(
@@ -1794,7 +1846,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         });
       },
       onViewAll: () {
-        // TODO: Navigate to full list
+        _pushHomeLoading(context);
       },
     );
   }
@@ -2170,7 +2222,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
             });
       },
       onViewAll: () {
-            // TODO: Navigate to full popular tokens list.
+            _pushHomeLoading(context);
           },
         );
       },
@@ -2264,7 +2316,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
               children: [
                 // Token list using real data
                 FutureBuilder<List<dynamic>>(
-                  future: ApiService.getTopTokens(limit: 20),
+                  future: _perpsTokensFuture ??
+                      (_perpsTokensFuture = ApiService.getTopTokens(limit: 20)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting &&
                         !snapshot.hasData) {
@@ -2290,11 +2343,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                       required String tokenNameForIcon,
                     }) {
                       final token = bySymbol[symbol];
-                      final price =
-                          (token?['priceUsd'] as num?)?.toDouble() ?? 0.0;
-                      final changePct =
-                          (token?['changePercent24Hr'] as num?)?.toDouble() ??
-                              0.0;
+                      // Be defensive about backend field types (num or String).
+                      final dynamic rawPrice = token?['priceUsd'];
+                      final double price = rawPrice is num
+                          ? rawPrice.toDouble()
+                          : double.tryParse(rawPrice?.toString() ?? '') ?? 0.0;
+
+                      final dynamic rawChange = token?['changePercent24Hr'];
+                      final double changePct = rawChange is num
+                          ? rawChange.toDouble()
+                          : double.tryParse(rawChange?.toString() ?? '') ?? 0.0;
                       final isPositive = changePct >= 0;
 
                       return TokenListItem(
@@ -2670,7 +2728,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           return;
         } else if (index == 1) {
           // Trending
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const TrendingTokensScreen(),
@@ -2678,7 +2736,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           );
         } else if (index == 2) {
           // Trade
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const TradeScreen(),
@@ -2686,7 +2744,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           );
         } else if (index == 3) {
           // Earn screen
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const EarnScreen(),
@@ -2694,7 +2752,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           );
         } else if (index == 4) {
           // Discover screen
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const DiscoverScreen(),
