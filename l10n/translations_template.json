@@ -255,7 +255,7 @@
 
   "to": { "en": "To", "ko": "수령 자산", "vi": "Đến", "pt": "Para" },
 
-  "trendingTokens": { "en": "Trending tokens", "ko": "Trending tokens", "vi": "Trending tokens", "pt": "Trending tokens" },
+  "trendingTokens": { "en": "Trending tokens", "ko": "인기 토큰", "vi": "Token thịnh hành", "pt": "Tokens em alta" },
   "availableToCurrencyPair": { "en": "Available to {currency} pair", "ko": "Available to {currency} pair", "vi": "Available to {currency} pair", "pt": "Available to {currency} pair" },
 
   "all": { "en": "All", "ko": "전체", "vi": "Tất cả", "pt": "Tudo" }

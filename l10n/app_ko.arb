@@ -200,7 +200,7 @@
   "searchMarkets": "Search markets",
   "from": "전환 자산",
   "to": "수령 자산",
-  "trendingTokens": "Trending tokens",
+  "trendingTokens": "인기 토큰",
   "availableToCurrencyPair": "Available to {currency} pair",
   "all": "전체"
 }

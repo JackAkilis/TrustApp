@@ -61,10 +61,14 @@ class _WalletLoadingScreenState extends State<WalletLoadingScreen> {
       // Step 3: Create wallet on backend
       // Wait a bit to show loading (minimum 2 seconds for UX)
       await Future.delayed(const Duration(seconds: 2));
+
+      final defaultWalletName = await _nextDefaultWalletName(
+        devicePassCodeId: devicePassCodeId,
+      );
       
       final walletResponse = await ApiService.createWallet(
         devicePassCodeId: devicePassCodeId,
-        walletName: 'Main Wallet',
+        walletName: defaultWalletName,
         mnemonic: mnemonic,
         isMain: true,
       );
@@ -74,11 +78,13 @@ class _WalletLoadingScreenState extends State<WalletLoadingScreen> {
       }
 
       final walletId = walletResponse['data']['walletId'] as String;
-      final walletName = walletResponse['data']['walletName'] as String? ?? 'Main Wallet';
+      final walletName =
+          walletResponse['data']['walletName'] as String? ?? defaultWalletName;
 
       // Save wallet info locally
       await WalletStorage.saveWalletId(walletId);
       await WalletStorage.saveWalletName(walletName);
+      await WalletStorage.saveWalletNameForId(walletId, walletName);
 
       // Navigate to wallet ready screen
       if (!mounted) return;
@@ -107,6 +113,22 @@ class _WalletLoadingScreenState extends State<WalletLoadingScreen> {
         );
       });
     }
+  }
+
+  /// Returns "Main Wallet" for the first wallet, then "Main Wallet 2", "Main Wallet 3", etc.
+  Future<String> _nextDefaultWalletName({required String devicePassCodeId}) async {
+    const base = 'Main Wallet';
+    try {
+      final response = await ApiService.getWalletsByDevice(devicePassCodeId);
+      if (response['success'] == true && response['data'] is List) {
+        final wallets = List<dynamic>.from(response['data'] as List);
+        final nextIndex = wallets.length + 1;
+        return nextIndex <= 1 ? base : '$base $nextIndex';
+      }
+    } catch (_) {
+      // ignore - fall back to base
+    }
+    return base;
   }
 
   @override

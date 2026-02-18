@@ -46,6 +46,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   bool _isLoadingBalance = true;
   bool _isBalanceHidden = false;
   String _currentWalletName = 'Main Wallet';
+  String? _activeWalletId;
+  bool _isSyncingWallet = false;
   Timer? _refreshTimer;
   int _selectedTabIndex = 0;
   int _topMoversTabIndex = 0;
@@ -127,13 +129,43 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
 
   Future<void> _loadWalletName() async {
     final walletName = await WalletStorage.getWalletName();
+    if (!mounted) return;
+    final nextName = walletName ?? AppLocalizations.of(context)!.mainWallet;
+    if (nextName == _currentWalletName) return;
     setState(() {
-      _currentWalletName = walletName ?? AppLocalizations.of(context)!.mainWallet;
+      _currentWalletName = nextName;
     });
+  }
+
+  Future<void> _syncWalletIfChanged() async {
+    if (_isSyncingWallet) return;
+    _isSyncingWallet = true;
+    try {
+      final walletId = await WalletStorage.getWalletId();
+      if (!mounted) return;
+
+      if (walletId != _activeWalletId) {
+        setState(() {
+          _activeWalletId = walletId;
+          // Show loading while fetching the newly selected wallet balances.
+          _isLoadingBalance = true;
+          _cryptoAssets = [];
+        });
+        await _loadWalletName();
+        await _loadWalletBalance();
+        return;
+      }
+
+      // Keep name in sync even if wallet id didn't change.
+      await _loadWalletName();
+    } finally {
+      _isSyncingWallet = false;
+    }
   }
 
   Future<void> _checkEarnVisited() async {
     final hasVisited = await EarnStorage.hasVisitedEarn();
+    if (!mounted) return;
     setState(() {
       _showEarnBadge = !hasVisited;
     });
@@ -480,9 +512,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   Widget build(BuildContext context) {
     final backgroundColor = ThemeHelper.getBackgroundColor(context);
     
-    // Refresh wallet name when screen is built (e.g., when returning from other screens)
+    // Keep active wallet + balance in sync when returning from other screens.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadWalletName();
+      _syncWalletIfChanged();
     });
     
     return Scaffold(

@@ -591,7 +591,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get to => 'Đến';
 
   @override
-  String get trendingTokens => 'Trending tokens';
+  String get trendingTokens => 'Token thịnh hành';
 
   @override
   String availableToCurrencyPair(String currency) {

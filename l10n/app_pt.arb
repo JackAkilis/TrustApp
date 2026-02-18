@@ -200,7 +200,7 @@
   "searchMarkets": "Search markets",
   "from": "De",
   "to": "Para",
-  "trendingTokens": "Trending tokens",
+  "trendingTokens": "Tokens em alta",
   "availableToCurrencyPair": "Available to {currency} pair",
   "all": "Tudo"
 }

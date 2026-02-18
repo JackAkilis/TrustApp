@@ -528,9 +528,13 @@ class _CreateNewWalletScreenState extends State<CreateNewWalletScreen> {
       final existingWalletId = await WalletStorage.getWalletId();
       final isFirstWallet = existingWalletId == null || existingWalletId.isEmpty;
 
+      final defaultWalletName = await _nextDefaultWalletName(
+        devicePassCodeId: devicePassCodeId,
+      );
+
       final walletResponse = await ApiService.createWallet(
         devicePassCodeId: devicePassCodeId,
-        walletName: 'Main Wallet',
+        walletName: defaultWalletName,
         mnemonic: mnemonic,
         isMain: isFirstWallet,
       );
@@ -540,7 +544,8 @@ class _CreateNewWalletScreenState extends State<CreateNewWalletScreen> {
       }
 
       final walletId = walletResponse['data']['walletId'] as String;
-      final walletName = walletResponse['data']['walletName'] as String? ?? 'Main Wallet';
+      final walletName =
+          walletResponse['data']['walletName'] as String? ?? defaultWalletName;
 
       // Save wallet info locally (only if this is the first wallet / main wallet)
       // Don't overwrite existing wallet if user is adding a second wallet.
@@ -548,10 +553,9 @@ class _CreateNewWalletScreenState extends State<CreateNewWalletScreen> {
         // First wallet - save as current
         await WalletStorage.saveWalletId(walletId);
         await WalletStorage.saveWalletName(walletName);
-      } else {
-        // Additional wallet - just save the name for reference, but don't set as current
-        // The user can switch wallets later
       }
+      // Always save per-wallet name so WalletSelection shows unique names.
+      await WalletStorage.saveWalletNameForId(walletId, walletName);
 
       // Close loading dialog
       if (context.mounted) {
@@ -585,5 +589,21 @@ class _CreateNewWalletScreenState extends State<CreateNewWalletScreen> {
         );
       }
     }
+  }
+
+  /// Returns "Main Wallet" for the first wallet, then "Main Wallet 2", "Main Wallet 3", etc.
+  Future<String> _nextDefaultWalletName({required String devicePassCodeId}) async {
+    const base = 'Main Wallet';
+    try {
+      final response = await ApiService.getWalletsByDevice(devicePassCodeId);
+      if (response['success'] == true && response['data'] is List) {
+        final wallets = List<dynamic>.from(response['data'] as List);
+        final nextIndex = wallets.length + 1;
+        return nextIndex <= 1 ? base : '$base $nextIndex';
+      }
+    } catch (_) {
+      // ignore - fall back to base
+    }
+    return base;
   }
 }

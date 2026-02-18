@@ -200,7 +200,7 @@
   "searchMarkets": "Search markets",
   "from": "Từ",
   "to": "Đến",
-  "trendingTokens": "Trending tokens",
+  "trendingTokens": "Token thịnh hành",
   "availableToCurrencyPair": "Available to {currency} pair",
   "all": "Tất cả"
 }

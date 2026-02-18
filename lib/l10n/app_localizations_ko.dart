@@ -585,7 +585,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get to => '수령 자산';
 
   @override
-  String get trendingTokens => 'Trending tokens';
+  String get trendingTokens => '인기 토큰';
 
   @override
   String availableToCurrencyPair(String currency) {

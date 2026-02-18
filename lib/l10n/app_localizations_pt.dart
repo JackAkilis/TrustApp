@@ -590,7 +590,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get to => 'Para';
 
   @override
-  String get trendingTokens => 'Trending tokens';
+  String get trendingTokens => 'Tokens em alta';
 
   @override
   String availableToCurrencyPair(String currency) {
