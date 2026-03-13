@@ -390,7 +390,7 @@ class _TrustPremiumOnboardingScreenState
     final l10n = AppLocalizations.of(context)!;
     final label = isLastPage
         ? 'Go to Trust Premium'
-        : (_currentPage <= 1 ? l10n.getStarted : l10n.next);
+        : (_currentPage == 0 ? l10n.getStarted : l10n.next);
 
     return SizedBox(
       width: double.infinity,

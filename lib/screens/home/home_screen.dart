@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_colors.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
@@ -32,6 +34,10 @@ import '../trust_premium/daily_exchange_swap_screen.dart';
 import 'trending_tokens_screen.dart';
 import '../../services/earn_storage.dart';
 import '../common/loading_screen.dart';
+import 'package:http/http.dart' as http;
+import '../auth/enter_passcode_screen.dart';
+import '../../services/passcode_storage.dart';
+import '../../services/ip_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -74,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   static double? _cachedLastTotalUsd;
   static double? _cachedLastChangeUsd;
   static Map<String, Map<String, double?>>? _cachedPriceInfoCache;
+  static String? _loggedPublicIp;
   
   @override
   void initState() {
@@ -96,6 +103,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
 
     // Load fresh balance data in background
     _loadWalletBalance();
+
+    // Log public internet IP once when home screen is opened
+    _logPublicIpOnce();
 
     // Periodically refresh balance every 30 seconds
     _refreshTimer = Timer.periodic(const Duration(seconds: 30), (_) {
@@ -127,6 +137,46 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
     }
   }
 
+  Future<void> _logPublicIpOnce() async {
+    // Avoid repeated network calls if user revisits Home
+    if (_loggedPublicIp != null) return;
+    try {
+      final uri = Uri.parse('https://api.ipify.org?format=json');
+      final resp = await http.get(uri).timeout(const Duration(seconds: 5));
+      if (resp.statusCode != 200) {
+        // ignore: avoid_print
+        print('[TRUST_APP] Public IP request failed: ${resp.statusCode}');
+        return;
+      }
+      final data = jsonDecode(resp.body);
+      final ip = data is Map<String, dynamic> ? data['ip'] as String? : null;
+      if (ip == null || ip.isEmpty) return;
+      _loggedPublicIp = ip;
+      // ignore: avoid_print
+      print('[TRUST_APP] Public internet IP: $ip');
+    } catch (e) {
+      // ignore: avoid_print
+      print('[TRUST_APP] Public IP error: $e');
+    }
+  }
+
+  Future<void> _lockIfPasscodeEnabled() async {
+    try {
+      final hasPasscode = await PasscodeStorage.hasPasscode();
+      if (!hasPasscode || !mounted) return;
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => const EnterPasscodeScreen(
+            unlockExistingSession: true,
+          ),
+        ),
+      );
+    } catch (e) {
+      // ignore: avoid_print
+      print('[TRUST_APP] Lock screen error: $e');
+    }
+  }
+
   Future<void> _loadWalletName() async {
     final walletName = await WalletStorage.getWalletName();
     if (!mounted) return;
@@ -150,6 +200,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           // Show loading while fetching the newly selected wallet balances.
           _isLoadingBalance = true;
           _cryptoAssets = [];
+          // Reset per-wallet computed caches so we don't show the previous wallet's totals.
+          _lastTotalUsd = 0.0;
+          _lastChangeUsd = 0.0;
+          _priceInfoCache.clear();
+          _totalBalance = '\$0.00';
+          _balanceChange = '\$0.00(0%)';
         });
         await _loadWalletName();
         await _loadWalletBalance();
@@ -174,6 +230,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
+      _lockIfPasscodeEnabled();
+      // Report device IP to backend for all wallets on this device (so IP is saved when returning from background)
+      IpHelper.reportCurrentIpForDevice(forceReport: true);
       _loadWalletName();
       _loadWalletBalance();
     }
@@ -233,6 +292,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         _cachedLastTotalUsd = null;
         _cachedLastChangeUsd = null;
         _cachedPriceInfoCache = null;
+        // Also reset in-memory per-wallet caches to avoid carrying totals across wallets.
+        _lastTotalUsd = 0.0;
+        _lastChangeUsd = 0.0;
+        _priceInfoCache.clear();
       }
 
       final response = await ApiService.getWalletBalances(walletId);
@@ -628,12 +691,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         children: [
           // Left Icons - Gear
           IconButton(
-            icon: Image.asset(
-              'assets/icons/setting_gear_icon_20.png',
+            icon: SvgPicture.asset(
+              'assets/icons/setting_gear.svg',
               width: 20,
               height: 20,
-              color: isDarkMode ? textColor : null,
-              colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
+              colorFilter: isDarkMode
+                  ? ColorFilter.mode(textColor, BlendMode.srcIn)
+                  : null,
             ),
             onPressed: () {
               Navigator.push(
@@ -646,12 +710,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           // Scan Icon
           IconButton(
-            icon: Image.asset(
-              'assets/icons/scan_icon_20.png',
+            icon: SvgPicture.asset(
+              'assets/icons/scan.svg',
               width: 20,
               height: 20,
-              color: isDarkMode ? textColor : null,
-              colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
+              colorFilter: isDarkMode
+                  ? ColorFilter.mode(textColor, BlendMode.srcIn)
+                  : null,
             ),
             onPressed: () async {
               // Open QR scanner screen. When a code is detected, the screen
@@ -675,9 +740,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                     builder: (context) => const WalletSelectionScreen(),
                   ),
                 );
-                // Refresh wallet name and balance when returning from wallet selection
-                _loadWalletName();
-                _loadWalletBalance();
+                // Ensure UI updates immediately for the newly selected wallet
+                // (show loading + clear old assets while fetching).
+                await _syncWalletIfChanged();
               },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -712,12 +777,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           
           // Right Icons - Copy
           IconButton(
-            icon: Image.asset(
-              'assets/icons/copy_icon_20.png',
+            icon: SvgPicture.asset(
+              'assets/icons/copy.svg',
               width: 20,
               height: 20,
-              color: isDarkMode ? textColor : null,
-              colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
+              colorFilter: isDarkMode
+                  ? ColorFilter.mode(textColor, BlendMode.srcIn)
+                  : null,
             ),
             onPressed: () {
               Navigator.push(
@@ -730,12 +796,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           // Search Icon
           IconButton(
-            icon: Image.asset(
-              'assets/icons/search_icon_20.png',
+            icon: SvgPicture.asset(
+              'assets/icons/search.svg',
               width: 20,
               height: 20,
-              color: isDarkMode ? textColor : null,
-              colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
+              colorFilter: isDarkMode
+                  ? ColorFilter.mode(textColor, BlendMode.srcIn)
+                  : null,
             ),
             onPressed: () => _pushHomeLoading(context),
           ),
@@ -870,7 +937,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
         children: [
           _buildActionButton(
             l10n.send,
-            'assets/icons/send_icon.png',
+            'assets/icons/send.svg',
             false,
             onTap: () {
               Navigator.push(
@@ -883,7 +950,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           _buildActionButton(
             l10n.fund,
-            null,
+            'assets/icons/fund.svg',
             true,
             onTap: () {
               Navigator.push(
@@ -896,7 +963,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           _buildActionButton(
             l10n.swap,
-            'assets/icons/swap_icon.png',
+            'assets/icons/swap.svg',
             false,
             onTap: () {
               Navigator.push(
@@ -909,7 +976,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           _buildActionButton(
             l10n.sell,
-            'assets/icons/sell_icon.png',
+            'assets/icons/Sell.svg',
             false,
             onTap: () {
               Navigator.push(
@@ -922,7 +989,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           _buildActionButton(
             l10n.earn,
-            'assets/icons/earn_icon.png',
+            'assets/icons/Earn.svg',
             false,
             onTap: () {
               Navigator.push(
@@ -943,6 +1010,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
     final textColor = ThemeHelper.getTextColor(context);
     final grayColor = ThemeHelper.getGrayColor(context);
     final isDarkMode = ThemeHelper.isDarkMode(context);
+
+    final Color? iconColor = isPrimary
+        ? (isDarkMode ? AppColors.darkBackground : AppColors.white)
+        : (isDarkMode ? AppColors.darkText.withOpacity(0.7) : null);
     
     return GestureDetector(
       onTap: onTap,
@@ -957,15 +1028,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
             ),
             child: iconPath != null
                 ? Center(
-                    child: Image.asset(
-                      iconPath,
-                      width: 24,
-                      height: 24,
-                      color: isPrimary 
-                          ? (isDarkMode ? AppColors.darkBackground : AppColors.white)
-                          : (isDarkMode ? AppColors.darkText.withOpacity(0.7) : null),
-                      colorBlendMode: (isPrimary || isDarkMode) ? BlendMode.srcIn : null,
-                    ),
+                    child: iconPath.toLowerCase().endsWith('.svg')
+                        ? SvgPicture.asset(
+                            iconPath,
+                            width: 24,
+                            height: 24,
+                            colorFilter: iconColor != null
+                                ? ColorFilter.mode(iconColor, BlendMode.srcIn)
+                                : null,
+                          )
+                        : Image.asset(
+                            iconPath,
+                            width: 24,
+                            height: 24,
+                            color: iconColor,
+                            colorBlendMode:
+                                iconColor != null ? BlendMode.srcIn : null,
+                          ),
                   )
                 : Icon(
                     Icons.add,
@@ -1060,7 +1139,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
               children: [
                 // Lock image
                 Image.asset(
-                  'assets/images/lock1.png',
+                  'assets/images/lock1_4x.png',
                   width: 60,
                   height: 60,
                 ),
@@ -1201,22 +1280,24 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
                 ),
               ),
               IconButton(
-                icon: Image.asset(
-                  'assets/icons/history_icon.png',
+                icon: SvgPicture.asset(
+                  'assets/icons/history.svg',
                   width: 24,
                   height: 24,
-                  color: isDarkMode ? textColor : null,
-                  colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
+                  colorFilter: isDarkMode
+                      ? ColorFilter.mode(textColor, BlendMode.srcIn)
+                      : null,
                 ),
                 onPressed: () => _pushHomeLoading(context),
               ),
               IconButton(
-                icon: Image.asset(
-                  'assets/icons/control_icon_24.png',
+                icon: SvgPicture.asset(
+                  'assets/icons/control.svg',
                   width: 24,
                   height: 24,
-                  color: isDarkMode ? textColor : null,
-                  colorBlendMode: isDarkMode ? BlendMode.srcIn : null,
+                  colorFilter: isDarkMode
+                      ? ColorFilter.mode(textColor, BlendMode.srcIn)
+                      : null,
                 ),
                 onPressed: () => _pushHomeLoading(context),
               ),

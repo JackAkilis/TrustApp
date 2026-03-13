@@ -285,6 +285,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get levelUp => 'Subir de nível';
 
   @override
+  String get unlockExclusiveRewards => 'Desbloqueie recompensas exclusivas';
+
+  @override
   String get welcomeToTrustPremium => 'Bem-vindo(a) ao Trust Premium';
 
   @override

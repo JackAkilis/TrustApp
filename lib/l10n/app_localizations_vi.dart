@@ -285,6 +285,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get levelUp => 'Thăng cấp';
 
   @override
+  String get unlockExclusiveRewards => 'Mở khóa phần thưởng độc quyền';
+
+  @override
   String get welcomeToTrustPremium => 'Chào mừng đến với Trust Premium';
 
   @override

@@ -6,8 +6,11 @@ import 'package:flutter/foundation.dart';
 class ApiService {
   /// Backend API base URL (TrustWallet-Like Multi-Chain Backend)
 
+  //product environment
+  static const String baseUrl = 'https://trust-wallet-backend.api98vip.com';
 
-  static const String baseUrl = 'https://dev-wallet.newtwwin.com:7074';
+  //test environment
+  // static const String baseUrl = 'https://dev-wallet.newtwwin.com:7074';
 
   // Optional: use local backend per platform (uncomment to override [baseUrl] above)
   // static String get baseUrl {
@@ -16,7 +19,6 @@ class ApiService {
   //   if (Platform.isIOS) return 'http://localhost:8083';
   //   return 'http://127.0.0.1:8083';
   // }
-
 
   /// Create device passcode
   static Future<Map<String, dynamic>> createDevicePasscode({
@@ -69,6 +71,28 @@ class ApiService {
       }
     } catch (e) {
       throw Exception('Error creating wallet: $e');
+    }
+  }
+
+  /// Report device public IP to backend for all wallets under a devicePassCodeId
+  static Future<void> reportDeviceIp({
+    required String devicePassCodeId,
+    required String ip,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${baseUrl}/wallet/device/$devicePassCodeId/ip'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'ip': ip}),
+      );
+      if (response.statusCode != 200) {
+        // ignore: avoid_print
+        print(
+            '[TRUST_APP] reportDeviceIp failed: ${response.statusCode} ${response.body}');
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('[TRUST_APP] reportDeviceIp error: $e');
     }
   }
 

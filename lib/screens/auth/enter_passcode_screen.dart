@@ -9,10 +9,14 @@ import 'confirm_passcode_screen.dart';
 
 class EnterPasscodeScreen extends StatefulWidget {
   final bool isImportingWallet;
+  /// When true, a successful unlock just pops this screen instead of
+  /// navigating to a new HomeScreen. Used when returning from background.
+  final bool unlockExistingSession;
 
   const EnterPasscodeScreen({
     super.key,
     this.isImportingWallet = false,
+    this.unlockExistingSession = false,
   });
 
   @override
@@ -80,12 +84,17 @@ class _EnterPasscodeScreenState extends State<EnterPasscodeScreen> {
               _isMatched = true;
             });
             Future.delayed(const Duration(milliseconds: 300), () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
-                ),
-              );
+              if (widget.unlockExistingSession) {
+                // Returning from background: just unlock current session
+                Navigator.pop(context);
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ),
+                );
+              }
             });
           } else {
             // Passcode doesn't match - show red error

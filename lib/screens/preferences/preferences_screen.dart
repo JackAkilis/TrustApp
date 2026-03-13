@@ -102,6 +102,8 @@ class PreferencesScreen extends StatelessWidget {
         return 'Tiếng Việt (Việt Nam)';
       case 'pt':
         return 'Português (Brasil)';
+      case 'ru':
+        return 'Русский';
       default:
         return 'English (United Kingdom)';
     }
@@ -124,6 +126,7 @@ class PreferencesScreen extends StatelessWidget {
       ('ko', '한국어 (대한민국)'),
       ('vi', 'Tiếng Việt (Việt Nam)'),
       ('pt', 'Português (Brasil)'),
+      ('ru', 'Русский'),
     ];
     showModalBottomSheet(
       context: context,

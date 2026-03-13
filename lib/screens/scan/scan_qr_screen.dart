@@ -160,12 +160,10 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
             controller: _controller,
             onDetect: _onDetect,
           ),
-          // Teal overlay background to match reference
-          Container(
-            color: backgroundColor.withOpacity(isDarkMode ? 0.8 : 0.7),
+          // Center scan overlay + frame
+          _buildScanFrame(
+            overlayColor: backgroundColor.withOpacity(isDarkMode ? 0.8 : 0.7),
           ),
-          // Center scan frame
-          _buildScanFrame(),
           // Torch toggle in bottom-right corner
           Positioned(
             right: 16,
@@ -190,9 +188,8 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
     );
   }
 
-  /// Builds the central square scan area with white rounded corners and cyan fill,
-  /// similar to the provided design.
-  Widget _buildScanFrame() {
+  /// Builds the dimmed overlay with a transparent cutout, plus corner brackets.
+  Widget _buildScanFrame({required Color overlayColor}) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final shortestSide =
@@ -200,38 +197,45 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
                 ? 260.0
                 : constraints.biggest.shortestSide * 0.6;
         final size = shortestSide.clamp(220.0, 320.0);
+        final rect = Rect.fromCenter(
+          center: Offset(
+            constraints.biggest.width / 2,
+            constraints.biggest.height / 2,
+          ),
+          width: size,
+          height: size,
+        );
 
-        return Center(
-          child: SizedBox(
-            width: size,
-            height: size,
-            child: Stack(
-              children: [
-                // Cyan inner square
-                Container(
-                  width: size,
-                  height: size,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF9CFDFF),
-                    borderRadius: BorderRadius.circular(12),
+        return Stack(
+          children: [
+            // Dim the whole screen except the cutout (camera remains visible)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: CustomPaint(
+                  painter: _ScanCutoutPainter(
+                    overlayColor: overlayColor,
+                    cutoutRect: rect,
+                    borderRadius: 12,
                   ),
                 ),
-                // Four white corner brackets
-                _buildCorner(
-                  alignment: Alignment.topLeft,
-                ),
-                _buildCorner(
-                  alignment: Alignment.topRight,
-                ),
-                _buildCorner(
-                  alignment: Alignment.bottomLeft,
-                ),
-                _buildCorner(
-                  alignment: Alignment.bottomRight,
-                ),
-              ],
+              ),
             ),
-          ),
+            // Corner brackets on top of the cutout
+            Center(
+              child: SizedBox(
+                width: size,
+                height: size,
+                child: Stack(
+                  children: [
+                    _buildCorner(alignment: Alignment.topLeft),
+                    _buildCorner(alignment: Alignment.topRight),
+                    _buildCorner(alignment: Alignment.bottomLeft),
+                    _buildCorner(alignment: Alignment.bottomRight),
+                  ],
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -651,6 +655,43 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
           ],
         );
     }
+  }
+}
+
+class _ScanCutoutPainter extends CustomPainter {
+  final Color overlayColor;
+  final Rect cutoutRect;
+  final double borderRadius;
+
+  _ScanCutoutPainter({
+    required this.overlayColor,
+    required this.cutoutRect,
+    required this.borderRadius,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final fullRect = Offset.zero & size;
+    final paint = Paint()..color = overlayColor;
+
+    // Use a saveLayer so BlendMode.clear actually punches a hole through.
+    canvas.saveLayer(fullRect, Paint());
+    canvas.drawRect(fullRect, paint);
+
+    final clearPaint = Paint()..blendMode = BlendMode.clear;
+    final rrect = RRect.fromRectAndRadius(
+      cutoutRect,
+      Radius.circular(borderRadius),
+    );
+    canvas.drawRRect(rrect, clearPaint);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(covariant _ScanCutoutPainter oldDelegate) {
+    return oldDelegate.overlayColor != overlayColor ||
+        oldDelegate.cutoutRect != cutoutRect ||
+        oldDelegate.borderRadius != borderRadius;
   }
 }
 

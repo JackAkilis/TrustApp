@@ -2,10 +2,42 @@ import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../l10n/app_localizations.dart';
 import '../../utils/theme_helper.dart';
+import '../common/loading_screen.dart';
 import 'daily_exchange_swap_screen.dart';
 
 class TrustPremiumScreen extends StatelessWidget {
   const TrustPremiumScreen({super.key});
+
+  AppBar _buildLoadingAppBar(BuildContext context) {
+    final backgroundColor = ThemeHelper.getBackgroundColor(context);
+    final textColor = ThemeHelper.getTextColor(context);
+    return AppBar(
+      backgroundColor: backgroundColor,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      centerTitle: true,
+      title: Text(
+        AppLocalizations.of(context)!.trustPremium,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+          color: textColor,
+        ),
+      ),
+    );
+  }
+
+  void _showLoading(BuildContext context) {
+    // Push a dedicated loading page so taps feel responsive.
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => LoadingScreen(
+          appBarBuilder: (ctx) => _buildLoadingAppBar(ctx),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -510,7 +542,7 @@ class TrustPremiumScreen extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle more operations
+                    _showLoading(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isDarkMode
@@ -538,7 +570,7 @@ class TrustPremiumScreen extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle lock TWT
+                    _showLoading(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,

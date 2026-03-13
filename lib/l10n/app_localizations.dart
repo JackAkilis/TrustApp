@@ -8,6 +8,7 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_en.dart';
 import 'app_localizations_ko.dart';
 import 'app_localizations_pt.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_vi.dart';
 
 // ignore_for_file: type=lint
@@ -99,6 +100,7 @@ abstract class AppLocalizations {
     Locale('en'),
     Locale('ko'),
     Locale('pt'),
+    Locale('ru'),
     Locale('vi'),
   ];
 
@@ -623,6 +625,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Level up'**
   String get levelUp;
+
+  /// No description provided for @unlockExclusiveRewards.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock exclusive rewards'**
+  String get unlockExclusiveRewards;
 
   /// No description provided for @welcomeToTrustPremium.
   ///
@@ -1254,7 +1262,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'ko', 'pt', 'vi'].contains(locale.languageCode);
+      <String>['en', 'ko', 'pt', 'ru', 'vi'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1269,6 +1277,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsKo();
     case 'pt':
       return AppLocalizationsPt();
+    case 'ru':
+      return AppLocalizationsRu();
     case 'vi':
       return AppLocalizationsVi();
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../constants/app_colors.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/theme_helper.dart';
@@ -41,7 +42,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
           children: [
             _buildBottomNavItem(
                 context: context,
-                iconPath: 'assets/icons/home.png',
+                activeIconPath: 'assets/icons/home_blue.svg',
+                inactiveIconPath: 'assets/icons/home_gray.svg',
                 label: AppLocalizations.of(context)!.home,
                 index: 0,
                 isSelected: selectedIndex == 0,
@@ -50,7 +52,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               _buildBottomNavItem(
                 context: context,
-                iconPath: 'assets/icons/trending.png',
+                activeIconPath: 'assets/icons/trending_blue.svg',
+                inactiveIconPath: 'assets/icons/trending_gray.svg',
                 label: AppLocalizations.of(context)!.trending,
                 index: 1,
                 isSelected: selectedIndex == 1,
@@ -59,7 +62,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               _buildBottomNavItem(
                 context: context,
-                iconPath: 'assets/icons/trade.png',
+                activeIconPath: 'assets/icons/trade_blue.svg',
+                inactiveIconPath: 'assets/icons/trade_gray.svg',
                 label: AppLocalizations.of(context)!.trade,
                 index: 2,
                 isSelected: selectedIndex == 2,
@@ -68,7 +72,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               _buildBottomNavItem(
                 context: context,
-                iconPath: 'assets/icons/rewards.png',
+                activeIconPath: 'assets/icons/rewards_blue.svg',
+                inactiveIconPath: 'assets/icons/rewards_gray.svg',
                 label: AppLocalizations.of(context)!.rewards,
                 index: 3,
                 isSelected: selectedIndex == 3,
@@ -78,7 +83,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               _buildBottomNavItem(
                 context: context,
-                iconPath: 'assets/icons/discover.png',
+                activeIconPath: 'assets/icons/discover_blue.svg',
+                inactiveIconPath: 'assets/icons/discover_gray.svg',
                 label: AppLocalizations.of(context)!.discover,
                 index: 4,
                 isSelected: selectedIndex == 4,
@@ -93,7 +99,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   Widget _buildBottomNavItem({
     required BuildContext context,
-    required String iconPath,
+    required String activeIconPath,
+    required String inactiveIconPath,
     required String label,
     required int index,
     required bool isSelected,
@@ -109,12 +116,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              Image.asset(
-                iconPath,
+              SvgPicture.asset(
+                isSelected ? activeIconPath : inactiveIconPath,
                 width: 24,
                 height: 24,
-                color: isSelected ? primaryColor : secondaryTextColor,
-                colorBlendMode: BlendMode.srcIn,
               ),
               if (showDot && !isSelected)
                 Positioned(

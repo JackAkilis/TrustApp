@@ -281,6 +281,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get levelUp => '레벨업';
 
   @override
+  String get unlockExclusiveRewards => '독점 보상 잠금 해제';
+
+  @override
   String get welcomeToTrustPremium => 'Trust Premium에 오신 것을 환영합니다';
 
   @override

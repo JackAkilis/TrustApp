@@ -72,7 +72,7 @@ class _EarnScreenState extends State<EarnScreen> {
             // Top illustration
             Center(
               child: Image.asset(
-                'assets/images/rewards_main.png',
+                'assets/images/rewards_main_4x.png',
                 width: 160,
                 height: 160,
                 fit: BoxFit.contain,
@@ -189,7 +189,7 @@ class _EarnScreenState extends State<EarnScreen> {
                 Expanded(
                   child: _buildOfferCard(
                     context: context,
-                    imagePath: 'assets/images/rewards_benefits_1.png',
+                    imagePath: 'assets/images/rewards_benefits_1_4x.png',
                     headerColor: const Color(0xFF1FA4FF),
                     title: '40%',
                     subtitle: 'OFF',
@@ -206,7 +206,7 @@ class _EarnScreenState extends State<EarnScreen> {
                 Expanded(
                   child: _buildOfferCard(
                     context: context,
-                    imagePath: 'assets/images/rewards_benefits_2.png',
+                    imagePath: 'assets/images/rewards_benefits_2_4x.png',
                     headerColor: const Color(0xFF00553B),
                     title: '3GB',
                     imageWidth: 101,

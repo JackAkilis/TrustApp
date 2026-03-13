@@ -60,7 +60,7 @@ class TrustPremiumCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Unlock exclusive rewards',
+                  AppLocalizations.of(context)!.unlockExclusiveRewards,
                   style: TextStyle(
                     fontSize: 14,
                     color: secondaryTextColor,

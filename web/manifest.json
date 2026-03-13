@@ -1,6 +1,6 @@
 {
-    "name": "trustapp",
-    "short_name": "trustapp",
+    "name": "Trust Wallet",
+    "short_name": "Trust Wallet",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

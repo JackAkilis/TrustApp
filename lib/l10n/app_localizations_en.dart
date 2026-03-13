@@ -283,6 +283,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get levelUp => 'Level up';
 
   @override
+  String get unlockExclusiveRewards => 'Unlock exclusive rewards';
+
+  @override
   String get welcomeToTrustPremium => 'Welcome to Trust Premium';
 
   @override
