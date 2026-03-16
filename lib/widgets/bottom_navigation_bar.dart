@@ -108,6 +108,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required Color secondaryTextColor,
     bool showDot = false,
   }) {
+    // Use gray variant for discover even when selected so tint works consistently.
+    final String iconPath = (isSelected && activeIconPath.contains('discover'))
+        ? inactiveIconPath
+        : (isSelected ? activeIconPath : inactiveIconPath);
     return GestureDetector(
       onTap: () => onItemTapped(index),
       child: Column(
@@ -117,9 +121,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               SvgPicture.asset(
-                isSelected ? activeIconPath : inactiveIconPath,
+                iconPath,
                 width: 24,
                 height: 24,
+                colorFilter: ColorFilter.mode(
+                  isSelected ? primaryColor : secondaryTextColor,
+                  BlendMode.srcIn,
+                ),
               ),
               if (showDot && !isSelected)
                 Positioned(

@@ -207,5 +207,21 @@
   "trendingTokens": "Trending tokens",
   "availableToCurrencyPair": "Available to {currency} pair",
   "all": "All",
-  "noCryptocurrenciesFoundReceive": "No cryptocurrencies found"
+  "noCryptocurrenciesFoundReceive": "No cryptocurrencies found",
+  "tokenDetailHoldings": "Holdings",
+  "tokenDetailHistory": "History",
+  "tokenDetailAbout": "About",
+  "tokenDetailInsights": "Insights",
+  "myBalance": "My balance",
+  "recharge": "Recharge",
+  "withdraw": "Withdraw",
+  "energy": "Energy",
+  "bandwidth": "Bandwidth",
+  "learnMore": "Learn more",
+  "tokenDetailTronBanner": "You can now earn TRON Energy and Bandwidth Points with TRX to save on gas fees for TRON transactions.",
+  "timeRange1H": "1H",
+  "timeRange1D": "1D",
+  "timeRange1W": "1W",
+  "timeRange1M": "1M",
+  "timeRange1Y": "1Y"
 }

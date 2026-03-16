@@ -605,4 +605,53 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get noCryptocurrenciesFoundReceive => 'No cryptocurrencies found';
+
+  @override
+  String get tokenDetailHoldings => 'Posições';
+
+  @override
+  String get tokenDetailHistory => 'Histórico';
+
+  @override
+  String get tokenDetailAbout => 'Sobre';
+
+  @override
+  String get tokenDetailInsights => 'Insights';
+
+  @override
+  String get myBalance => 'Meu saldo';
+
+  @override
+  String get recharge => 'Recarregar';
+
+  @override
+  String get withdraw => 'Sacar';
+
+  @override
+  String get energy => 'Energia';
+
+  @override
+  String get bandwidth => 'Largura de banda';
+
+  @override
+  String get learnMore => 'Saiba mais';
+
+  @override
+  String get tokenDetailTronBanner =>
+      'Agora você pode ganhar pontos de Energia e Largura de Banda TRON com TRX para economizar nas taxas de gas nas transações TRON.';
+
+  @override
+  String get timeRange1H => '1H';
+
+  @override
+  String get timeRange1D => '1D';
+
+  @override
+  String get timeRange1W => '1S';
+
+  @override
+  String get timeRange1M => '1M';
+
+  @override
+  String get timeRange1Y => '1A';
 }

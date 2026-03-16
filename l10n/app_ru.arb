@@ -207,6 +207,22 @@
   "trendingTokens": "Токены в тренде",
   "availableToCurrencyPair": "Доступна пара к {currency}",
   "all": "Все",
-  "noCryptocurrenciesFoundReceive": "Криптовалюты не найдены"
+  "noCryptocurrenciesFoundReceive": "Криптовалюты не найдены",
+  "tokenDetailHoldings": "Позиции",
+  "tokenDetailHistory": "История",
+  "tokenDetailAbout": "О токене",
+  "tokenDetailInsights": "Аналитика",
+  "myBalance": "Мой баланс",
+  "recharge": "Пополнить",
+  "withdraw": "Вывести",
+  "energy": "Энергия",
+  "bandwidth": "Пропускная способность",
+  "learnMore": "Подробнее",
+  "tokenDetailTronBanner": "Вы можете получать очки TRON Energy и Bandwidth за TRX, чтобы экономить на комиссиях за транзакции в сети TRON.",
+  "timeRange1H": "1Ч",
+  "timeRange1D": "1Д",
+  "timeRange1W": "1Н",
+  "timeRange1M": "1М",
+  "timeRange1Y": "1Г"
 }
 

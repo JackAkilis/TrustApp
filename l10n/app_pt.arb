@@ -203,5 +203,21 @@
   "to": "Para",
   "trendingTokens": "Tokens em alta",
   "availableToCurrencyPair": "Available to {currency} pair",
-  "all": "Tudo"
+  "all": "Tudo",
+  "tokenDetailHoldings": "Posições",
+  "tokenDetailHistory": "Histórico",
+  "tokenDetailAbout": "Sobre",
+  "tokenDetailInsights": "Insights",
+  "myBalance": "Meu saldo",
+  "recharge": "Recarregar",
+  "withdraw": "Sacar",
+  "energy": "Energia",
+  "bandwidth": "Largura de banda",
+  "learnMore": "Saiba mais",
+  "tokenDetailTronBanner": "Agora você pode ganhar pontos de Energia e Largura de Banda TRON com TRX para economizar nas taxas de gas nas transações TRON.",
+  "timeRange1H": "1H",
+  "timeRange1D": "1D",
+  "timeRange1W": "1S",
+  "timeRange1M": "1M",
+  "timeRange1Y": "1A"
 }

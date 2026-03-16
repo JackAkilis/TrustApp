@@ -606,4 +606,53 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get noCryptocurrenciesFoundReceive => 'No cryptocurrencies found';
+
+  @override
+  String get tokenDetailHoldings => 'Nắm giữ';
+
+  @override
+  String get tokenDetailHistory => 'Lịch sử';
+
+  @override
+  String get tokenDetailAbout => 'Giới thiệu';
+
+  @override
+  String get tokenDetailInsights => 'Phân tích';
+
+  @override
+  String get myBalance => 'Số dư của tôi';
+
+  @override
+  String get recharge => 'Nạp tiền';
+
+  @override
+  String get withdraw => 'Rút tiền';
+
+  @override
+  String get energy => 'Năng lượng';
+
+  @override
+  String get bandwidth => 'Băng thông';
+
+  @override
+  String get learnMore => 'Tìm hiểu thêm';
+
+  @override
+  String get tokenDetailTronBanner =>
+      'Bạn có thể kiếm Điểm Năng lượng và Băng thông TRON bằng TRX để tiết kiệm phí gas cho giao dịch TRON.';
+
+  @override
+  String get timeRange1H => '1G';
+
+  @override
+  String get timeRange1D => '1N';
+
+  @override
+  String get timeRange1W => '1T';
+
+  @override
+  String get timeRange1M => '1Th';
+
+  @override
+  String get timeRange1Y => '1Năm';
 }

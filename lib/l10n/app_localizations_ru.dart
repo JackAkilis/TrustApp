@@ -606,4 +606,53 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get noCryptocurrenciesFoundReceive => 'Криптовалюты не найдены';
+
+  @override
+  String get tokenDetailHoldings => 'Позиции';
+
+  @override
+  String get tokenDetailHistory => 'История';
+
+  @override
+  String get tokenDetailAbout => 'О токене';
+
+  @override
+  String get tokenDetailInsights => 'Аналитика';
+
+  @override
+  String get myBalance => 'Мой баланс';
+
+  @override
+  String get recharge => 'Пополнить';
+
+  @override
+  String get withdraw => 'Вывести';
+
+  @override
+  String get energy => 'Энергия';
+
+  @override
+  String get bandwidth => 'Пропускная способность';
+
+  @override
+  String get learnMore => 'Подробнее';
+
+  @override
+  String get tokenDetailTronBanner =>
+      'Вы можете получать очки TRON Energy и Bandwidth за TRX, чтобы экономить на комиссиях за транзакции в сети TRON.';
+
+  @override
+  String get timeRange1H => '1Ч';
+
+  @override
+  String get timeRange1D => '1Д';
+
+  @override
+  String get timeRange1W => '1Н';
+
+  @override
+  String get timeRange1M => '1М';
+
+  @override
+  String get timeRange1Y => '1Г';
 }

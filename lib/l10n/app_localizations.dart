@@ -1249,6 +1249,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No cryptocurrencies found'**
   String get noCryptocurrenciesFoundReceive;
+
+  /// No description provided for @tokenDetailHoldings.
+  ///
+  /// In en, this message translates to:
+  /// **'Holdings'**
+  String get tokenDetailHoldings;
+
+  /// No description provided for @tokenDetailHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get tokenDetailHistory;
+
+  /// No description provided for @tokenDetailAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get tokenDetailAbout;
+
+  /// No description provided for @tokenDetailInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get tokenDetailInsights;
+
+  /// No description provided for @myBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'My balance'**
+  String get myBalance;
+
+  /// No description provided for @recharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Recharge'**
+  String get recharge;
+
+  /// No description provided for @withdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get withdraw;
+
+  /// No description provided for @energy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get energy;
+
+  /// No description provided for @bandwidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Bandwidth'**
+  String get bandwidth;
+
+  /// No description provided for @learnMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn more'**
+  String get learnMore;
+
+  /// No description provided for @tokenDetailTronBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now earn TRON Energy and Bandwidth Points with TRX to save on gas fees for TRON transactions.'**
+  String get tokenDetailTronBanner;
+
+  /// No description provided for @timeRange1H.
+  ///
+  /// In en, this message translates to:
+  /// **'1H'**
+  String get timeRange1H;
+
+  /// No description provided for @timeRange1D.
+  ///
+  /// In en, this message translates to:
+  /// **'1D'**
+  String get timeRange1D;
+
+  /// No description provided for @timeRange1W.
+  ///
+  /// In en, this message translates to:
+  /// **'1W'**
+  String get timeRange1W;
+
+  /// No description provided for @timeRange1M.
+  ///
+  /// In en, this message translates to:
+  /// **'1M'**
+  String get timeRange1M;
+
+  /// No description provided for @timeRange1Y.
+  ///
+  /// In en, this message translates to:
+  /// **'1Y'**
+  String get timeRange1Y;
 }
 
 class _AppLocalizationsDelegate

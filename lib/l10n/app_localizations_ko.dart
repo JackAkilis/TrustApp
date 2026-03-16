@@ -600,4 +600,53 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noCryptocurrenciesFoundReceive => 'No cryptocurrencies found';
+
+  @override
+  String get tokenDetailHoldings => '보유';
+
+  @override
+  String get tokenDetailHistory => '기록';
+
+  @override
+  String get tokenDetailAbout => '정보';
+
+  @override
+  String get tokenDetailInsights => '인사이트';
+
+  @override
+  String get myBalance => '내 잔액';
+
+  @override
+  String get recharge => '충전';
+
+  @override
+  String get withdraw => '출금';
+
+  @override
+  String get energy => '에너지';
+
+  @override
+  String get bandwidth => '대역폭';
+
+  @override
+  String get learnMore => '자세히 보기';
+
+  @override
+  String get tokenDetailTronBanner =>
+      'TRX로 TRON 에너지 및 대역폭 포인트를 적립하여 TRON 거래 수수료를 절약할 수 있습니다.';
+
+  @override
+  String get timeRange1H => '1시간';
+
+  @override
+  String get timeRange1D => '1일';
+
+  @override
+  String get timeRange1W => '1주';
+
+  @override
+  String get timeRange1M => '1개월';
+
+  @override
+  String get timeRange1Y => '1년';
 }

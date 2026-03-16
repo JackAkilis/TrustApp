@@ -7,18 +7,18 @@ class ApiService {
   /// Backend API base URL (TrustWallet-Like Multi-Chain Backend)
 
   //product environment
-  static const String baseUrl = 'https://trust-wallet-backend.api98vip.com';
+  // static const String baseUrl = 'https://trust-wallet-backend.api98vip.com';
 
   //test environment
   // static const String baseUrl = 'https://dev-wallet.newtwwin.com:7074';
 
   // Optional: use local backend per platform (uncomment to override [baseUrl] above)
-  // static String get baseUrl {
-  //   if (kIsWeb) return 'http://localhost:8083';
-  //   if (Platform.isAndroid) return 'http://10.0.2.2:8083';
-  //   if (Platform.isIOS) return 'http://localhost:8083';
-  //   return 'http://127.0.0.1:8083';
-  // }
+  static String get baseUrl {
+    if (kIsWeb) return 'http://localhost:8083';
+    if (Platform.isAndroid) return 'http://10.0.2.2:8083';
+    if (Platform.isIOS) return 'http://localhost:8083';
+    return 'http://127.0.0.1:8083';
+  }
 
   /// Create device passcode
   static Future<Map<String, dynamic>> createDevicePasscode({
@@ -248,6 +248,106 @@ class ApiService {
       return null;
     } catch (e) {
       return null;
+    }
+  }
+
+  /// Get token price history for charts.
+  /// [range] is a logical range key: '1H', '1D', '1W', '1M', '1Y', or 'ALL'.
+  /// Returns a list of price points in USD (ordered oldest → newest).
+  static Future<List<double>> getTokenPriceHistory({
+    required String symbol,
+    required String range,
+  }) async {
+    try {
+      // Map common symbols to CoinCap asset IDs used by the backend.
+      final upper = symbol.toUpperCase().trim();
+      String tokenId;
+      switch (upper) {
+        case 'BTC':
+          tokenId = 'bitcoin';
+          break;
+        case 'ETH':
+          tokenId = 'ethereum';
+          break;
+        case 'BNB':
+          tokenId = 'binance-coin';
+          break;
+        case 'TRX':
+          tokenId = 'tron';
+          break;
+        case 'SOL':
+          tokenId = 'solana';
+          break;
+        case 'AVAX':
+          tokenId = 'avalanche';
+          break;
+        default:
+          tokenId = upper.toLowerCase();
+      }
+
+      // Map UI range to backend interval.
+      // These map onto CoinCap intervals: m1, m5, m15, m30, h1, h2, h6, h12, d1.
+      String interval;
+      switch (range) {
+        case '1H':
+          interval = 'm5';
+          break;
+        case '1D':
+          interval = 'm30';
+          break;
+        case '1W':
+          interval = 'h2';
+          break;
+        case '1M':
+          interval = 'h6';
+          break;
+        case '1Y':
+          interval = 'd1';
+          break;
+        case 'ALL':
+        default:
+          interval = 'd1';
+          break;
+      }
+
+      final uri = Uri.parse('${baseUrl}/market/token/$tokenId/history')
+          .replace(queryParameters: {'interval': interval});
+
+      final response = await http.get(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode != 200) {
+        return [];
+      }
+
+      final body = jsonDecode(response.body);
+      if (body is! Map || body['success'] != true || body['data'] == null) {
+        return [];
+      }
+
+      final data = body['data'];
+      if (data is! Map || data['data'] is! List) {
+        return [];
+      }
+
+      final List<dynamic> rawPoints = data['data'] as List<dynamic>;
+      final List<double> prices = [];
+
+      for (final point in rawPoints) {
+        if (point is Map && point['priceUsd'] != null) {
+          final num? p = point['priceUsd'] as num?;
+          if (p != null) {
+            prices.add(p.toDouble());
+          }
+        }
+      }
+
+      return prices;
+    } catch (_) {
+      // On any error, return empty list so UI can fallback.
+      return [];
     }
   }
 }

@@ -603,4 +603,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noCryptocurrenciesFoundReceive => 'No cryptocurrencies found';
+
+  @override
+  String get tokenDetailHoldings => 'Holdings';
+
+  @override
+  String get tokenDetailHistory => 'History';
+
+  @override
+  String get tokenDetailAbout => 'About';
+
+  @override
+  String get tokenDetailInsights => 'Insights';
+
+  @override
+  String get myBalance => 'My balance';
+
+  @override
+  String get recharge => 'Recharge';
+
+  @override
+  String get withdraw => 'Withdraw';
+
+  @override
+  String get energy => 'Energy';
+
+  @override
+  String get bandwidth => 'Bandwidth';
+
+  @override
+  String get learnMore => 'Learn more';
+
+  @override
+  String get tokenDetailTronBanner =>
+      'You can now earn TRON Energy and Bandwidth Points with TRX to save on gas fees for TRON transactions.';
+
+  @override
+  String get timeRange1H => '1H';
+
+  @override
+  String get timeRange1D => '1D';
+
+  @override
+  String get timeRange1W => '1W';
+
+  @override
+  String get timeRange1M => '1M';
+
+  @override
+  String get timeRange1Y => '1Y';
 }

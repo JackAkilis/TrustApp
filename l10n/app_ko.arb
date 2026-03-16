@@ -203,5 +203,21 @@
   "to": "수령 자산",
   "trendingTokens": "인기 토큰",
   "availableToCurrencyPair": "Available to {currency} pair",
-  "all": "전체"
+  "all": "전체",
+  "tokenDetailHoldings": "보유",
+  "tokenDetailHistory": "기록",
+  "tokenDetailAbout": "정보",
+  "tokenDetailInsights": "인사이트",
+  "myBalance": "내 잔액",
+  "recharge": "충전",
+  "withdraw": "출금",
+  "energy": "에너지",
+  "bandwidth": "대역폭",
+  "learnMore": "자세히 보기",
+  "tokenDetailTronBanner": "TRX로 TRON 에너지 및 대역폭 포인트를 적립하여 TRON 거래 수수료를 절약할 수 있습니다.",
+  "timeRange1H": "1시간",
+  "timeRange1D": "1일",
+  "timeRange1W": "1주",
+  "timeRange1M": "1개월",
+  "timeRange1Y": "1년"
 }

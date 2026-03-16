@@ -203,5 +203,21 @@
   "to": "Đến",
   "trendingTokens": "Token thịnh hành",
   "availableToCurrencyPair": "Available to {currency} pair",
-  "all": "Tất cả"
+  "all": "Tất cả",
+  "tokenDetailHoldings": "Nắm giữ",
+  "tokenDetailHistory": "Lịch sử",
+  "tokenDetailAbout": "Giới thiệu",
+  "tokenDetailInsights": "Phân tích",
+  "myBalance": "Số dư của tôi",
+  "recharge": "Nạp tiền",
+  "withdraw": "Rút tiền",
+  "energy": "Năng lượng",
+  "bandwidth": "Băng thông",
+  "learnMore": "Tìm hiểu thêm",
+  "tokenDetailTronBanner": "Bạn có thể kiếm Điểm Năng lượng và Băng thông TRON bằng TRX để tiết kiệm phí gas cho giao dịch TRON.",
+  "timeRange1H": "1G",
+  "timeRange1D": "1N",
+  "timeRange1W": "1T",
+  "timeRange1M": "1Th",
+  "timeRange1Y": "1Năm"
 }

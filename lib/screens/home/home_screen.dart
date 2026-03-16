@@ -32,6 +32,7 @@ import '../earn/stablecoin_earn_screen.dart';
 import '../discover/discover_screen.dart';
 import '../trust_premium/daily_exchange_swap_screen.dart';
 import 'trending_tokens_screen.dart';
+import 'token_detail_screen.dart';
 import '../../services/earn_storage.dart';
 import '../common/loading_screen.dart';
 import 'package:http/http.dart' as http;
@@ -81,7 +82,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   static double? _cachedLastChangeUsd;
   static Map<String, Map<String, double?>>? _cachedPriceInfoCache;
   static String? _loggedPublicIp;
-  
+
+  /// Prevents showing passcode screen multiple times when multiple [resumed] events fire in quick succession.
+  bool _isShowingLockScreen = false;
+
   @override
   void initState() {
     super.initState();
@@ -161,6 +165,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   }
 
   Future<void> _lockIfPasscodeEnabled() async {
+    if (_isShowingLockScreen) return;
+    _isShowingLockScreen = true;
     try {
       final hasPasscode = await PasscodeStorage.hasPasscode();
       if (!hasPasscode || !mounted) return;
@@ -174,6 +180,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
     } catch (e) {
       // ignore: avoid_print
       print('[TRUST_APP] Lock screen error: $e');
+    } finally {
+      if (mounted) _isShowingLockScreen = false;
     }
   }
 
@@ -1446,7 +1454,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
 
     return InkWell(
       onTap: () {
-        // TODO: Navigate to token details
+        final assetWithChainName = Map<String, dynamic>.from(asset)
+          ..['chainName'] = chainName;
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (context) => TokenDetailScreen(asset: assetWithChainName),
+          ),
+        );
       },
       child: Row(
         children: [
