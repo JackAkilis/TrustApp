@@ -1345,6 +1345,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'1Y'**
   String get timeRange1Y;
+
+  /// No description provided for @tokenHistoryFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get tokenHistoryFilter;
+
+  /// No description provided for @tokenHistoryEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction records are displayed here.'**
+  String get tokenHistoryEmptyMessage;
+
+  /// No description provided for @tokenHistoryCantFindViewBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot find your transaction? '**
+  String get tokenHistoryCantFindViewBrowser;
+
+  /// No description provided for @tokenHistoryViewBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'View browser'**
+  String get tokenHistoryViewBrowser;
+
+  /// No description provided for @tokenHistoryBuyUsdt.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy USDT'**
+  String get tokenHistoryBuyUsdt;
+
+  /// No description provided for @tokenInsightsOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get tokenInsightsOverview;
+
+  /// No description provided for @tokenInsightsRefreshesIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Refreshes in {time}'**
+  String tokenInsightsRefreshesIn(String time);
+
+  /// No description provided for @tokenInsightsDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-generated insights may be inaccurate. The above does not constitute financial advice. Please do your own research.'**
+  String get tokenInsightsDisclaimer;
+
+  /// No description provided for @tokenInsightsHeadlineSample.
+  ///
+  /// In en, this message translates to:
+  /// **'🚀 TRON Joins Mastercard Crypto Program as USDT Hits \$85B Milestone 💎'**
+  String get tokenInsightsHeadlineSample;
+
+  /// No description provided for @tokenInsightsSummarySample.
+  ///
+  /// In en, this message translates to:
+  /// **'TRON announced joining Mastercard\'s Crypto Partner Program to boost onchain payments, bridging digital assets with traditional finance for cross-border remittances & B2B transfers. 🔥 \$85B USDT now circulates on network, powering real-world activity. AlliumLabs report spotlights TRON in global payments. Tron Inc. scooped 168K more TRX for treasury. Stablecoin dominance & revenue lead signal strong adoption push! 📈'**
+  String get tokenInsightsSummarySample;
+
+  /// No description provided for @tokenDetailStablecoinDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{symbol} is a cryptocurrency with a value pegged close to \$1.00. It is commonly used as a stable asset for trading and transfers.'**
+  String tokenDetailStablecoinDescription(String symbol);
+
+  /// No description provided for @tokenDetailDyorWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Please note, Tether ({symbol}) may not be fully supported. Do your own research (DYOR).'**
+  String tokenDetailDyorWarning(String symbol);
+
+  /// No description provided for @tokenDetailStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Stats'**
+  String get tokenDetailStats;
+
+  /// No description provided for @tokenDetailMarketCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Market cap'**
+  String get tokenDetailMarketCap;
+
+  /// No description provided for @tokenDetailCirculatingSupply.
+  ///
+  /// In en, this message translates to:
+  /// **'Circulating supply'**
+  String get tokenDetailCirculatingSupply;
+
+  /// No description provided for @tokenDetailTotalSupply.
+  ///
+  /// In en, this message translates to:
+  /// **'Total supply'**
+  String get tokenDetailTotalSupply;
+
+  /// No description provided for @tokenDetailContractAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract address'**
+  String get tokenDetailContractAddress;
+
+  /// No description provided for @tokenDetailLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Links'**
+  String get tokenDetailLinks;
+
+  /// No description provided for @tokenDetailLinkWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get tokenDetailLinkWebsite;
+
+  /// No description provided for @tokenDetailLinkBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Browser'**
+  String get tokenDetailLinkBrowser;
+
+  /// No description provided for @tokenDetailLinkWhitepaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Whitepaper'**
+  String get tokenDetailLinkWhitepaper;
+
+  /// No description provided for @tokenDetailLinkX.
+  ///
+  /// In en, this message translates to:
+  /// **'X'**
+  String get tokenDetailLinkX;
+
+  /// No description provided for @tokenDetailLinkReddit.
+  ///
+  /// In en, this message translates to:
+  /// **'reddit'**
+  String get tokenDetailLinkReddit;
+
+  /// No description provided for @tokenDetailNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data'**
+  String get tokenDetailNoData;
 }
 
 class _AppLocalizationsDelegate

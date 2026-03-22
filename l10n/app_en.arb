@@ -223,5 +223,38 @@
   "timeRange1D": "1D",
   "timeRange1W": "1W",
   "timeRange1M": "1M",
-  "timeRange1Y": "1Y"
+  "timeRange1Y": "1Y",
+  "tokenHistoryFilter": "Filter",
+  "tokenHistoryEmptyMessage": "Transaction records are displayed here.",
+  "tokenHistoryCantFindViewBrowser": "Cannot find your transaction? ",
+  "tokenHistoryViewBrowser": "View browser",
+  "tokenHistoryBuyUsdt": "Buy USDT",
+  "tokenInsightsOverview": "Overview",
+  "tokenInsightsRefreshesIn": "Refreshes in {time}",
+  "@tokenInsightsRefreshesIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tokenInsightsDisclaimer": "AI-generated insights may be inaccurate. The above does not constitute financial advice. Please do your own research.",
+  "tokenInsightsHeadlineSample": "🚀 TRON Joins Mastercard Crypto Program as USDT Hits \u002485B Milestone 💎",
+  "tokenInsightsSummarySample": "TRON announced joining Mastercard's Crypto Partner Program to boost onchain payments, bridging digital assets with traditional finance for cross-border remittances & B2B transfers. 🔥 \u002485B USDT now circulates on network, powering real-world activity. AlliumLabs report spotlights TRON in global payments. Tron Inc. scooped 168K more TRX for treasury. Stablecoin dominance & revenue lead signal strong adoption push! 📈",
+  "tokenDetailStablecoinDescription": "{symbol} is a cryptocurrency with a value pegged close to \u00241.00. It is commonly used as a stable asset for trading and transfers.",
+  "@tokenDetailStablecoinDescription": { "placeholders": { "symbol": { "type": "String" } } },
+  "tokenDetailDyorWarning": "Please note, Tether ({symbol}) may not be fully supported. Do your own research (DYOR).",
+  "@tokenDetailDyorWarning": { "placeholders": { "symbol": { "type": "String" } } },
+  "tokenDetailStats": "Stats",
+  "tokenDetailMarketCap": "Market cap",
+  "tokenDetailCirculatingSupply": "Circulating supply",
+  "tokenDetailTotalSupply": "Total supply",
+  "tokenDetailContractAddress": "Contract address",
+  "tokenDetailLinks": "Links",
+  "tokenDetailLinkWebsite": "Website",
+  "tokenDetailLinkBrowser": "Browser",
+  "tokenDetailLinkWhitepaper": "Whitepaper",
+  "tokenDetailLinkX": "X",
+  "tokenDetailLinkReddit": "reddit",
+  "tokenDetailNoData": "No data"
 }

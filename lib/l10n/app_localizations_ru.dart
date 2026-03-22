@@ -655,4 +655,86 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get timeRange1Y => '1Г';
+
+  @override
+  String get tokenHistoryFilter => 'Фильтр';
+
+  @override
+  String get tokenHistoryEmptyMessage =>
+      'Записи о транзакциях отображаются здесь.';
+
+  @override
+  String get tokenHistoryCantFindViewBrowser => 'Не нашли транзакцию? ';
+
+  @override
+  String get tokenHistoryViewBrowser => 'Открыть в браузере';
+
+  @override
+  String get tokenHistoryBuyUsdt => 'Купить USDT';
+
+  @override
+  String get tokenInsightsOverview => 'Обзор';
+
+  @override
+  String tokenInsightsRefreshesIn(String time) {
+    return 'Обновление через $time';
+  }
+
+  @override
+  String get tokenInsightsDisclaimer =>
+      'Инсайты, созданные ИИ, могут быть неточными. Вышеизложенное не является финансовой консультацией. Проведите собственное исследование.';
+
+  @override
+  String get tokenInsightsHeadlineSample =>
+      '🚀 TRON присоединился к криптопрограмме Mastercard на фоне достижения USDT отметки \$85 млрд 💎';
+
+  @override
+  String get tokenInsightsSummarySample =>
+      'TRON объявил о присоединении к Партнёрской криптопрограмме Mastercard для развития ончейн-платежей, связывая цифровые активы с традиционными финансами для трансграничных переводов и B2B. 🔥 \$85 млрд USDT в обращении в сети. Отчёт AlliumLabs выделяет TRON в глобальных платежах. Tron Inc. пополнила казну на 168K TRX. Доминирование стейблкоинов и выручка указывают на сильное внедрение! 📈';
+
+  @override
+  String tokenDetailStablecoinDescription(String symbol) {
+    return '$symbol — криптовалюта со стоимостью, привязанной к \$1.00. Широко используется как стабильный актив для торговли и переводов.';
+  }
+
+  @override
+  String tokenDetailDyorWarning(String symbol) {
+    return 'Обратите внимание: Tether ($symbol) может поддерживаться не полностью. Проведите собственное исследование (DYOR).';
+  }
+
+  @override
+  String get tokenDetailStats => 'Статистика';
+
+  @override
+  String get tokenDetailMarketCap => 'Рыночная капитализация';
+
+  @override
+  String get tokenDetailCirculatingSupply => 'В обращении';
+
+  @override
+  String get tokenDetailTotalSupply => 'Общее предложение';
+
+  @override
+  String get tokenDetailContractAddress => 'Адрес контракта';
+
+  @override
+  String get tokenDetailLinks => 'Ссылки';
+
+  @override
+  String get tokenDetailLinkWebsite => 'Сайт';
+
+  @override
+  String get tokenDetailLinkBrowser => 'Браузер';
+
+  @override
+  String get tokenDetailLinkWhitepaper => 'White paper';
+
+  @override
+  String get tokenDetailLinkX => 'X';
+
+  @override
+  String get tokenDetailLinkReddit => 'reddit';
+
+  @override
+  String get tokenDetailNoData => 'Нет данных';
 }

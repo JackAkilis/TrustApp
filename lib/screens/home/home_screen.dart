@@ -86,6 +86,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
   /// Prevents showing passcode screen multiple times when multiple [resumed] events fire in quick succession.
   bool _isShowingLockScreen = false;
 
+  /// After user unlocks, ignore [resumed]-triggered lock for this duration (OS often fires resumed multiple times).
+  static const _lockScreenCooldown = Duration(seconds: 5);
+  DateTime? _lastUnlockTime;
+
   @override
   void initState() {
     super.initState();
@@ -166,6 +170,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
 
   Future<void> _lockIfPasscodeEnabled() async {
     if (_isShowingLockScreen) return;
+    // If user just unlocked, ignore repeated [resumed] events for a short cooldown (OS can fire them multiple times).
+    if (_lastUnlockTime != null &&
+        DateTime.now().difference(_lastUnlockTime!) < _lockScreenCooldown) {
+      return;
+    }
     _isShowingLockScreen = true;
     try {
       final hasPasscode = await PasscodeStorage.hasPasscode();
@@ -181,7 +190,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
       // ignore: avoid_print
       print('[TRUST_APP] Lock screen error: $e');
     } finally {
-      if (mounted) _isShowingLockScreen = false;
+      if (mounted) {
+        _isShowingLockScreen = false;
+        _lastUnlockTime = DateTime.now();
+      }
     }
   }
 
@@ -240,7 +252,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
     if (state == AppLifecycleState.resumed) {
       _lockIfPasscodeEnabled();
       // Report device IP to backend for all wallets on this device (so IP is saved when returning from background)
-      IpHelper.reportCurrentIpForDevice(forceReport: true);
+      IpHelper.reportCurrentIpForDevice(
+        forceReport: true,
+        source: 'return to foreground from background',
+      );
       _loadWalletName();
       _loadWalletBalance();
     }
@@ -984,7 +999,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Ro
           ),
           _buildActionButton(
             l10n.sell,
-            'assets/icons/Sell.svg',
+            'assets/icons/sell.svg',
             false,
             onTap: () {
               Navigator.push(

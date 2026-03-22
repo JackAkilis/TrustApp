@@ -652,4 +652,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timeRange1Y => '1Y';
+
+  @override
+  String get tokenHistoryFilter => 'Filter';
+
+  @override
+  String get tokenHistoryEmptyMessage =>
+      'Transaction records are displayed here.';
+
+  @override
+  String get tokenHistoryCantFindViewBrowser =>
+      'Cannot find your transaction? ';
+
+  @override
+  String get tokenHistoryViewBrowser => 'View browser';
+
+  @override
+  String get tokenHistoryBuyUsdt => 'Buy USDT';
+
+  @override
+  String get tokenInsightsOverview => 'Overview';
+
+  @override
+  String tokenInsightsRefreshesIn(String time) {
+    return 'Refreshes in $time';
+  }
+
+  @override
+  String get tokenInsightsDisclaimer =>
+      'AI-generated insights may be inaccurate. The above does not constitute financial advice. Please do your own research.';
+
+  @override
+  String get tokenInsightsHeadlineSample =>
+      '🚀 TRON Joins Mastercard Crypto Program as USDT Hits \$85B Milestone 💎';
+
+  @override
+  String get tokenInsightsSummarySample =>
+      'TRON announced joining Mastercard\'s Crypto Partner Program to boost onchain payments, bridging digital assets with traditional finance for cross-border remittances & B2B transfers. 🔥 \$85B USDT now circulates on network, powering real-world activity. AlliumLabs report spotlights TRON in global payments. Tron Inc. scooped 168K more TRX for treasury. Stablecoin dominance & revenue lead signal strong adoption push! 📈';
+
+  @override
+  String tokenDetailStablecoinDescription(String symbol) {
+    return '$symbol is a cryptocurrency with a value pegged close to \$1.00. It is commonly used as a stable asset for trading and transfers.';
+  }
+
+  @override
+  String tokenDetailDyorWarning(String symbol) {
+    return 'Please note, Tether ($symbol) may not be fully supported. Do your own research (DYOR).';
+  }
+
+  @override
+  String get tokenDetailStats => 'Stats';
+
+  @override
+  String get tokenDetailMarketCap => 'Market cap';
+
+  @override
+  String get tokenDetailCirculatingSupply => 'Circulating supply';
+
+  @override
+  String get tokenDetailTotalSupply => 'Total supply';
+
+  @override
+  String get tokenDetailContractAddress => 'Contract address';
+
+  @override
+  String get tokenDetailLinks => 'Links';
+
+  @override
+  String get tokenDetailLinkWebsite => 'Website';
+
+  @override
+  String get tokenDetailLinkBrowser => 'Browser';
+
+  @override
+  String get tokenDetailLinkWhitepaper => 'Whitepaper';
+
+  @override
+  String get tokenDetailLinkX => 'X';
+
+  @override
+  String get tokenDetailLinkReddit => 'reddit';
+
+  @override
+  String get tokenDetailNoData => 'No data';
 }

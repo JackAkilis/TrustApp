@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_colors.dart';
 import '../../l10n/app_localizations.dart';
@@ -21,6 +22,7 @@ class TokenDetailScreen extends StatefulWidget {
 class _TokenDetailScreenState extends State<TokenDetailScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int _selectedTabIndex = 0;
   int _selectedTimeRangeIndex = 1; // 1D default
   List<double> _priceHistory = [];
   bool _isLoadingHistory = true;
@@ -45,6 +47,20 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
   double get _balanceUsd => (widget.asset['balanceUsd'] as num?)?.toDouble() ?? 0.0;
   double get _priceUsd => (widget.asset['priceUsd'] as num?)?.toDouble() ?? 0.0;
   double get _change24hPct => (widget.asset['change24hPct'] as num?)?.toDouble() ?? 0.0;
+  String? get _contractAddress => widget.asset['address'] as String?;
+
+  String get _displayContractAddress {
+    final addr = _contractAddress;
+    if (addr != null && addr.length > 12) {
+      return '${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}';
+    }
+    if (addr != null && addr.isNotEmpty) return addr;
+    // Placeholder per chain to match design
+    final name = _chainName.toLowerCase();
+    if (name.contains('tron')) return 'TR7NHq...Lj6t';
+    if (name.contains('ethereum') || name.contains('eth')) return '0x1234...abcd';
+    return '—';
+  }
 
   bool get _isTron =>
       _chain.toUpperCase().contains('TRON') || _chain.toUpperCase() == 'TRX';
@@ -75,6 +91,55 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
     if (v >= 1) return v.toStringAsFixed(2);
     if (v >= 0.01) return v.toStringAsFixed(4);
     return v.toStringAsFixed(6);
+  }
+
+  /// Precise format for stats: comma-separated thousands, 2 decimal places (e.g. 184,060,864,836.57).
+  static final NumberFormat _preciseFormat = NumberFormat('#,##0.00');
+
+  static String _formatPreciseNumber(double v) {
+    if (v.isInfinite || v.isNaN) return '0.00';
+    return _preciseFormat.format(v);
+  }
+
+  /// Exact value from design image for Market cap / Circulating supply / Total supply.
+  static const double _imageValue = 184_060_864_836.57;
+
+  /// Plausible fake stats using the design image value (no round zeros).
+  static ({double marketCapUsd, double circulatingSupply, double? totalSupply}) _fakeStatsForSymbol(
+    String symbol,
+    double priceUsd,
+  ) {
+    final s = symbol.toUpperCase();
+    // Use image value for stablecoins; scaled for others so magnitude is plausible
+    switch (s) {
+      case 'USDT':
+      case 'USDC':
+      case 'DAI':
+        return (marketCapUsd: _imageValue, circulatingSupply: _imageValue, totalSupply: _imageValue);
+      case 'BTC':
+        return (marketCapUsd: _imageValue * 6.5, circulatingSupply: 19_512_468.57, totalSupply: 21_000_000.00);
+      case 'ETH':
+        return (marketCapUsd: _imageValue * 2.1, circulatingSupply: 120_456_789.12, totalSupply: null);
+      case 'BNB':
+        return (marketCapUsd: _imageValue * 0.48, circulatingSupply: 153_298_765.43, totalSupply: 153_298_765.43);
+      case 'TRX':
+        return (marketCapUsd: _imageValue * 0.052, circulatingSupply: _imageValue * 0.478, totalSupply: _imageValue * 0.543);
+      case 'SOL':
+        return (marketCapUsd: _imageValue * 0.41, circulatingSupply: 420_876_543.21, totalSupply: null);
+      case 'XRP':
+        return (marketCapUsd: _imageValue * 0.30, circulatingSupply: _imageValue * 0.282, totalSupply: _imageValue * 0.543);
+      case 'DOGE':
+        return (marketCapUsd: _imageValue * 0.12, circulatingSupply: _imageValue * 0.77, totalSupply: null);
+      case 'ADA':
+        return (marketCapUsd: _imageValue * 0.19, circulatingSupply: _imageValue * 0.19, totalSupply: _imageValue * 0.245);
+      case 'AVAX':
+      case 'MATIC':
+      case 'DOT':
+      case 'LINK':
+        return (marketCapUsd: _imageValue * 0.065, circulatingSupply: 350_123_456.78, totalSupply: null);
+      default:
+        return (marketCapUsd: _imageValue, circulatingSupply: _imageValue, totalSupply: _imageValue);
+    }
   }
 
   void _generateMockHistory() {
@@ -205,7 +270,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (_symbol.toUpperCase() == 'TRX') _buildTronBanner(l10n, primaryColor),
+                  if (_symbol.toUpperCase() == 'TRX')
+                    _buildTronBanner(l10n, primaryColor),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -226,7 +292,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              isPositive ? Icons.arrow_upward : Icons.arrow_downward,
+                              isPositive
+                                  ? Icons.arrow_upward
+                                  : Icons.arrow_downward,
                               color: changeColor,
                               size: 18,
                             ),
@@ -246,33 +314,23 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
                     ),
                   ),
                   const SizedBox(height: 16),
-                  _buildGraphPlaceholder(grayColor, textColor),
+                  _buildGraphPlaceholder(l10n, grayColor, textColor),
                   const SizedBox(height: 12),
-                  _buildTimeRangeChips(l10n, grayColor, primaryColor, textColor),
+                  _buildTimeRangeChips(
+                      l10n, grayColor, primaryColor, textColor),
                   const SizedBox(height: 20),
                   _buildTabs(l10n, textColor, primaryColor, grayColor),
                   const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      l10n.myBalance,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: secondaryColor,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _buildBalanceCard(
+                  _buildActiveTabContent(
+                    l10n,
                     chainKey,
                     isStablecoin,
                     tokenIconAsset,
                     textColor,
                     secondaryColor,
                     grayColor,
+                    primaryColor,
                   ),
-                  if (_isTron) _buildTronResources(l10n, grayColor, textColor),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -281,6 +339,598 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
         ],
       ),
       bottomNavigationBar: _buildActionButtons(l10n, primaryColor, textColor),
+    );
+  }
+
+  Widget _buildActiveTabContent(
+    AppLocalizations l10n,
+    String chainKey,
+    bool isStablecoin,
+    String? tokenIconAsset,
+    Color textColor,
+    Color secondaryColor,
+    Color grayColor,
+    Color primaryColor,
+  ) {
+    switch (_selectedTabIndex) {
+      case 0:
+        return _buildHoldingsTab(
+          l10n,
+          chainKey,
+          isStablecoin,
+          tokenIconAsset,
+          textColor,
+          secondaryColor,
+          grayColor,
+        );
+      case 1:
+        return _buildHistoryTab(
+          l10n,
+          primaryColor,
+          textColor,
+          secondaryColor,
+          grayColor,
+        );
+      case 2:
+        return _buildAboutTab(
+          l10n,
+          primaryColor,
+          textColor,
+          secondaryColor,
+          grayColor,
+        );
+      case 3:
+        return _buildInsightsTab(
+          l10n,
+          textColor,
+          secondaryColor,
+          grayColor,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildHoldingsTab(
+    AppLocalizations l10n,
+    String chainKey,
+    bool isStablecoin,
+    String? tokenIconAsset,
+    Color textColor,
+    Color secondaryColor,
+    Color grayColor,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            l10n.myBalance,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: secondaryColor,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        _buildBalanceCard(
+          chainKey,
+          isStablecoin,
+          tokenIconAsset,
+          textColor,
+          secondaryColor,
+          grayColor,
+        ),
+        if (_isTron) _buildTronResources(l10n, grayColor, textColor),
+      ],
+    );
+  }
+
+  Widget _buildHistoryTab(
+    AppLocalizations l10n,
+    Color primaryColor,
+    Color textColor,
+    Color secondaryColor,
+    Color grayColor,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                backgroundColor: grayColor.withOpacity(0.5),
+                side: BorderSide(color: grayColor),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    l10n.tokenHistoryFilter,
+                    style: TextStyle(fontSize: 14, color: textColor),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 18,
+                    color: textColor,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Center(
+            child: SizedBox(
+              width: 80,
+              height: 80,
+              child: Image.asset(
+                'assets/images/token_history.png',
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            l10n.tokenHistoryEmptyMessage,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: secondaryColor,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                l10n.tokenHistoryCantFindViewBrowser,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: secondaryColor,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Text(
+                  l10n.tokenHistoryViewBrowser,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: primaryColor,
+                    decoration: TextDecoration.underline,
+                    decorationColor: primaryColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Center(
+            child: FilledButton(
+              onPressed: () {},
+              style: FilledButton.styleFrom(
+                backgroundColor: primaryColor,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              ),
+              child: Text(l10n.tokenHistoryBuyUsdt),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAboutTab(
+    AppLocalizations l10n,
+    Color primaryColor,
+    Color textColor,
+    Color secondaryColor,
+    Color grayColor,
+  ) {
+    final warningBg = Colors.red.withOpacity(0.06);
+    final warningBorder = Colors.red.withOpacity(0.2);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 16),
+          Text(
+            '${l10n.about} $_symbol',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            l10n.tokenDetailStablecoinDescription(_symbol),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 13,
+              color: secondaryColor,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 4),
+          GestureDetector(
+            onTap: () {},
+            child: Text(
+              l10n.learnMore,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: primaryColor,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: warningBg,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: warningBorder),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.red[600],
+                  size: 18,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.tokenDetailDyorWarning(_symbol),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.red[700],
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.tokenDetailStats,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Builder(
+            builder: (context) {
+              final fake = _fakeStatsForSymbol(_symbol, _priceUsd > 0 ? _priceUsd : 1.0);
+              return Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: grayColor.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    _buildStatusRow(
+                      l10n.tokenDetailMarketCap,
+                      '\$${_formatPreciseNumber(fake.marketCapUsd)}',
+                      textColor,
+                      secondaryColor,
+                    ),
+                    const SizedBox(height: 6),
+                    _buildStatusRow(
+                      l10n.tokenDetailCirculatingSupply,
+                      '\$${_formatPreciseNumber(fake.circulatingSupply)} $_symbol',
+                      textColor,
+                      secondaryColor,
+                    ),
+                    const SizedBox(height: 6),
+                    _buildStatusRow(
+                      l10n.tokenDetailTotalSupply,
+                      fake.totalSupply != null
+                          ? '\$${_formatPreciseNumber(fake.totalSupply!)} $_symbol'
+                          : '— $_symbol',
+                      textColor,
+                      secondaryColor,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.tokenDetailContractAddress,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            decoration: BoxDecoration(
+              color: grayColor.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 28,
+                  height: 28,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFE53935),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.diamond,
+                      size: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  _chainName,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: textColor,
+                  ),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    _displayContractAddress,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.tokenDetailLinks,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _buildLinkChip(l10n.tokenDetailLinkWebsite, primaryColor, textColor),
+              _buildLinkChip(l10n.tokenDetailLinkBrowser, primaryColor, textColor),
+              _buildLinkChip(l10n.tokenDetailLinkWhitepaper, primaryColor, textColor),
+              _buildLinkChip(l10n.tokenDetailLinkX, primaryColor, textColor),
+              _buildLinkChip(l10n.tokenDetailLinkReddit, primaryColor, textColor),
+            ],
+          ),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInsightsTab(
+    AppLocalizations l10n,
+    Color textColor,
+    Color secondaryColor,
+    Color grayColor,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header: Overview (left) | Refreshes in 3h 26m + icon (right)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                l10n.tokenInsightsOverview,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: textColor,
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Text(
+                      l10n.tokenInsightsRefreshesIn('3h 26m'),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: secondaryColor,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  SvgPicture.asset(
+                    'assets/icons/refresh_progress.svg',
+                    width: 17,
+                    height: 17,
+                    colorFilter: ColorFilter.mode(
+                      secondaryColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          // Insights card: gradient border around light background (matches design)
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF22C1C3), // teal
+                  Color(0xFF4CAF50), // green
+                  Color(0xFFF5A962), // orange
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Container(
+              margin: const EdgeInsets.all(1.5),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.tokenInsightsHeadlineSample,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: textColor,
+                            height: 1.35,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          l10n.tokenInsightsSummarySample,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: secondaryColor,
+                            height: 1.45,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                    child: Text(
+                      l10n.tokenInsightsDisclaimer,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: secondaryColor.withOpacity(0.9),
+                        height: 1.4,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusRow(
+    String label,
+    String value,
+    Color textColor,
+    Color secondaryColor,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            color: secondaryColor,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLinkChip(
+    String label,
+    Color primaryColor,
+    Color textColor,
+  ) {
+    return TextButton(
+      onPressed: () {},
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        backgroundColor: Colors.grey.withOpacity(0.1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(9999),
+        ),
+      ).copyWith(
+        foregroundColor: MaterialStatePropertyAll<Color>(primaryColor),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 12,
+          color: primaryColor,
+        ),
+      ),
     );
   }
 
@@ -324,7 +974,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
     );
   }
 
-  Widget _buildGraphPlaceholder(Color grayColor, Color textColor) {
+  Widget _buildGraphPlaceholder(AppLocalizations l10n, Color grayColor, Color textColor) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       height: 180,
@@ -336,7 +986,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
           : (_priceHistory.isEmpty
               ? Center(
                   child: Text(
-                    'No data',
+                    l10n.tokenDetailNoData,
                     style: TextStyle(
                       fontSize: 14,
                       color: textColor.withOpacity(0.6),
@@ -422,6 +1072,11 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
       height: 48,
       child: TabBar(
         controller: _tabController,
+        onTap: (index) {
+          setState(() {
+            _selectedTabIndex = index;
+          });
+        },
         isScrollable: true,
         indicatorColor: primaryColor,
         indicatorWeight: 3,
@@ -438,10 +1093,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
         tabs: tabs.map((t) => Tab(text: t)).toList(),
       ),
     );
-  }
-
-  Widget _buildTabPlaceholder(String label) {
-    return const SizedBox.shrink();
   }
 
   Widget _buildBalanceCard(

@@ -655,4 +655,86 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get timeRange1Y => '1Năm';
+
+  @override
+  String get tokenHistoryFilter => 'Lọc';
+
+  @override
+  String get tokenHistoryEmptyMessage =>
+      'Lịch sử giao dịch được hiển thị tại đây.';
+
+  @override
+  String get tokenHistoryCantFindViewBrowser => 'Không tìm thấy giao dịch? ';
+
+  @override
+  String get tokenHistoryViewBrowser => 'Xem trên trình duyệt';
+
+  @override
+  String get tokenHistoryBuyUsdt => 'Mua USDT';
+
+  @override
+  String get tokenInsightsOverview => 'Tổng quan';
+
+  @override
+  String tokenInsightsRefreshesIn(String time) {
+    return 'Làm mới sau $time';
+  }
+
+  @override
+  String get tokenInsightsDisclaimer =>
+      'Thông tin do AI tạo có thể không chính xác. Nội dung trên không phải là tư vấn tài chính. Vui lòng tự nghiên cứu.';
+
+  @override
+  String get tokenInsightsHeadlineSample =>
+      'TRON Joins Mastercard Crypto Program as USDT Hits \$85B Milestone';
+
+  @override
+  String get tokenInsightsSummarySample =>
+      'TRON announced joining Mastercard Crypto Partner Program to boost onchain payments. \$85B USDT now circulates on network. Stablecoin dominance and revenue lead signal strong adoption push!';
+
+  @override
+  String tokenDetailStablecoinDescription(String symbol) {
+    return '$symbol là loại tiền mã hóa có giá trị gắn với khoảng \$1.00. Thường được dùng làm tài sản ổn định để giao dịch và chuyển tiền.';
+  }
+
+  @override
+  String tokenDetailDyorWarning(String symbol) {
+    return 'Lưu ý, Tether ($symbol) có thể chưa được hỗ trợ đầy đủ. Vui lòng tự nghiên cứu (DYOR).';
+  }
+
+  @override
+  String get tokenDetailStats => 'Thống kê';
+
+  @override
+  String get tokenDetailMarketCap => 'Vốn hóa';
+
+  @override
+  String get tokenDetailCirculatingSupply => 'Lượng lưu hành';
+
+  @override
+  String get tokenDetailTotalSupply => 'Tổng cung';
+
+  @override
+  String get tokenDetailContractAddress => 'Địa chỉ hợp đồng';
+
+  @override
+  String get tokenDetailLinks => 'Liên kết';
+
+  @override
+  String get tokenDetailLinkWebsite => 'Trang web';
+
+  @override
+  String get tokenDetailLinkBrowser => 'Trình duyệt';
+
+  @override
+  String get tokenDetailLinkWhitepaper => 'Whitepaper';
+
+  @override
+  String get tokenDetailLinkX => 'X';
+
+  @override
+  String get tokenDetailLinkReddit => 'reddit';
+
+  @override
+  String get tokenDetailNoData => 'Không có dữ liệu';
 }

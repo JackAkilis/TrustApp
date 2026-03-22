@@ -649,4 +649,85 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get timeRange1Y => '1년';
+
+  @override
+  String get tokenHistoryFilter => '필터';
+
+  @override
+  String get tokenHistoryEmptyMessage => '거래 기록이 여기에 표시됩니다.';
+
+  @override
+  String get tokenHistoryCantFindViewBrowser => '거래를 찾을 수 없나요? ';
+
+  @override
+  String get tokenHistoryViewBrowser => '브라우저에서 보기';
+
+  @override
+  String get tokenHistoryBuyUsdt => 'USDT 구매';
+
+  @override
+  String get tokenInsightsOverview => '개요';
+
+  @override
+  String tokenInsightsRefreshesIn(String time) {
+    return '$time 후 새로고침';
+  }
+
+  @override
+  String get tokenInsightsDisclaimer =>
+      'AI 생성 인사이트는 부정확할 수 있습니다. 위 내용은 재정적 조언이 아니며, 직접 조사하시기 바랍니다.';
+
+  @override
+  String get tokenInsightsHeadlineSample =>
+      '🚀 TRON, USDT \$85B 달성과 함께 마스터카드 크립토 프로그램 합류 💎';
+
+  @override
+  String get tokenInsightsSummarySample =>
+      'TRON이 온체인 결제 확대를 위해 마스터카드 크립토 파트너 프로그램 가입을 발표했으며, 국경 간 송금 및 B2B 거래를 위해 디지털 자산과 전통 금융을 연결합니다. 🔥 \$85B USDT가 네트워크에서 유통되며 실생활 활동을 주도하고 있습니다. AlliumLabs 보고서가 글로벌 결제에서 TRON을 부각했습니다. Tron Inc.가 재무로 168K TRX를 추가 확보했습니다. 스테이블코인 지배와 수익 선도는 강한 채택을 시사합니다! 📈';
+
+  @override
+  String tokenDetailStablecoinDescription(String symbol) {
+    return '$symbol은(는) \$1.00에 가깝게 연동된 가치를 가진 암호화폐입니다. 거래 및 송금용 스테이블 자산으로 널리 사용됩니다.';
+  }
+
+  @override
+  String tokenDetailDyorWarning(String symbol) {
+    return '테더($symbol)는 완전히 지원되지 않을 수 있습니다. 반드시 직접 조사하시기 바랍니다(DYOR).';
+  }
+
+  @override
+  String get tokenDetailStats => '통계';
+
+  @override
+  String get tokenDetailMarketCap => '시가총액';
+
+  @override
+  String get tokenDetailCirculatingSupply => '유통 공급량';
+
+  @override
+  String get tokenDetailTotalSupply => '총 공급량';
+
+  @override
+  String get tokenDetailContractAddress => '컨트랙트 주소';
+
+  @override
+  String get tokenDetailLinks => '링크';
+
+  @override
+  String get tokenDetailLinkWebsite => '웹사이트';
+
+  @override
+  String get tokenDetailLinkBrowser => '브라우저';
+
+  @override
+  String get tokenDetailLinkWhitepaper => '백서';
+
+  @override
+  String get tokenDetailLinkX => 'X';
+
+  @override
+  String get tokenDetailLinkReddit => 'reddit';
+
+  @override
+  String get tokenDetailNoData => '데이터 없음';
 }
